@@ -2974,6 +2974,8 @@ Internet-Draft          Using TLS to Secure QUIC               June 2020
       a single key and limits on the number of packets that can fail
       authentication (#3619, #3620)
 
+   *  Update Initial salt, Retry keys, and samples (#3711)
+
 C.2.  Since draft-ietf-quic-tls-27
 
    *  Allowed CONNECTION_CLOSE in any packet number space, with
@@ -3016,8 +3018,6 @@ C.6.  Since draft-ietf-quic-tls-23
 
 C.7.  Since draft-ietf-quic-tls-22
 
-   *  Update the salt used for Initial secrets (#2887, #2980)
-
 
 
 
@@ -3025,6 +3025,8 @@ Thomson & Turner        Expires 18 December 2020               [Page 54]
 
 Internet-Draft          Using TLS to Secure QUIC               June 2020
 
+
+   *  Update the salt used for Initial secrets (#2887, #2980)
 
 C.8.  Since draft-ietf-quic-tls-21
 
@@ -3071,8 +3073,6 @@ C.12.  Since draft-ietf-quic-tls-14
       -  Change the labels for calculation of QUIC keys (#1845, #1971,
          #1991)
 
-   *  Initial keys are discarded once Handshake keys are available
-      (#1951, #2045)
 
 
 
@@ -3081,6 +3081,9 @@ Thomson & Turner        Expires 18 December 2020               [Page 55]
 
 Internet-Draft          Using TLS to Secure QUIC               June 2020
 
+
+   *  Initial keys are discarded once Handshake keys are available
+      (#1951, #2045)
 
 C.13.  Since draft-ietf-quic-tls-13
 
@@ -3126,9 +3129,6 @@ C.18.  Since draft-ietf-quic-tls-08
 
 C.19.  Since draft-ietf-quic-tls-07
 
-   *  Handshake errors can be reported with CONNECTION_CLOSE (#608,
-      #891)
-
 
 
 
@@ -3137,6 +3137,9 @@ Thomson & Turner        Expires 18 December 2020               [Page 56]
 
 Internet-Draft          Using TLS to Secure QUIC               June 2020
 
+
+   *  Handshake errors can be reported with CONNECTION_CLOSE (#608,
+      #891)
 
 C.20.  Since draft-ietf-quic-tls-05
 
@@ -3183,9 +3186,6 @@ C.25.  Since draft-ietf-quic-tls-00
 
    *  Changed bit used to signal key phase
 
-   *  Updated key phase markings during the handshake
-
-   *  Added TLS interface requirements section
 
 
 
@@ -3193,6 +3193,10 @@ Thomson & Turner        Expires 18 December 2020               [Page 57]
 
 Internet-Draft          Using TLS to Secure QUIC               June 2020
 
+
+   *  Updated key phase markings during the handshake
+
+   *  Added TLS interface requirements section
 
    *  Moved to use of TLS exporters for key derivation
 
@@ -3238,10 +3242,6 @@ Contributors
 
    *  Martin Duke
 
-   *  Mike Bishop
-
-   *  Mikkel Fahnøe Jørgensen
-
 
 
 
@@ -3249,6 +3249,10 @@ Thomson & Turner        Expires 18 December 2020               [Page 58]
 
 Internet-Draft          Using TLS to Secure QUIC               June 2020
 
+
+   *  Mike Bishop
+
+   *  Mikkel Fahnøe Jørgensen
 
    *  Nick Banks
 
@@ -3274,10 +3278,6 @@ Authors' Addresses
    sn3rd
 
    Email: sean@sn3rd.com
-
-
-
-
 
 
 
