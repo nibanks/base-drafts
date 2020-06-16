@@ -3368,7 +3368,7 @@ Internet-Draft                   HTTP/3                        June 2020
    larger (62 bits versus 16 bits), so many HTTP/3 settings have no
    equivalent HTTP/2 code point.  See Section 11.2.2.
 
-   As QUIC streams might arrive out-of-order, endpoints are advised to
+   As QUIC streams might arrive out of order, endpoints are advised to
    not wait for the peers' settings to arrive before responding to other
    streams.  See Section 7.2.4.2.
 
