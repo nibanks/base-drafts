@@ -465,7 +465,7 @@ Internet-Draft                    QPACK                        June 2020
    field section is greater than the current Known Received Count, Known
    Received Count is updated to the value of the Required Insert Count.
 
-   An Insert Count Increment instruction Section 4.4.3 increases the
+   An Insert Count Increment instruction (Section 4.4.3) increases the
    Known Received Count by its Increment parameter.  See Section 2.2.2.3
    for guidance.
 
