@@ -510,7 +510,8 @@ Internet-Draft                   HTTP/3                        June 2020
 
    An HTTP origin advertises the availability of an equivalent HTTP/3
    endpoint via the Alt-Svc HTTP response header field or the HTTP/2
-   ALTSVC frame ([ALTSVC]), using the ALPN token defined in Section 3.3.
+   ALTSVC frame ([ALTSVC]), using the Application Layer Protocol
+   Negotiation (ALPN) [RFC7301] token defined in Section 3.3.
 
    For example, an origin could indicate in an HTTP response that HTTP/3
    was available on UDP port 50781 at the same hostname by including the
@@ -548,12 +549,11 @@ Internet-Draft                   HTTP/3                        June 2020
    of other QUIC transport versions with HTTP/3 MAY be defined by future
    specifications.
 
-   QUIC version 1 uses TLS version 1.3 or greater as its handshake
-   protocol.  HTTP/3 clients MUST support a mechanism to indicate the
-   target host to the server during the TLS handshake.  If the server is
-   identified by a DNS name, clients MUST send the Server Name
-   Indication (SNI) [RFC6066] TLS extension unless an alternative
-   mechanism to indicate the target host is used.
+
+
+
+
+
 
 
 
@@ -561,6 +561,13 @@ Bishop                  Expires 18 December 2020               [Page 10]
 
 Internet-Draft                   HTTP/3                        June 2020
 
+
+   QUIC version 1 uses TLS version 1.3 or greater as its handshake
+   protocol.  HTTP/3 clients MUST support a mechanism to indicate the
+   target host to the server during the TLS handshake.  If the server is
+   identified by a DNS name, clients MUST send the Server Name
+   Indication (SNI) [RFC6066] TLS extension unless an alternative
+   mechanism to indicate the target host is used.
 
    QUIC connections are established as described in [QUIC-TRANSPORT].
    During connection establishment, HTTP/3 support is indicated by
@@ -603,13 +610,6 @@ Internet-Draft                   HTTP/3                        June 2020
    open multiple connections to the same IP address and UDP port using
    different transport or TLS configurations but SHOULD avoid creating
    multiple connections with the same configuration.
-
-
-
-
-
-
-
 
 
 
@@ -3037,6 +3037,11 @@ Internet-Draft                   HTTP/3                        June 2020
               DOI 10.17487/RFC6265, April 2011,
               <https://www.rfc-editor.org/info/rfc6265>.
 
+   [RFC7301]  Friedl, S., Popov, A., Langley, A., and E. Stephan,
+              "Transport Layer Security (TLS) Application-Layer Protocol
+              Negotiation Extension", RFC 7301, DOI 10.17487/RFC7301,
+              July 2014, <https://www.rfc-editor.org/info/rfc7301>.
+
    [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
               Writing an IANA Considerations Section in RFCs", BCP 26,
               RFC 8126, DOI 10.17487/RFC8126, June 2017,
@@ -3067,11 +3072,6 @@ Internet-Draft                   HTTP/3                        June 2020
               HTTP/2", RFC 7541, DOI 10.17487/RFC7541, May 2015,
               <https://www.rfc-editor.org/info/rfc7541>.
 
-   [HTTP11]   Fielding, R., Nottingham, M., and J. Reschke, "HTTP/1.1
-              Messaging", Work in Progress, Internet-Draft, draft-ietf-
-              httpbis-messaging-08, 26 May 2020, <http://www.ietf.org/
-              internet-drafts/draft-ietf-httpbis-messaging-08.txt>.
-
 
 
 
@@ -3082,6 +3082,11 @@ Bishop                  Expires 18 December 2020               [Page 55]
 Internet-Draft                   HTTP/3                        June 2020
 
 
+   [HTTP11]   Fielding, R., Nottingham, M., and J. Reschke, "HTTP/1.1
+              Messaging", Work in Progress, Internet-Draft, draft-ietf-
+              httpbis-messaging-08, 26 May 2020, <http://www.ietf.org/
+              internet-drafts/draft-ietf-httpbis-messaging-08.txt>.
+
    [HTTP2]    Belshe, M., Peon, R., and M. Thomson, Ed., "Hypertext
               Transfer Protocol Version 2 (HTTP/2)", RFC 7540,
               DOI 10.17487/RFC7540, May 2015,
@@ -3090,11 +3095,6 @@ Internet-Draft                   HTTP/3                        June 2020
    [RFC6585]  Nottingham, M. and R. Fielding, "Additional HTTP Status
               Codes", RFC 6585, DOI 10.17487/RFC6585, April 2012,
               <https://www.rfc-editor.org/info/rfc6585>.
-
-   [RFC7301]  Friedl, S., Popov, A., Langley, A., and E. Stephan,
-              "Transport Layer Security (TLS) Application-Layer Protocol
-              Negotiation Extension", RFC 7301, DOI 10.17487/RFC7301,
-              July 2014, <https://www.rfc-editor.org/info/rfc7301>.
 
    [TFO]      Cheng, Y., Chu, J., Radhakrishnan, S., and A. Jain, "TCP
               Fast Open", RFC 7413, DOI 10.17487/RFC7413, December 2014,
