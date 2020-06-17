@@ -2117,17 +2117,16 @@ machines is the same whether the stream is unidirectional or bidirectional.  The
 conditions for opening a stream are slightly more complex for a bidirectional
 stream because the opening of either the send or receive side causes the stream
 to open in both directions.<a href="#section-3-2" class="pilcrow">¶</a></p>
-<p id="section-3-3">An endpoint MUST open streams of the same type in increasing order of stream ID.<a href="#section-3-3" class="pilcrow">¶</a></p>
-<dl class="dlParallel" id="section-3-4">
-        <dt id="section-3-4.1">Note:</dt>
-<dd id="section-3-4.2">
+<dl class="dlParallel" id="section-3-3">
+        <dt id="section-3-3.1">Note:</dt>
+<dd id="section-3-3.2">
   These states are largely informative.  This document uses stream states to
 describe rules for when and how different types of frames can be sent and the
 reactions that are expected when different types of frames are received.
 Though these state machines are intended to be useful in implementing QUIC,
 these states aren't intended to constrain implementations.  An implementation
 can define a different state machine as long as its behavior is consistent
-with an implementation that implements these states.<a href="#section-3-4.2" class="pilcrow">¶</a>
+with an implementation that implements these states.<a href="#section-3-3.2" class="pilcrow">¶</a>
 </dd>
 <dd class="break"></dd>
 </dl>
