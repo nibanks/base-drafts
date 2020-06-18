@@ -4625,8 +4625,8 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    F:  The content of the STREAM frame are flow controlled; see
       Section 4.
 
-   The "Packets" and "Special" columns in Table 3 does not form part of
-   the IANA registry; see Section 22.3.
+   The "Pkts" and "Spec" columns in Table 3 does not form part of the
+   IANA registry; see Section 22.3.
 
    An endpoint MUST treat the receipt of a frame of unknown type as a
    connection error of type FRAME_ENCODING_ERROR.
@@ -8872,8 +8872,8 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    assigned semantics of any fields in the frame.
 
    The initial contents of this registry are tabulated in Table 3.  Note
-   that the registry does not include the "Packets" and "Special"
-   columns from Table 3.
+   that the registry does not include the "Pkts" and "Spec" columns from
+   Table 3.
 
 22.4.  QUIC Transport Error Codes Registry
 
