@@ -5194,14 +5194,14 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    defined in RFCs; see [RFC8311].  Implementations that use the ECT(1)
    codepoint need to perform ECN validation using ECT(1) counts.
 
-13.4.2.2.  Receiving ACK Frames
 
-   An endpoint that sets ECT(0) or ECT(1) codepoints on packets records
-   the ECN counts it has received in ACK frames.  An endpoint validates
-   the ECN counts by comparing the counts in each new ACK frame against
-   the last ACK frame that was successfully processed.  The increase in
-   ECN counts is validated based on the markings that were applied to
-   packets that are newly acknowledged in the ACK frame.
+
+
+
+
+
+
+
 
 
 
@@ -5210,6 +5210,16 @@ Iyengar & Thomson       Expires 21 December 2020               [Page 93]
 Internet-Draft           QUIC Transport Protocol               June 2020
 
 
+13.4.2.2.  Receiving ACK Frames
+
+   Erroneous application of markings in the network can result in ECN
+   marking providing bad information.  Before using ECN counts, an
+   endpoint validates the ECN counts by comparing the counts in each ACK
+   frame it processes against the last ACK frame that was successfully
+   processed.  The increase in ECN counts is validated based on the
+   markings that were applied to packets that are newly acknowledged in
+   the ACK frame.
+
    If an ACK frame newly acknowledges a packet that the endpoint sent
    with either ECT(0) or ECT(1) codepoints set, ECN validation fails if
    ECN counts are not present in the ACK frame.  This check detects a
@@ -5217,11 +5227,17 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    access ECN markings.
 
    ECN validation fails if the sum of the increase in ECT(0) and ECN-CE
-   counts is less than the number of newly acknowledged packets sent
-   with an ECT(0) marking.  Similarly, if the sum of the increases to
-   ECT(1) and ECN-CE counts is less than the number of newly
-   acknowledged packets sent with an ECT(1) marking.  These checks can
-   detect removal of ECN markings in the network.
+   counts is less than the number of newly acknowledged packets that
+   were originally sent with an ECT(0) marking.  Similarly, if the sum
+   of the increases to ECT(1) and ECN-CE counts is less than the number
+   of newly acknowledged packets sent with an ECT(1) marking.  These
+   checks can detect removal of ECN markings in the network.
+
+   An endpoint could miss acknowledgements for a packet when ACK frames
+   are lost.  It is therefore possible for the total increase in ECT(0),
+   ECT(1), and ECN-CE counts to be greater than the number of packets
+   acknowledged in an ACK frame.  This is why counts are permitted to be
+   larger than might be accounted for by newly acknowledged packets.
 
    ECN validation MAY fail if the total count for an ECT(0) or ECT(1)
    marking exceeds the total number of packets sent with the
@@ -5229,12 +5245,6 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    a particular marking can fail validation when a non-zero count for
    the corresponding marking is received.  This check can detect when
    packets are marked ECT(0) or ECT(1) in the network.
-
-   An endpoint could miss acknowledgements for a packet when ACK frames
-   are lost.  It is therefore possible for the total increase in ECT(0),
-   ECT(1), and ECN-CE counts to be greater than the number of packets
-   acknowledged in an ACK frame.  This is why counts are permitted to be
-   larger than might be accounted for by newly acknowledged packets.
 
    Processing ECN counts out of order can result in validation failure.
    An endpoint SHOULD skip ECN validation when an ACK frame does not
@@ -5246,16 +5256,6 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    subsequent IP packets with the expectation that either the network
    path or the peer does not support ECN.
 
-   Upon successful validation, an endpoint can continue to set ECT
-   codepoints in subsequent packets with the expectation that the path
-   is ECN-capable.  Network routing and path elements can change mid-
-   connection however; an endpoint MUST disable ECN if validation fails
-   at any point in the connection.
-
-   Even if validation fails, an endpoint MAY revalidate ECN on the same
-   path at any later time in the connection.
-
-
 
 
 
@@ -5265,6 +5265,15 @@ Iyengar & Thomson       Expires 21 December 2020               [Page 94]
 
 Internet-Draft           QUIC Transport Protocol               June 2020
 
+
+   Upon successful validation, an endpoint can continue to set ECT
+   codepoints in subsequent packets with the expectation that the path
+   is ECN-capable.  Network routing and path elements can change mid-
+   connection however; an endpoint MUST disable ECN if validation fails
+   at any point in the connection.
+
+   Even if validation fails, an endpoint MAY revalidate ECN on the same
+   path at any later time in the connection.
 
 14.  Packet Size
 
@@ -5306,21 +5315,16 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    attacks caused by server responses toward an unverified client
    address; see Section 8.
 
-   Datagrams containing Initial packets MAY exceed 1200 bytes if the
-   client believes that the network path and peer both support the size
-   that it chooses.
-
-
-
-
-
-
 
 
 Iyengar & Thomson       Expires 21 December 2020               [Page 95]
 
 Internet-Draft           QUIC Transport Protocol               June 2020
 
+
+   Datagrams containing Initial packets MAY exceed 1200 bytes if the
+   client believes that the network path and peer both support the size
+   that it chooses.
 
    A server MUST discard an Initial packet that is carried in a UDP
    datagram with a payload that is less than the smallest allowed
@@ -5365,10 +5369,6 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    therefore SHOULD maintain a maximum packet size for each combination
    of local and remote IP addresses.
 
-   A QUIC implementation MAY be more conservative in computing the
-   maximum packet size to allow for unknown tunnel overheads or IP
-   header options/extensions.
-
 
 
 
@@ -5377,6 +5377,10 @@ Iyengar & Thomson       Expires 21 December 2020               [Page 96]
 
 Internet-Draft           QUIC Transport Protocol               June 2020
 
+
+   A QUIC implementation MAY be more conservative in computing the
+   maximum packet size to allow for unknown tunnel overheads or IP
+   header options/extensions.
 
 14.2.1.  Handling of ICMP Messages by PMTUD
 
@@ -5423,16 +5427,16 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    PADDING frame implement "Probing using padding data", as defined in
    Section 4.1 of [DPLPMTUD].
 
-   Endpoints SHOULD set the initial value of BASE_PMTU (see Section 5.1
-   of [DPLPMTUD]) to be consistent with the minimum QUIC packet size.
-   The MIN_PLPMTU is the same as the BASE_PMTU.
-
 
 
 Iyengar & Thomson       Expires 21 December 2020               [Page 97]
 
 Internet-Draft           QUIC Transport Protocol               June 2020
 
+
+   Endpoints SHOULD set the initial value of BASE_PMTU (see Section 5.1
+   of [DPLPMTUD]) to be consistent with the minimum QUIC packet size.
+   The MIN_PLPMTU is the same as the BASE_PMTU.
 
    QUIC endpoints implementing DPLPMTUD maintain a maximum packet size
    (DPLPMTUD MPS) for each combination of local and remote IP addresses.
@@ -5473,10 +5477,6 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    reaction; see Section 3, Bullet 7 of [DPLPMTUD].  However, PMTU
    probes consume congestion window, which could delay subsequent
    transmission by an application.
-
-
-
-
 
 
 
