@@ -5228,10 +5228,11 @@ Internet-Draft           QUIC Transport Protocol               June 2020
 
    ECN validation fails if the sum of the increase in ECT(0) and ECN-CE
    counts is less than the number of newly acknowledged packets that
-   were originally sent with an ECT(0) marking.  Similarly, if the sum
-   of the increases to ECT(1) and ECN-CE counts is less than the number
-   of newly acknowledged packets sent with an ECT(1) marking.  These
-   checks can detect removal of ECN markings in the network.
+   were originally sent with an ECT(0) marking.  Similarly, ECN
+   validation fails if the sum of the increases to ECT(1) and ECN-CE
+   counts is less than the number of newly acknowledged packets sent
+   with an ECT(1) marking.  These checks can detect removal of ECN
+   markings in the network.
 
    An endpoint could miss acknowledgements for a packet when ACK frames
    are lost.  It is therefore possible for the total increase in ECT(0),
@@ -5255,7 +5256,6 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    If validation fails, then the endpoint stops sending ECN markings in
    subsequent IP packets with the expectation that either the network
    path or the peer does not support ECN.
-
 
 
 
