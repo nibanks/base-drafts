@@ -4626,8 +4626,8 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    F:  The content of frames with this marking are flow controlled; see
       Section 4.
 
-   The "Pkts" and "Spec" columns in Table 3 does not form part of the
-   IANA registry; see Section 22.3.
+   The "Pkts" and "Spec" columns in Table 3 do not form part of the IANA
+   registry; see Section 22.3.
 
    An endpoint MUST treat the receipt of a frame of unknown type as a
    connection error of type FRAME_ENCODING_ERROR.
