@@ -5055,7 +5055,8 @@ frames are explained in more detail in <a href="#frame-formats" class="xref">Sec
               <th class="text-left" rowspan="1" colspan="1">Type Value</th>
               <th class="text-left" rowspan="1" colspan="1">Frame Type Name</th>
               <th class="text-left" rowspan="1" colspan="1">Definition</th>
-              <th class="text-left" rowspan="1" colspan="1">Packets</th>
+              <th class="text-left" rowspan="1" colspan="1">Pkts</th>
+              <th class="text-left" rowspan="1" colspan="1">Spec</th>
             </tr>
           </thead>
           <tbody>
@@ -5066,6 +5067,7 @@ frames are explained in more detail in <a href="#frame-formats" class="xref">Sec
                 <a href="#frame-padding" class="xref">Section 19.1</a>
 </td>
               <td class="text-left" rowspan="1" colspan="1">IH01</td>
+              <td class="text-left" rowspan="1" colspan="1">NP</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x01</td>
@@ -5074,6 +5076,7 @@ frames are explained in more detail in <a href="#frame-formats" class="xref">Sec
                 <a href="#frame-ping" class="xref">Section 19.2</a>
 </td>
               <td class="text-left" rowspan="1" colspan="1">IH01</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x02 - 0x03</td>
@@ -5082,6 +5085,7 @@ frames are explained in more detail in <a href="#frame-formats" class="xref">Sec
                 <a href="#frame-ack" class="xref">Section 19.3</a>
 </td>
               <td class="text-left" rowspan="1" colspan="1">IH_1</td>
+              <td class="text-left" rowspan="1" colspan="1">NC</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x04</td>
@@ -5090,6 +5094,7 @@ frames are explained in more detail in <a href="#frame-formats" class="xref">Sec
                 <a href="#frame-reset-stream" class="xref">Section 19.4</a>
 </td>
               <td class="text-left" rowspan="1" colspan="1">__01</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x05</td>
@@ -5098,6 +5103,7 @@ frames are explained in more detail in <a href="#frame-formats" class="xref">Sec
                 <a href="#frame-stop-sending" class="xref">Section 19.5</a>
 </td>
               <td class="text-left" rowspan="1" colspan="1">__01</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x06</td>
@@ -5106,6 +5112,7 @@ frames are explained in more detail in <a href="#frame-formats" class="xref">Sec
                 <a href="#frame-crypto" class="xref">Section 19.6</a>
 </td>
               <td class="text-left" rowspan="1" colspan="1">IH_1</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x07</td>
@@ -5114,6 +5121,7 @@ frames are explained in more detail in <a href="#frame-formats" class="xref">Sec
                 <a href="#frame-new-token" class="xref">Section 19.7</a>
 </td>
               <td class="text-left" rowspan="1" colspan="1">___1</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x08 - 0x0f</td>
@@ -5122,6 +5130,7 @@ frames are explained in more detail in <a href="#frame-formats" class="xref">Sec
                 <a href="#frame-stream" class="xref">Section 19.8</a>
 </td>
               <td class="text-left" rowspan="1" colspan="1">__01</td>
+              <td class="text-left" rowspan="1" colspan="1">F</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x10</td>
@@ -5130,6 +5139,7 @@ frames are explained in more detail in <a href="#frame-formats" class="xref">Sec
                 <a href="#frame-max-data" class="xref">Section 19.9</a>
 </td>
               <td class="text-left" rowspan="1" colspan="1">__01</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x11</td>
@@ -5138,6 +5148,7 @@ frames are explained in more detail in <a href="#frame-formats" class="xref">Sec
                 <a href="#frame-max-stream-data" class="xref">Section 19.10</a>
 </td>
               <td class="text-left" rowspan="1" colspan="1">__01</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x12 - 0x13</td>
@@ -5146,6 +5157,7 @@ frames are explained in more detail in <a href="#frame-formats" class="xref">Sec
                 <a href="#frame-max-streams" class="xref">Section 19.11</a>
 </td>
               <td class="text-left" rowspan="1" colspan="1">__01</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x14</td>
@@ -5154,6 +5166,7 @@ frames are explained in more detail in <a href="#frame-formats" class="xref">Sec
                 <a href="#frame-data-blocked" class="xref">Section 19.12</a>
 </td>
               <td class="text-left" rowspan="1" colspan="1">__01</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x15</td>
@@ -5162,6 +5175,7 @@ frames are explained in more detail in <a href="#frame-formats" class="xref">Sec
                 <a href="#frame-stream-data-blocked" class="xref">Section 19.13</a>
 </td>
               <td class="text-left" rowspan="1" colspan="1">__01</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x16 - 0x17</td>
@@ -5170,6 +5184,7 @@ frames are explained in more detail in <a href="#frame-formats" class="xref">Sec
                 <a href="#frame-streams-blocked" class="xref">Section 19.14</a>
 </td>
               <td class="text-left" rowspan="1" colspan="1">__01</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x18</td>
@@ -5178,6 +5193,7 @@ frames are explained in more detail in <a href="#frame-formats" class="xref">Sec
                 <a href="#frame-new-connection-id" class="xref">Section 19.15</a>
 </td>
               <td class="text-left" rowspan="1" colspan="1">__01</td>
+              <td class="text-left" rowspan="1" colspan="1">P</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x19</td>
@@ -5186,6 +5202,7 @@ frames are explained in more detail in <a href="#frame-formats" class="xref">Sec
                 <a href="#frame-retire-connection-id" class="xref">Section 19.16</a>
 </td>
               <td class="text-left" rowspan="1" colspan="1">__01</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x1a</td>
@@ -5194,6 +5211,7 @@ frames are explained in more detail in <a href="#frame-formats" class="xref">Sec
                 <a href="#frame-path-challenge" class="xref">Section 19.17</a>
 </td>
               <td class="text-left" rowspan="1" colspan="1">__01</td>
+              <td class="text-left" rowspan="1" colspan="1">P</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x1b</td>
@@ -5202,6 +5220,7 @@ frames are explained in more detail in <a href="#frame-formats" class="xref">Sec
                 <a href="#frame-path-response" class="xref">Section 19.18</a>
 </td>
               <td class="text-left" rowspan="1" colspan="1">__01</td>
+              <td class="text-left" rowspan="1" colspan="1">P</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x1c - 0x1d</td>
@@ -5210,6 +5229,7 @@ frames are explained in more detail in <a href="#frame-formats" class="xref">Sec
                 <a href="#frame-connection-close" class="xref">Section 19.19</a>
 </td>
               <td class="text-left" rowspan="1" colspan="1">ih01</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x1e</td>
@@ -5218,12 +5238,12 @@ frames are explained in more detail in <a href="#frame-formats" class="xref">Sec
                 <a href="#frame-handshake-done" class="xref">Section 19.20</a>
 </td>
               <td class="text-left" rowspan="1" colspan="1">___1</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
             </tr>
           </tbody>
         </table>
 </div>
-<p id="section-12.4-8">The "Packets" column in <a href="#frame-types" class="xref">Table 3</a> does not form part of the IANA registry;
-see <a href="#iana-frames" class="xref">Section 22.3</a>.  This column lists the types of packets that each frame
+<p id="section-12.4-8">The "Pkts" column in <a href="#frame-types" class="xref">Table 3</a> lists the types of packets that each frame
 type could appear in, indicated by the following characters:<a href="#section-12.4-8" class="pilcrow">¶</a></p>
 <dl class="dlParallel" id="section-12.4-9">
           <dt id="section-12.4-9.1">I:</dt>
@@ -5255,12 +5275,43 @@ packets.<a href="#section-12.4-9.10" class="pilcrow">¶</a>
 </dl>
 <p id="section-12.4-10">Section 4 of <span>[<a href="#QUIC-TLS" class="xref">QUIC-TLS</a>]</span> provides more detail about these restrictions.  Note
 that all frames can appear in 1-RTT packets.<a href="#section-12.4-10" class="pilcrow">¶</a></p>
-<p id="section-12.4-11">An endpoint MUST treat the receipt of a frame of unknown type as a connection
-error of type FRAME_ENCODING_ERROR.<a href="#section-12.4-11" class="pilcrow">¶</a></p>
-<p id="section-12.4-12">All QUIC frames are idempotent in this version of QUIC.  That is, a valid
+<p id="section-12.4-11">The "Spec" column in  <a href="#frame-types" class="xref">Table 3</a> summarizes any special rules governing the
+processing or generation of the frame type, as indicated by the following
+characters:<a href="#section-12.4-11" class="pilcrow">¶</a></p>
+<dl class="dlParallel" id="section-12.4-12">
+          <dt id="section-12.4-12.1">N:</dt>
+<dd id="section-12.4-12.2">
+  Packets containing only frames with this marking are not ack-eliciting; see
+<a href="#generating-acks" class="xref">Section 13.2</a>.<a href="#section-12.4-12.2" class="pilcrow">¶</a>
+</dd>
+<dd class="break"></dd>
+<dt id="section-12.4-12.3">C:</dt>
+<dd id="section-12.4-12.4">
+  Packets containing only frames with this marking do not count toward bytes
+in flight for congestion control purposes; see <span>[<a href="#QUIC-RECOVERY" class="xref">QUIC-RECOVERY</a>]</span>.<a href="#section-12.4-12.4" class="pilcrow">¶</a>
+</dd>
+<dd class="break"></dd>
+<dt id="section-12.4-12.5">P:</dt>
+<dd id="section-12.4-12.6">
+  Packets containing only frames with this marking can be used to probe new
+network paths during connection migration; see <a href="#probing" class="xref">Section 9.1</a>.<a href="#section-12.4-12.6" class="pilcrow">¶</a>
+</dd>
+<dd class="break"></dd>
+<dt id="section-12.4-12.7">F:</dt>
+<dd id="section-12.4-12.8">
+  The content of frames with this marking are flow controlled; see
+<a href="#flow-control" class="xref">Section 4</a>.<a href="#section-12.4-12.8" class="pilcrow">¶</a>
+</dd>
+<dd class="break"></dd>
+</dl>
+<p id="section-12.4-13">The "Pkts" and "Spec" columns in  <a href="#frame-types" class="xref">Table 3</a> do not form part of the IANA
+registry; see <a href="#iana-frames" class="xref">Section 22.3</a>.<a href="#section-12.4-13" class="pilcrow">¶</a></p>
+<p id="section-12.4-14">An endpoint MUST treat the receipt of a frame of unknown type as a connection
+error of type FRAME_ENCODING_ERROR.<a href="#section-12.4-14" class="pilcrow">¶</a></p>
+<p id="section-12.4-15">All QUIC frames are idempotent in this version of QUIC.  That is, a valid
 frame does not cause undesirable side effects or errors when received more
-than once.<a href="#section-12.4-12" class="pilcrow">¶</a></p>
-<p id="section-12.4-13">The Frame Type field uses a variable length integer encoding (see
+than once.<a href="#section-12.4-15" class="pilcrow">¶</a></p>
+<p id="section-12.4-16">The Frame Type field uses a variable length integer encoding (see
 <a href="#integer-encoding" class="xref">Section 16</a>) with one exception.  To ensure simple and efficient
 implementations of frame parsing, a frame type MUST use the shortest possible
 encoding.  For frame types defined in this document, this means a single-byte
@@ -5270,7 +5321,7 @@ a legitimate two-byte encoding for a variable-length integer with a value
 of 1, PING frames are always encoded as a single byte with the value 0x01.
 This rule applies to all current and future QUIC frame types.  An endpoint
 MAY treat the receipt of a frame type that uses a longer encoding than
-necessary as a connection error of type PROTOCOL_VIOLATION.<a href="#section-12.4-13" class="pilcrow">¶</a></p>
+necessary as a connection error of type PROTOCOL_VIOLATION.<a href="#section-12.4-16" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -9407,7 +9458,8 @@ parameter registration is expected for most registrations; see
 <a href="#iana-transport-parameters" class="xref">Section 22.2</a>.  Specifications for permanent registrations also
 needs to describe the format and assigned semantics of any fields in the frame.<a href="#section-22.3-5" class="pilcrow">¶</a></p>
 <p id="section-22.3-6">The initial contents of this registry are tabulated in <a href="#frame-types" class="xref">Table 3</a>.  Note
-that the registry does not include the "Packets" column from <a href="#frame-types" class="xref">Table 3</a>.<a href="#section-22.3-6" class="pilcrow">¶</a></p>
+that the registry does not include the "Pkts" and "Spec" columns from
+<a href="#frame-types" class="xref">Table 3</a>.<a href="#section-22.3-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana-error-codes">
@@ -9817,8 +9869,8 @@ incurred.<a href="#section-appendix.b-8" class="pilcrow">¶</a></p>
       <h2 id="name-change-log">
 <a href="#section-appendix.c" class="section-number selfRef">Appendix C. </a><a href="#name-change-log" class="section-name selfRef">Change Log</a>
       </h2>
-<ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-appendix.c-1.1">
+<ul class="ulEmpty normal">
+<li class="ulEmpty normal" id="section-appendix.c-1.1">
           <strong>RFC Editor's Note:</strong> Please remove this section prior to publication of a
 final version of this document.<a href="#section-appendix.c-1.1" class="pilcrow">¶</a>
 </li>

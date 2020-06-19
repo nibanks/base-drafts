@@ -174,15 +174,15 @@ Internet-Draft           QUIC Transport Protocol               June 2020
      12.2.  Coalescing Packets . . . . . . . . . . . . . . . . . . .  78
      12.3.  Packet Numbers . . . . . . . . . . . . . . . . . . . . .  79
      12.4.  Frames and Frame Types . . . . . . . . . . . . . . . . .  80
-   13. Packetization and Reliability . . . . . . . . . . . . . . . .  83
+   13. Packetization and Reliability . . . . . . . . . . . . . . . .  84
      13.1.  Packet Processing  . . . . . . . . . . . . . . . . . . .  84
-     13.2.  Generating Acknowledgements  . . . . . . . . . . . . . .  84
+     13.2.  Generating Acknowledgements  . . . . . . . . . . . . . .  85
        13.2.1.  Sending ACK Frames . . . . . . . . . . . . . . . . .  85
        13.2.2.  Acknowledgement Frequency  . . . . . . . . . . . . .  86
        13.2.3.  Managing ACK Ranges  . . . . . . . . . . . . . . . .  87
        13.2.4.  Receiver Tracking of ACK Frames  . . . . . . . . . .  87
-       13.2.5.  Limiting ACK Ranges  . . . . . . . . . . . . . . . .  87
-       13.2.6.  Measuring and Reporting Host Delay . . . . . . . . .  88
+       13.2.5.  Limiting ACK Ranges  . . . . . . . . . . . . . . . .  88
+       13.2.6.  Measuring and Reporting Host Delay . . . . . . . . .  89
        13.2.7.  ACK Frames and Packet Protection . . . . . . . . . .  89
        13.2.8.  PADDING Frames Consume Congestion Window . . . . . .  89
      13.3.  Retransmission of Information  . . . . . . . . . . . . .  89
@@ -190,14 +190,14 @@ Internet-Draft           QUIC Transport Protocol               June 2020
        13.4.1.  ECN Counts . . . . . . . . . . . . . . . . . . . . .  92
        13.4.2.  ECN Validation . . . . . . . . . . . . . . . . . . .  93
    14. Packet Size . . . . . . . . . . . . . . . . . . . . . . . . .  95
-     14.1.  Initial Packet Size  . . . . . . . . . . . . . . . . . .  95
+     14.1.  Initial Packet Size  . . . . . . . . . . . . . . . . . .  96
      14.2.  Path Maximum Transmission Unit (PMTU)  . . . . . . . . .  96
        14.2.1.  Handling of ICMP Messages by PMTUD . . . . . . . . .  97
-     14.3.  Datagram Packetization Layer PMTU Discovery  . . . . . .  97
+     14.3.  Datagram Packetization Layer PMTU Discovery  . . . . . .  98
        14.3.1.  DPLPMTUD and Initial Connectivity  . . . . . . . . .  98
        14.3.2.  Validating the QUIC Path with DPLPMTUD . . . . . . .  98
        14.3.3.  Handling of ICMP Messages by DPLPMTUD  . . . . . . .  98
-     14.4.  Sending QUIC PMTU Probes . . . . . . . . . . . . . . . .  98
+     14.4.  Sending QUIC PMTU Probes . . . . . . . . . . . . . . . .  99
        14.4.1.  PMTU Probes Containing Source Connection ID  . . . .  99
    15. Versions  . . . . . . . . . . . . . . . . . . . . . . . . . .  99
    16. Variable-Length Integer Encoding  . . . . . . . . . . . . . . 100
@@ -4538,54 +4538,54 @@ Iyengar & Thomson       Expires 21 December 2020               [Page 81]
 Internet-Draft           QUIC Transport Protocol               June 2020
 
 
-     +-------------+----------------------+---------------+---------+
-     | Type Value  | Frame Type Name      | Definition    | Packets |
-     +=============+======================+===============+=========+
-     | 0x00        | PADDING              | Section 19.1  | IH01    |
-     +-------------+----------------------+---------------+---------+
-     | 0x01        | PING                 | Section 19.2  | IH01    |
-     +-------------+----------------------+---------------+---------+
-     | 0x02 - 0x03 | ACK                  | Section 19.3  | IH_1    |
-     +-------------+----------------------+---------------+---------+
-     | 0x04        | RESET_STREAM         | Section 19.4  | __01    |
-     +-------------+----------------------+---------------+---------+
-     | 0x05        | STOP_SENDING         | Section 19.5  | __01    |
-     +-------------+----------------------+---------------+---------+
-     | 0x06        | CRYPTO               | Section 19.6  | IH_1    |
-     +-------------+----------------------+---------------+---------+
-     | 0x07        | NEW_TOKEN            | Section 19.7  | ___1    |
-     +-------------+----------------------+---------------+---------+
-     | 0x08 - 0x0f | STREAM               | Section 19.8  | __01    |
-     +-------------+----------------------+---------------+---------+
-     | 0x10        | MAX_DATA             | Section 19.9  | __01    |
-     +-------------+----------------------+---------------+---------+
-     | 0x11        | MAX_STREAM_DATA      | Section 19.10 | __01    |
-     +-------------+----------------------+---------------+---------+
-     | 0x12 - 0x13 | MAX_STREAMS          | Section 19.11 | __01    |
-     +-------------+----------------------+---------------+---------+
-     | 0x14        | DATA_BLOCKED         | Section 19.12 | __01    |
-     +-------------+----------------------+---------------+---------+
-     | 0x15        | STREAM_DATA_BLOCKED  | Section 19.13 | __01    |
-     +-------------+----------------------+---------------+---------+
-     | 0x16 - 0x17 | STREAMS_BLOCKED      | Section 19.14 | __01    |
-     +-------------+----------------------+---------------+---------+
-     | 0x18        | NEW_CONNECTION_ID    | Section 19.15 | __01    |
-     +-------------+----------------------+---------------+---------+
-     | 0x19        | RETIRE_CONNECTION_ID | Section 19.16 | __01    |
-     +-------------+----------------------+---------------+---------+
-     | 0x1a        | PATH_CHALLENGE       | Section 19.17 | __01    |
-     +-------------+----------------------+---------------+---------+
-     | 0x1b        | PATH_RESPONSE        | Section 19.18 | __01    |
-     +-------------+----------------------+---------------+---------+
-     | 0x1c - 0x1d | CONNECTION_CLOSE     | Section 19.19 | ih01    |
-     +-------------+----------------------+---------------+---------+
-     | 0x1e        | HANDSHAKE_DONE       | Section 19.20 | ___1    |
-     +-------------+----------------------+---------------+---------+
+   +-------------+----------------------+---------------+------+------+
+   | Type Value  | Frame Type Name      | Definition    | Pkts | Spec |
+   +=============+======================+===============+======+======+
+   | 0x00        | PADDING              | Section 19.1  | IH01 | NP   |
+   +-------------+----------------------+---------------+------+------+
+   | 0x01        | PING                 | Section 19.2  | IH01 |      |
+   +-------------+----------------------+---------------+------+------+
+   | 0x02 - 0x03 | ACK                  | Section 19.3  | IH_1 | NC   |
+   +-------------+----------------------+---------------+------+------+
+   | 0x04        | RESET_STREAM         | Section 19.4  | __01 |      |
+   +-------------+----------------------+---------------+------+------+
+   | 0x05        | STOP_SENDING         | Section 19.5  | __01 |      |
+   +-------------+----------------------+---------------+------+------+
+   | 0x06        | CRYPTO               | Section 19.6  | IH_1 |      |
+   +-------------+----------------------+---------------+------+------+
+   | 0x07        | NEW_TOKEN            | Section 19.7  | ___1 |      |
+   +-------------+----------------------+---------------+------+------+
+   | 0x08 - 0x0f | STREAM               | Section 19.8  | __01 | F    |
+   +-------------+----------------------+---------------+------+------+
+   | 0x10        | MAX_DATA             | Section 19.9  | __01 |      |
+   +-------------+----------------------+---------------+------+------+
+   | 0x11        | MAX_STREAM_DATA      | Section 19.10 | __01 |      |
+   +-------------+----------------------+---------------+------+------+
+   | 0x12 - 0x13 | MAX_STREAMS          | Section 19.11 | __01 |      |
+   +-------------+----------------------+---------------+------+------+
+   | 0x14        | DATA_BLOCKED         | Section 19.12 | __01 |      |
+   +-------------+----------------------+---------------+------+------+
+   | 0x15        | STREAM_DATA_BLOCKED  | Section 19.13 | __01 |      |
+   +-------------+----------------------+---------------+------+------+
+   | 0x16 - 0x17 | STREAMS_BLOCKED      | Section 19.14 | __01 |      |
+   +-------------+----------------------+---------------+------+------+
+   | 0x18        | NEW_CONNECTION_ID    | Section 19.15 | __01 | P    |
+   +-------------+----------------------+---------------+------+------+
+   | 0x19        | RETIRE_CONNECTION_ID | Section 19.16 | __01 |      |
+   +-------------+----------------------+---------------+------+------+
+   | 0x1a        | PATH_CHALLENGE       | Section 19.17 | __01 | P    |
+   +-------------+----------------------+---------------+------+------+
+   | 0x1b        | PATH_RESPONSE        | Section 19.18 | __01 | P    |
+   +-------------+----------------------+---------------+------+------+
+   | 0x1c - 0x1d | CONNECTION_CLOSE     | Section 19.19 | ih01 |      |
+   +-------------+----------------------+---------------+------+------+
+   | 0x1e        | HANDSHAKE_DONE       | Section 19.20 | ___1 |      |
+   +-------------+----------------------+---------------+------+------+
 
                            Table 3: Frame Types
 
-
-
+   The "Pkts" column in Table 3 lists the types of packets that each
+   frame type could appear in, indicated by the following characters:
 
 
 
@@ -4593,11 +4593,6 @@ Iyengar & Thomson       Expires 21 December 2020               [Page 82]
 
 Internet-Draft           QUIC Transport Protocol               June 2020
 
-
-   The "Packets" column in Table 3 does not form part of the IANA
-   registry; see Section 22.3.  This column lists the types of packets
-   that each frame type could appear in, indicated by the following
-   characters:
 
    I:  Initial (Section 17.2.2)
 
@@ -4613,6 +4608,27 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    Section 4 of [QUIC-TLS] provides more detail about these
    restrictions.  Note that all frames can appear in 1-RTT packets.
 
+   The "Spec" column in Table 3 summarizes any special rules governing
+   the processing or generation of the frame type, as indicated by the
+   following characters:
+
+   N:  Packets containing only frames with this marking are not ack-
+      eliciting; see Section 13.2.
+
+   C:  Packets containing only frames with this marking do not count
+      toward bytes in flight for congestion control purposes; see
+      [QUIC-RECOVERY].
+
+   P:  Packets containing only frames with this marking can be used to
+      probe new network paths during connection migration; see
+      Section 9.1.
+
+   F:  The content of frames with this marking are flow controlled; see
+      Section 4.
+
+   The "Pkts" and "Spec" columns in Table 3 do not form part of the IANA
+   registry; see Section 22.3.
+
    An endpoint MUST treat the receipt of a frame of unknown type as a
    connection error of type FRAME_ENCODING_ERROR.
 
@@ -4626,6 +4642,14 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    possible encoding.  For frame types defined in this document, this
    means a single-byte encoding, even though it is possible to encode
    these values as a two-, four- or eight-byte variable length integer.
+
+
+
+Iyengar & Thomson       Expires 21 December 2020               [Page 83]
+
+Internet-Draft           QUIC Transport Protocol               June 2020
+
+
    For instance, though 0x4001 is a legitimate two-byte encoding for a
    variable-length integer with a value of 1, PING frames are always
    encoded as a single byte with the value 0x01.  This rule applies to
@@ -4642,14 +4666,6 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    including as many frames as possible in each QUIC packet.  A sender
    MAY wait for a short period of time to collect multiple frames before
    sending a packet that is not maximally packed, to avoid sending out
-
-
-
-Iyengar & Thomson       Expires 21 December 2020               [Page 83]
-
-Internet-Draft           QUIC Transport Protocol               June 2020
-
-
    large numbers of small packets.  An implementation MAY use knowledge
    about application sending behavior or heuristics to determine whether
    and for how long to wait.  This waiting period is an implementation
@@ -4683,6 +4699,13 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    receipt by sending one or more ACK frames containing the packet
    number of the received packet.
 
+
+
+Iyengar & Thomson       Expires 21 December 2020               [Page 84]
+
+Internet-Draft           QUIC Transport Protocol               June 2020
+
+
    An endpoint SHOULD treat receipt of an acknowledgment for a packet it
    did not send as a connection error of type PROTOCOL_VIOLATION, if it
    is able to detect the condition.
@@ -4697,14 +4720,6 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    When sending a packet for any reason, an endpoint SHOULD attempt to
    bundle an ACK frame if one has not been sent recently.  Doing so
    helps with timely loss detection at the peer.
-
-
-
-
-Iyengar & Thomson       Expires 21 December 2020               [Page 84]
-
-Internet-Draft           QUIC Transport Protocol               June 2020
-
 
    In general, frequent feedback from a receiver improves loss and
    congestion response, but this has to be balanced against excessive
@@ -4738,6 +4753,15 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    becoming idle.  Non-ack-eliciting packets are eventually acknowledged
    when the endpoint sends an ACK frame in response to other events.
 
+
+
+
+
+Iyengar & Thomson       Expires 21 December 2020               [Page 85]
+
+Internet-Draft           QUIC Transport Protocol               June 2020
+
+
    In order to assist loss detection at the sender, an endpoint SHOULD
    send an ACK frame immediately on receiving an ack-eliciting packet
    that is out of order.  The endpoint SHOULD NOT continue sending ACK
@@ -4749,18 +4773,6 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    Similarly, packets marked with the ECN Congestion Experienced (CE)
    codepoint in the IP header SHOULD be acknowledged immediately, to
    reduce the peer's response time to congestion events.
-
-
-
-
-
-
-
-
-Iyengar & Thomson       Expires 21 December 2020               [Page 85]
-
-Internet-Draft           QUIC Transport Protocol               June 2020
-
 
    The algorithms in [QUIC-RECOVERY] are expected to be resilient to
    receivers that do not follow guidance offered above.  However, an
@@ -4798,18 +4810,6 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    eliciting packets.  This recommendation is general in nature and
    consistent with recommendations for TCP endpoint behavior [RFC5681].
    Knowledge of network conditions, knowledge of the peer's congestion
-   controller, or further research and experimentation might suggest
-   alternative acknowledgment strategies with better performance
-   characteristics.
-
-   A receiver MAY process multiple available packets before determining
-   whether to send an ACK frame in response.
-
-
-
-
-
-
 
 
 
@@ -4817,6 +4817,13 @@ Iyengar & Thomson       Expires 21 December 2020               [Page 86]
 
 Internet-Draft           QUIC Transport Protocol               June 2020
 
+
+   controller, or further research and experimentation might suggest
+   alternative acknowledgment strategies with better performance
+   characteristics.
+
+   A receiver MAY process multiple available packets before determining
+   whether to send an ACK frame in response.
 
 13.2.3.  Managing ACK Ranges
 
@@ -4857,13 +4864,6 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    algorithm could cause spurious retransmits, but the sender will
    continue making forward progress.
 
-13.2.5.  Limiting ACK Ranges
-
-   A receiver limits the number of ACK Ranges (Section 19.3.1) it
-   remembers and sends in ACK frames, both to limit the size of ACK
-   frames and to avoid resource exhaustion.  After receiving
-   acknowledgments for an ACK frame, the receiver SHOULD stop tracking
-   those acknowledged ACK Ranges.
 
 
 
@@ -4873,6 +4873,14 @@ Iyengar & Thomson       Expires 21 December 2020               [Page 87]
 
 Internet-Draft           QUIC Transport Protocol               June 2020
 
+
+13.2.5.  Limiting ACK Ranges
+
+   A receiver limits the number of ACK Ranges (Section 19.3.1) it
+   remembers and sends in ACK frames, both to limit the size of ACK
+   frames and to avoid resource exhaustion.  After receiving
+   acknowledgments for an ACK frame, the receiver SHOULD stop tracking
+   those acknowledged ACK Ranges.
 
    It is possible that retaining many ACK Ranges could cause an ACK
    frame to become too large.  A receiver can discard unacknowledged ACK
@@ -4910,6 +4918,18 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    would otherwise be non-ack-eliciting, to avoid an infinite feedback
    loop of acknowledgements.
 
+
+
+
+
+
+
+
+Iyengar & Thomson       Expires 21 December 2020               [Page 88]
+
+Internet-Draft           QUIC Transport Protocol               June 2020
+
+
 13.2.6.  Measuring and Reporting Host Delay
 
    An endpoint measures the delays intentionally introduced between the
@@ -4922,13 +4942,6 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    or elsewhere on the host before being processed.  An endpoint MUST
    NOT include delays that it does not control when populating the Ack
    Delay field in an ACK frame.
-
-
-
-Iyengar & Thomson       Expires 21 December 2020               [Page 88]
-
-Internet-Draft           QUIC Transport Protocol               June 2020
-
 
 13.2.7.  ACK Frames and Packet Protection
 
@@ -4961,6 +4974,18 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    packets.  Instead, the information that might be carried in frames is
    sent again in new frames as needed.
 
+
+
+
+
+
+
+
+Iyengar & Thomson       Expires 21 December 2020               [Page 89]
+
+Internet-Draft           QUIC Transport Protocol               June 2020
+
+
    New frames and packets are used to carry information that is
    determined to have been lost.  In general, information is sent again
    when a packet containing that information is determined to be lost
@@ -4976,15 +5001,6 @@ Internet-Draft           QUIC Transport Protocol               June 2020
       STREAM frames unless the endpoint has sent a RESET_STREAM for that
       stream.  Once an endpoint sends a RESET_STREAM frame, no further
       STREAM frames are needed.
-
-
-
-
-
-Iyengar & Thomson       Expires 21 December 2020               [Page 89]
-
-Internet-Draft           QUIC Transport Protocol               June 2020
-
 
    *  ACK frames carry the most recent set of acknowledgements and the
       Ack Delay from the largest acknowledged packet, as described in
@@ -5016,6 +5032,16 @@ Internet-Draft           QUIC Transport Protocol               June 2020
       increase frequently and cause an unnecessarily large number of
       MAX_DATA frames to be sent.
 
+
+
+
+
+
+Iyengar & Thomson       Expires 21 December 2020               [Page 90]
+
+Internet-Draft           QUIC Transport Protocol               June 2020
+
+
    *  The current maximum stream data offset is sent in MAX_STREAM_DATA
       frames.  Like MAX_DATA, an updated value is sent when the packet
       containing the most recent MAX_STREAM_DATA frame for a stream is
@@ -5034,14 +5060,6 @@ Internet-Draft           QUIC Transport Protocol               June 2020
       and STREAMS_BLOCKED frames.  DATA_BLOCKED frames have connection
       scope, STREAM_DATA_BLOCKED frames have stream scope, and
       STREAMS_BLOCKED frames are scoped to a specific stream type.  New
-
-
-
-Iyengar & Thomson       Expires 21 December 2020               [Page 90]
-
-Internet-Draft           QUIC Transport Protocol               June 2020
-
-
       frames are sent if packets containing the most recent frame for a
       scope is lost, but only while the endpoint is blocked on the
       corresponding limit.  These frames always include the limit that
@@ -5072,6 +5090,14 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    *  PING and PADDING frames contain no information, so lost PING or
       PADDING frames do not require repair.
 
+
+
+
+Iyengar & Thomson       Expires 21 December 2020               [Page 91]
+
+Internet-Draft           QUIC Transport Protocol               June 2020
+
+
    *  The HANDSHAKE_DONE frame MUST be retransmitted until it is
       acknowledged.
 
@@ -5087,16 +5113,6 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    length, and path MTU.  A receiver MUST accept packets containing an
    outdated frame, such as a MAX_DATA frame carrying a smaller maximum
    data than one found in an older packet.
-
-
-
-
-
-
-Iyengar & Thomson       Expires 21 December 2020               [Page 91]
-
-Internet-Draft           QUIC Transport Protocol               June 2020
-
 
    Upon detecting losses, a sender MUST take appropriate congestion
    control action.  The details of loss detection and congestion control
@@ -5128,6 +5144,16 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    read the ECN codepoints from the enclosing IP packet, which is not
    possible on all platforms.
 
+
+
+
+
+
+Iyengar & Thomson       Expires 21 December 2020               [Page 92]
+
+Internet-Draft           QUIC Transport Protocol               June 2020
+
+
    An IP packet that results in no QUIC packets being processed does not
    increase ECN counts.  A QUIC packet detected by a receiver as a
    duplicate does not affect the receiver's local ECN codepoint counts;
@@ -5143,16 +5169,6 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    share the same IP header.  The ECN counts for the ECN codepoint
    received in the associated IP header are incremented once for each
    QUIC packet, not per enclosing IP packet or UDP datagram.
-
-
-
-
-
-
-Iyengar & Thomson       Expires 21 December 2020               [Page 92]
-
-Internet-Draft           QUIC Transport Protocol               June 2020
-
 
    Each packet number space maintains separate acknowledgement state and
    separate ECN counts.  For example, if one each of an Initial, 0-RTT,
@@ -5187,6 +5203,13 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    *  Set the ECT(0) codepoint in the IP header of early outgoing
       packets sent on a new path to the peer [RFC8311].
 
+
+
+Iyengar & Thomson       Expires 21 December 2020               [Page 93]
+
+Internet-Draft           QUIC Transport Protocol               June 2020
+
+
    *  If all packets that were sent with the ECT(0) codepoint are
       eventually deemed lost [QUIC-RECOVERY], validation is deemed to
       have failed.
@@ -5200,15 +5223,6 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    different marking strategies.  Implementations MAY use other methods
    defined in RFCs; see [RFC8311].  Implementations that use the ECT(1)
    codepoint need to perform ECN validation using ECT(1) counts.
-
-
-
-
-
-Iyengar & Thomson       Expires 21 December 2020               [Page 93]
-
-Internet-Draft           QUIC Transport Protocol               June 2020
-
 
 13.4.2.2.  Receiving ACK Frames
 
@@ -5240,6 +5254,18 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    not advance the largest packet number acknowledged in this
    connection.
 
+
+
+
+
+
+
+
+Iyengar & Thomson       Expires 21 December 2020               [Page 94]
+
+Internet-Draft           QUIC Transport Protocol               June 2020
+
+
    An endpoint could miss acknowledgements for a packet when ACK frames
    are lost.  It is therefore possible for the total increase in ECT(0),
    ECT(1), and CE counts to be greater than the number of packets
@@ -5258,13 +5284,6 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    is ECN-capable.  Network routing and path elements can change mid-
    connection however; an endpoint MUST disable ECN if validation fails
    at any point in the connection.
-
-
-
-Iyengar & Thomson       Expires 21 December 2020               [Page 94]
-
-Internet-Draft           QUIC Transport Protocol               June 2020
-
 
    Even if validation fails, an endpoint MAY revalidate ECN on the same
    path at any later time in the connection.
@@ -5294,6 +5313,15 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    parameter, endpoints risk datagrams being lost if they send packets
    larger than the smallest allowed maximum packet size of 1200 bytes.
 
+
+
+
+
+Iyengar & Thomson       Expires 21 December 2020               [Page 95]
+
+Internet-Draft           QUIC Transport Protocol               June 2020
+
+
    UDP datagrams MUST NOT be fragmented at the IP layer.  In IPv4
    [IPv4], the DF bit MUST be set to prevent fragmentation on the path.
 
@@ -5312,15 +5340,6 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    Datagrams containing Initial packets MAY exceed 1200 bytes if the
    client believes that the network path and peer both support the size
    that it chooses.
-
-
-
-
-
-Iyengar & Thomson       Expires 21 December 2020               [Page 95]
-
-Internet-Draft           QUIC Transport Protocol               June 2020
-
 
    A server MUST discard an Initial packet that is carried in a UDP
    datagram with a payload that is less than the smallest allowed
@@ -5347,6 +5366,18 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    absence of these mechanisms, QUIC endpoints SHOULD NOT send IP
    packets larger than the smallest allowed maximum packet size.
 
+
+
+
+
+
+
+
+Iyengar & Thomson       Expires 21 December 2020               [Page 96]
+
+Internet-Draft           QUIC Transport Protocol               June 2020
+
+
    Both DPLPMTUD and PMTUD send IP packets that are larger than the
    current maximum packet size.  We refer to these as PMTU probes.  All
    QUIC packets that are not sent in a PMTU probe SHOULD be sized to fit
@@ -5368,15 +5399,6 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    A QUIC implementation MAY be more conservative in computing the
    maximum packet size to allow for unknown tunnel overheads or IP
    header options/extensions.
-
-
-
-
-
-Iyengar & Thomson       Expires 21 December 2020               [Page 96]
-
-Internet-Draft           QUIC Transport Protocol               June 2020
-
 
 14.2.1.  Handling of ICMP Messages by PMTUD
 
@@ -5404,6 +5426,14 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    [RFC8085].  This validation SHOULD use the quoted packet supplied in
    the payload of an ICMP message to associate the message with a
    corresponding transport connection (see Section 4.6.1 of [DPLPMTUD]).
+
+
+
+Iyengar & Thomson       Expires 21 December 2020               [Page 97]
+
+Internet-Draft           QUIC Transport Protocol               June 2020
+
+
    ICMP message validation MUST include matching IP addresses and UDP
    ports [RFC8085] and, when possible, connection IDs to an active QUIC
    session.  The endpoint SHOULD ignore all ICMP messages that fail
@@ -5426,13 +5456,6 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    Endpoints SHOULD set the initial value of BASE_PMTU (see Section 5.1
    of [DPLPMTUD]) to be consistent with the minimum QUIC packet size.
    The MIN_PLPMTU is the same as the BASE_PMTU.
-
-
-
-Iyengar & Thomson       Expires 21 December 2020               [Page 97]
-
-Internet-Draft           QUIC Transport Protocol               June 2020
-
 
    QUIC endpoints implementing DPLPMTUD maintain a maximum packet size
    (DPLPMTUD MPS) for each combination of local and remote IP addresses.
@@ -5458,6 +5481,15 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    information (e.g., validation of connection IDs in the quoted packet
    of any received ICMP message).
 
+
+
+
+
+Iyengar & Thomson       Expires 21 December 2020               [Page 98]
+
+Internet-Draft           QUIC Transport Protocol               June 2020
+
+
    The considerations for processing ICMP messages described in
    Section 14.2.1 also apply if these messages are used by DPLPMTUD.
 
@@ -5473,22 +5505,6 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    reaction; see Section 3, Bullet 7 of [DPLPMTUD].  However, PMTU
    probes consume congestion window, which could delay subsequent
    transmission by an application.
-
-
-
-
-
-
-
-
-
-
-
-
-Iyengar & Thomson       Expires 21 December 2020               [Page 98]
-
-Internet-Draft           QUIC Transport Protocol               June 2020
-
 
 14.4.1.  PMTU Probes Containing Source Connection ID
 
@@ -5520,6 +5536,16 @@ Internet-Draft           QUIC Transport Protocol               June 2020
 
    QUIC versions are identified using a 32-bit unsigned number.
 
+
+
+
+
+
+Iyengar & Thomson       Expires 21 December 2020               [Page 99]
+
+Internet-Draft           QUIC Transport Protocol               June 2020
+
+
    The version 0x00000000 is reserved to represent version negotiation.
    This version of the specification is identified by the number
    0x00000001.
@@ -5534,17 +5560,6 @@ Internet-Draft           QUIC Transport Protocol               June 2020
 
    Versions with the most significant 16 bits of the version number
    cleared are reserved for use in future IETF consensus documents.
-
-
-
-
-
-
-
-Iyengar & Thomson       Expires 21 December 2020               [Page 99]
-
-Internet-Draft           QUIC Transport Protocol               June 2020
-
 
    Versions that follow the pattern 0x?a?a?a?a are reserved for use in
    forcing version negotiation to be exercised.  That is, any version
@@ -5579,6 +5594,14 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    non-negative integer values.  This encoding ensures that smaller
    integer values need fewer bytes to encode.
 
+
+
+
+Iyengar & Thomson       Expires 21 December 2020              [Page 100]
+
+Internet-Draft           QUIC Transport Protocol               June 2020
+
+
    The QUIC variable-length integer encoding reserves the two most
    significant bits of the first byte to encode the base 2 logarithm of
    the integer encoding length in bytes.  The integer value is encoded
@@ -5587,20 +5610,6 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    This means that integers are encoded on 1, 2, 4, or 8 bytes and can
    encode 6, 14, 30, or 62 bit values respectively.  Table 4 summarizes
    the encoding properties.
-
-
-
-
-
-
-
-
-
-
-Iyengar & Thomson       Expires 21 December 2020              [Page 100]
-
-Internet-Draft           QUIC Transport Protocol               June 2020
-
 
           +------+--------+-------------+-----------------------+
           | 2Bit | Length | Usable Bits | Range                 |
@@ -5641,15 +5650,6 @@ Internet-Draft           QUIC Transport Protocol               June 2020
 
    The encoded packet number is protected as described in Section 5.4 of
    [QUIC-TLS].
-
-
-
-
-
-
-
-
-
 
 
 
@@ -8872,7 +8872,8 @@ Internet-Draft           QUIC Transport Protocol               June 2020
    assigned semantics of any fields in the frame.
 
    The initial contents of this registry are tabulated in Table 3.  Note
-   that the registry does not include the "Packets" column from Table 3.
+   that the registry does not include the "Pkts" and "Spec" columns from
+   Table 3.
 
 22.4.  QUIC Transport Error Codes Registry
 
@@ -8896,7 +8897,6 @@ Internet-Draft           QUIC Transport Protocol               June 2020
       MAY be a summary if a specification reference is provided.
 
    The initial contents of this registry are shown in Table 7.
-
 
 
 
