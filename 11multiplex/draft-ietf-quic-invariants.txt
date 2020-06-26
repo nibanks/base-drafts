@@ -4,8 +4,8 @@
 
 QUIC                                                          M. Thomson
 Internet-Draft                                                   Mozilla
-Intended status: Standards Track                             27 May 2020
-Expires: 28 November 2020
+Intended status: Standards Track                            26 June 2020
+Expires: 28 December 2020
 
 
                  Version-Independent Properties of QUIC
@@ -43,7 +43,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 28 November 2020.
+   This Internet-Draft will expire on 28 December 2020.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Thomson                 Expires 28 November 2020                [Page 1]
+Thomson                 Expires 28 December 2020                [Page 1]
 
-Internet-Draft               QUIC Invariants                    May 2020
+Internet-Draft               QUIC Invariants                   June 2020
 
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Thomson                 Expires 28 November 2020                [Page 2]
+Thomson                 Expires 28 December 2020                [Page 2]
 
-Internet-Draft               QUIC Invariants                    May 2020
+Internet-Draft               QUIC Invariants                   June 2020
 
 
    Appendix A is a non-exhaustive list of some incorrect assumptions
@@ -161,14 +161,19 @@ Internet-Draft               QUIC Invariants                    May 2020
    x (E) ...:  Indicates that x is repeated zero or more times (and that
       each instance is length E)
 
-   Figure 1 shows an example structure:
 
 
 
-Thomson                 Expires 28 November 2020                [Page 3]
+
+Thomson                 Expires 28 December 2020                [Page 3]
 
-Internet-Draft               QUIC Invariants                    May 2020
+Internet-Draft               QUIC Invariants                   June 2020
 
+
+   This document uses network byte order (that is, big endian) values.
+   Fields are placed starting from the high-order bits of each byte.
+
+   Figure 1 shows an example structure:
 
    Example Structure {
      One-bit Field (1),
@@ -204,38 +209,39 @@ Internet-Draft               QUIC Invariants                    May 2020
      Header Form (1) = 1,
      Version-Specific Bits (7),
      Version (32),
-     DCID Length (8),
+     Destination Connection ID Length (8),
      Destination Connection ID (0..2040),
-     SCID Length (8),
+     Source Connection ID Length (8),
      Source Connection ID (0..2040),
      Version-Specific Data (..),
    }
 
                          Figure 2: QUIC Long Header
 
+
+
+
+Thomson                 Expires 28 December 2020                [Page 4]
+
+Internet-Draft               QUIC Invariants                   June 2020
+
+
    A QUIC packet with a long header has the high bit of the first byte
    set to 1.  All other bits in that byte are version specific.
 
-   The next four bytes include a 32-bit Version field (see Section 5.4).
-
-
-
-
-Thomson                 Expires 28 November 2020                [Page 4]
-
-Internet-Draft               QUIC Invariants                    May 2020
-
+   The next four bytes include a 32-bit Version field.  Versions are
+   described in Section 5.4.
 
    The next byte contains the length in bytes of the Destination
-   Connection ID (see Section 5.3) field that follows it.  This length
-   is encoded as an 8-bit unsigned integer.  The Destination Connection
-   ID field follows the DCID Length field and is between 0 and 255 bytes
-   in length.
+   Connection ID field that follows it.  This length is encoded as an
+   8-bit unsigned integer.  The Destination Connection ID field follows
+   the Destination Connection ID Length field and is between 0 and 255
+   bytes in length.  Connection IDs are described in Section 5.3.
 
    The next byte contains the length in bytes of the Source Connection
-   ID field that follows it.  This length is encoded as a 8-bit unsigned
-   integer.  The Source Connection ID field follows the SCID Length
-   field and is between 0 and 255 bytes in length.
+   ID field that follows it.  This length is encoded as an 8-bit
+   unsigned integer.  The Source Connection ID field follows the Source
+   Connection ID Length field and is between 0 and 255 bytes in length.
 
    The remainder of the packet contains version-specific content.
 
@@ -258,7 +264,7 @@ Internet-Draft               QUIC Invariants                    May 2020
    A QUIC packet with a short header includes a Destination Connection
    ID immediately following the first byte.  The short header does not
    include the Connection ID Lengths, Source Connection ID, or Version
-   fields.  The length of the Destination Connection ID is not specified
+   fields.  The length of the Destination Connection ID is not encoded
    in packets with a short header and is not constrained by this
    specification.
 
@@ -271,24 +277,19 @@ Internet-Draft               QUIC Invariants                    May 2020
 
 
 
-
-
-
-
-
-
-Thomson                 Expires 28 November 2020                [Page 5]
+Thomson                 Expires 28 December 2020                [Page 5]
 
-Internet-Draft               QUIC Invariants                    May 2020
+Internet-Draft               QUIC Invariants                   June 2020
 
 
    The primary function of a connection ID is to ensure that changes in
    addressing at lower protocol layers (UDP, IP, and below) don't cause
-   packets for a QUIC connection to be delivered to the wrong endpoint.
-   The connection ID is used by endpoints and the intermediaries that
-   support them to ensure that each QUIC packet can be delivered to the
-   correct instance of an endpoint.  At the endpoint, the connection ID
-   is used to identify which QUIC connection the packet is intended for.
+   packets for a QUIC connection to be delivered to the wrong QUIC
+   endpoint.  The connection ID is used by endpoints and the
+   intermediaries that support them to ensure that each QUIC packet can
+   be delivered to the correct instance of an endpoint.  At the
+   endpoint, the connection ID is used to identify which QUIC connection
+   the packet is intended for.
 
    The connection ID is chosen by each endpoint using version-specific
    methods.  Packets for the same QUIC connection might use different
@@ -322,21 +323,22 @@ Internet-Draft               QUIC Invariants                    May 2020
      Header Form (1) = 1,
      Unused (7),
      Version (32) = 0,
-     DCID Length (8),
+     Destination Connection ID Length (8),
      Destination Connection ID (0..2040),
-     SCID Length (8),
+     Source Connection ID Length (8),
      Source Connection ID (0..2040),
      Supported Version (32) ...,
    }
 
-                    Figure 4: Version Negotiation Packet
 
 
 
-Thomson                 Expires 28 November 2020                [Page 6]
+Thomson                 Expires 28 December 2020                [Page 6]
 
-Internet-Draft               QUIC Invariants                    May 2020
+Internet-Draft               QUIC Invariants                   June 2020
 
+
+                    Figure 4: Version Negotiation Packet
 
    The Version Negotiation packet contains a list of Supported Version
    fields, each identifying a version that the endpoint sending the
@@ -346,8 +348,8 @@ Internet-Draft               QUIC Invariants                    May 2020
    fields, or a truncated Supported Version.
 
    Version Negotiation packets do not use integrity or confidentiality
-   protection.  A specific QUIC version might authenticate the packet as
-   part of its connection establishment process.
+   protection.  Specific QUIC versions define mechanisms to authenticate
+   the packet as part of the connection establishment process.
 
    An endpoint MUST include the value from the Source Connection ID
    field of the packet it receives in the Destination Connection ID
@@ -387,11 +389,9 @@ Internet-Draft               QUIC Invariants                    May 2020
 
 
 
-
-
-Thomson                 Expires 28 November 2020                [Page 7]
+Thomson                 Expires 28 December 2020                [Page 7]
 
-Internet-Draft               QUIC Invariants                    May 2020
+Internet-Draft               QUIC Invariants                   June 2020
 
 
    The Version Negotiation packet described in this document is not
@@ -420,13 +420,13 @@ Internet-Draft               QUIC Invariants                    May 2020
 
    [QUIC-TLS] Thomson, M., Ed. and S. Turner, Ed., "Using Transport
               Layer Security (TLS) to Secure QUIC", Work in Progress,
-              Internet-Draft, draft-ietf-quic-tls-latest, 27 May 2020,
+              Internet-Draft, draft-ietf-quic-tls-latest, 26 June 2020,
               <https://tools.ietf.org/html/draft-ietf-quic-tls-latest>.
 
    [QUIC-TRANSPORT]
               Iyengar, J., Ed. and M. Thomson, Ed., "QUIC: A UDP-Based
               Multiplexed and Secure Transport", Work in Progress,
-              Internet-Draft, draft-ietf-quic-transport-latest, 27 May
+              Internet-Draft, draft-ietf-quic-transport-latest, 26 June
               2020, <https://tools.ietf.org/html/draft-ietf-quic-
               transport-latest>.
 
@@ -445,15 +445,15 @@ Appendix A.  Incorrect Assumptions
 
 
 
-Thomson                 Expires 28 November 2020                [Page 8]
+Thomson                 Expires 28 December 2020                [Page 8]
 
-Internet-Draft               QUIC Invariants                    May 2020
+Internet-Draft               QUIC Invariants                   June 2020
 
 
    This section lists a sampling of incorrect assumptions that might be
    made based on knowledge of QUIC version 1.  Some of these statements
    are not even true for QUIC version 1.  This is not an exhaustive
-   list, it is intended to be illustrative only.
+   list; it is intended to be illustrative only.
 
    The following statements are NOT guaranteed to be true for every QUIC
    version:
@@ -469,9 +469,8 @@ Internet-Draft               QUIC Invariants                    May 2020
 
    *  The first packets exchanged on a flow use the long header
 
-   *  QUIC forbids acknowledgments of packets that only contain ACK
-      frames, therefore the last packet before a long period of
-      quiescence might be assumed to contain an acknowledgment
+   *  The last packet before a long period of quiescence might be
+      assumed to contain only an acknowledgment
 
    *  QUIC uses an AEAD (AEAD_AES_128_GCM [RFC5116]) to protect the
       packets it exchanges during connection establishment
@@ -501,9 +500,10 @@ Internet-Draft               QUIC Invariants                    May 2020
 
 
 
-Thomson                 Expires 28 November 2020                [Page 9]
+
+Thomson                 Expires 28 December 2020                [Page 9]
 
-Internet-Draft               QUIC Invariants                    May 2020
+Internet-Draft               QUIC Invariants                   June 2020
 
 
    *  Only one connection at a time is established between any pair of
@@ -557,4 +557,4 @@ Author's Address
 
 
 
-Thomson                 Expires 28 November 2020               [Page 10]
+Thomson                 Expires 28 December 2020               [Page 10]
