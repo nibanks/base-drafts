@@ -1854,7 +1854,7 @@ Internet-Draft             QUIC Loss Detection                 June 2020
      earliest_loss_time, pn_space = GetLossTimeAndSpace()
      if (earliest_loss_time != 0):
        // Time threshold loss Detection
-       lost_packets = DetectLostPackets(pn_space)
+       lost_packets = DetectAndRemoveLostPackets(pn_space)
        assert(!lost_packets.empty())
        OnPacketsLost(lost_packets)
        SetLossDetectionTimer()
@@ -2099,7 +2099,7 @@ B.7.  Process ECN Information
 
 B.8.  On Packets Lost
 
-   Invoked from DetectLostPackets when packets are deemed lost.
+   Invoked when DetectAndRemoveLostPackets deems packets lost.
 
       InPersistentCongestion(lost_packets):
         pto = smoothed_rtt + max(4 * rttvar, kGranularity) +
