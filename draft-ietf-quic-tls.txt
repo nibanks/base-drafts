@@ -597,9 +597,9 @@ Internet-Draft          Using TLS to Secure QUIC               June 2020
    Each encryption level is associated with a different sequence of
    bytes, which is reliably transmitted to the peer in CRYPTO frames.
    When TLS provides handshake bytes to be sent, they are appended to
-   the handshake bytes for the current encryption level.  The encryption
-   level then determines the type of packet that the resulting CRYPTO
-   frame is carried in; see Table 1.
+   the handshake bytes for the current encryption level.  Any packet
+   that includes the CRYPTO frame is protected using keys from the
+   corresponding encryption level.
 
    Four encryption levels are used, producing keys for Initial, 0-RTT,
    Handshake, and 1-RTT packets.  CRYPTO frames are carried in just
