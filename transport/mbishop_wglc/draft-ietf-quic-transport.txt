@@ -1192,9 +1192,11 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    A STOP_SENDING frame requests that the receiving endpoint send a
    RESET_STREAM frame.  An endpoint that receives a STOP_SENDING frame
    MUST send a RESET_STREAM frame if the stream is in the Ready or Send
-   state.  If the stream is in the "Data Sent" state and any outstanding
-   data is declared lost, an endpoint SHOULD send a RESET_STREAM frame
-   in lieu of a retransmission.
+   state.  If the stream is in the "Data Sent" state, an endpoint MAY
+   defer sending the RESET_STREAM frame until the packets containing
+   outstanding data are acknowledged or declared lost.  If any
+   outstanding data is declared lost, the endpoint SHOULD send a
+   RESET_STREAM frame instead of retransmitting the data.
 
    An endpoint SHOULD copy the error code from the STOP_SENDING frame to
    the RESET_STREAM frame it sends, but MAY use any application error
@@ -1224,8 +1226,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    memory at a receiver.  To enable a receiver to limit memory
    commitment to a connection and to apply back pressure on the sender,
    streams are flow controlled both individually and as an aggregate.  A
-   QUIC receiver controls the maximum amount of data the sender can send
-   on a stream at any time, as described in Section 4.1 and Section 4.2
 
 
 
@@ -1233,6 +1233,9 @@ Iyengar & Thomson        Expires 3 January 2021                [Page 22]
 
 Internet-Draft           QUIC Transport Protocol               July 2020
 
+
+   QUIC receiver controls the maximum amount of data the sender can send
+   on a stream at any time, as described in Section 4.1 and Section 4.2
 
    Similarly, to limit concurrency within a connection, a QUIC endpoint
    controls the maximum cumulative number of streams that its peer can
@@ -1274,13 +1277,10 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    that the sender receives an update before running out of flow
    control, even if one of the packets is lost.
 
-   A receiver can advertise a larger limit for a connection by sending a
-   MAX_DATA frame, which indicates the maximum of the sum of the
-   absolute byte offsets of all streams.  A receiver maintains a
-   cumulative sum of bytes received on all streams, which is used to
-   check for flow control violations.  A receiver might use a sum of
-   bytes consumed on all streams to determine the maximum data limit to
-   be advertised.
+
+
+
+
 
 
 
@@ -1289,6 +1289,14 @@ Iyengar & Thomson        Expires 3 January 2021                [Page 23]
 
 Internet-Draft           QUIC Transport Protocol               July 2020
 
+
+   A receiver can advertise a larger limit for a connection by sending a
+   MAX_DATA frame, which indicates the maximum of the sum of the
+   absolute byte offsets of all streams.  A receiver maintains a
+   cumulative sum of bytes received on all streams, which is used to
+   check for flow control violations.  A receiver might use a sum of
+   bytes consumed on all streams to determine the maximum data limit to
+   be advertised.
 
    Once a receiver advertises a limit for the connection or a stream, it
    MAY advertise a smaller limit, but this has no effect.
@@ -1328,14 +1336,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    There is a trade-off between resource commitment and overhead when
    determining how large a limit is advertised.
 
-   A receiver can use an autotuning mechanism to tune the frequency and
-   amount of advertised additional credit based on a round-trip time
-   estimate and the rate at which the receiving application consumes
-   data, similar to common TCP implementations.  As an optimization, an
-   endpoint could send frames related to flow control only when there
-   are other frames to send or when a peer is blocked, ensuring that
-   flow control does not cause extra packets to be sent.
-
 
 
 
@@ -1345,6 +1345,14 @@ Iyengar & Thomson        Expires 3 January 2021                [Page 24]
 
 Internet-Draft           QUIC Transport Protocol               July 2020
 
+
+   A receiver can use an autotuning mechanism to tune the frequency and
+   amount of advertised additional credit based on a round-trip time
+   estimate and the rate at which the receiving application consumes
+   data, similar to common TCP implementations.  As an optimization, an
+   endpoint could send frames related to flow control only when there
+   are other frames to send or when a peer is blocked, ensuring that
+   flow control does not cause extra packets to be sent.
 
    A blocked sender is not required to send STREAM_DATA_BLOCKED or
    DATA_BLOCKED frames.  Therefore, a receiver MUST NOT wait for a
@@ -1384,14 +1392,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    generally, this is one higher than the offset of the byte with the
    largest offset sent on the stream, or zero if no bytes were sent.
 
-   The final size of a stream is always signaled to the recipient.  The
-   final size is the sum of the Offset and Length fields of a STREAM
-   frame with a FIN flag, noting that these fields might be implicit.
-   Alternatively, the Final Size field of a RESET_STREAM frame carries
-   this value.  This ensures that all ways that a stream can be closed
-   result in the number of bytes on the stream being reliably
-   transmitted.  This guarantees that both endpoints agree on how much
-   flow control credit was consumed by the stream.
 
 
 
@@ -1401,6 +1401,15 @@ Iyengar & Thomson        Expires 3 January 2021                [Page 25]
 
 Internet-Draft           QUIC Transport Protocol               July 2020
 
+
+   The final size of a stream is always signaled to the recipient.  The
+   final size is the sum of the Offset and Length fields of a STREAM
+   frame with a FIN flag, noting that these fields might be implicit.
+   Alternatively, the Final Size field of a RESET_STREAM frame carries
+   this value.  This ensures that all ways that a stream can be closed
+   result in the number of bytes on the stream being reliably
+   transmitted.  This guarantees that both endpoints agree on how much
+   flow control credit was consumed by the stream.
 
    An endpoint will know the final size for a stream when the receiving
    part of the stream enters the "Size Known" or "Reset Recvd" state
@@ -1439,15 +1448,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    immediately with a connection error of type STREAM_LIMIT_ERROR; see
    Section 10.3.
 
-   Endpoints MUST NOT exceed the limit set by their peer.  An endpoint
-   that receives a frame with a stream ID exceeding the limit it has
-   sent MUST treat this as a connection error of type STREAM_LIMIT_ERROR
-   (Section 11).
-
-   Once a receiver advertises a stream limit using the MAX_STREAMS
-   frame, advertising a smaller limit has no effect.  A receiver MUST
-   ignore any MAX_STREAMS frame that does not increase the stream limit.
-
 
 
 
@@ -1457,6 +1457,15 @@ Iyengar & Thomson        Expires 3 January 2021                [Page 26]
 
 Internet-Draft           QUIC Transport Protocol               July 2020
 
+
+   Endpoints MUST NOT exceed the limit set by their peer.  An endpoint
+   that receives a frame with a stream ID exceeding the limit it has
+   sent MUST treat this as a connection error of type STREAM_LIMIT_ERROR
+   (Section 11).
+
+   Once a receiver advertises a stream limit using the MAX_STREAMS
+   frame, advertising a smaller limit has no effect.  A receiver MUST
+   ignore any MAX_STREAMS frame that does not increase the stream limit.
 
    As with stream and connection flow control, this document leaves when
    and how many streams to advertise to a peer via MAX_STREAMS to
@@ -1498,21 +1507,18 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    that connection ID to be routed back to the endpoint and to be
    identified by the endpoint upon receipt.
 
-   Connection IDs MUST NOT contain any information that can be used by
-   an external observer (that is, one that does not cooperate with the
-   issuer) to correlate them with other connection IDs for the same
-   connection.  As a trivial example, this means the same connection ID
-   MUST NOT be issued more than once on the same connection.
-
-
-
-
 
 
 Iyengar & Thomson        Expires 3 January 2021                [Page 27]
 
 Internet-Draft           QUIC Transport Protocol               July 2020
 
+
+   Connection IDs MUST NOT contain any information that can be used by
+   an external observer (that is, one that does not cooperate with the
+   issuer) to correlate them with other connection IDs for the same
+   connection.  As a trivial example, this means the same connection ID
+   MUST NOT be issued more than once on the same connection.
 
    Packets with long headers include Source Connection ID and
    Destination Connection ID fields.  These fields are used to set the
@@ -1556,12 +1562,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    initial connection ID is 0.  If the preferred_address transport
    parameter is sent, the sequence number of the supplied connection ID
    is 1.
-
-
-
-
-
-
 
 
 
