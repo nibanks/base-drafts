@@ -357,8 +357,9 @@ Internet-Draft               QUIC Invariants                   July 2020
                     Figure 4: Version Negotiation Packet
 
    Only the most significant bit of the first byte of a Version
-   Negotiation packet has any defined value.  The remaining 7 bits can
-   be set to any value when sending and MUST be ignored on receipt.
+   Negotiation packet has any defined value.  The remaining 7 bits,
+   labeled Unused, can be set to any value when sending and MUST be
+   ignored on receipt.
 
    After the Source Connection ID field, the Version Negotiation packet
    contains a list of Supported Version fields, each identifying a
@@ -384,7 +385,6 @@ Internet-Draft               QUIC Invariants                   July 2020
    the version that it decides to use for subsequent packets.  The
    conditions under which an endpoint changes QUIC version will depend
    on the version of QUIC that it chooses.
-
 
 
 
