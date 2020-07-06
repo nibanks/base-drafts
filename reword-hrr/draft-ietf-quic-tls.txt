@@ -1035,18 +1035,14 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
 
 4.9.  HelloRetryRequest
 
-   In TLS over TCP, the HelloRetryRequest message (see Section 4.1.4 of
-   [TLS13]) can be used to request that a client provide new
-   information, such as a key share, or to validate some characteristic
-   of the client.  From the perspective of QUIC, HelloRetryRequest is
-   not differentiated from other cryptographic handshake messages that
-   are carried in Initial packets.  Although it is in principle possible
-   to use this feature for address verification, QUIC implementations
-   SHOULD instead use the Retry feature; see Section 8.1 of
-   [QUIC-TRANSPORT].
-
-   HelloRetryRequest is still used to request key shares or other
-   information required by TLS.
+   The HelloRetryRequest message (see Section 4.1.4 of [TLS13]) can be
+   used to request that a client provide new information, such as a key
+   share, or to validate some characteristic of the client.  From the
+   perspective of QUIC, HelloRetryRequest is not differentiated from
+   other cryptographic handshake messages that are carried in Initial
+   packets.  Although it is in principle possible to use this feature
+   for address verification, QUIC implementations SHOULD instead use the
+   Retry feature; see Section 8.1 of [QUIC-TRANSPORT].
 
 4.10.  TLS Errors
 
@@ -1058,6 +1054,10 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
    range reserved for CRYPTO_ERROR.  The resulting value is sent in a
    QUIC CONNECTION_CLOSE frame of type 0x1c.
 
+   The alert level of all TLS alerts is "fatal"; a TLS stack MUST NOT
+   generate alerts at the "warning" level.
+
+
 
 
 
@@ -1065,9 +1065,6 @@ Thomson & Turner         Expires 7 January 2021                [Page 19]
 
 Internet-Draft          Using TLS to Secure QUIC               July 2020
 
-
-   The alert level of all TLS alerts is "fatal"; a TLS stack MUST NOT
-   generate alerts at the "warning" level.
 
    QUIC permits the use of a generic code in place of a specific error
    code; see Section 11 of [QUIC-TRANSPORT].  For TLS alerts, this
@@ -1111,6 +1108,9 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
    intent to disrupt a connection.  To limit these attacks, Initial
    packet protection keys can be discarded more aggressively than other
    keys.
+
+
+
 
 
 
