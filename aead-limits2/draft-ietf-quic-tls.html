@@ -2204,9 +2204,9 @@ including the unprotected packet number.<a href="#section-5.3-7" class="pilcrow"
 described in <span>[<a href="#QUIC-TRANSPORT" class="xref">QUIC-TRANSPORT</a>]</span>.<a href="#section-5.3-8" class="pilcrow">¶</a></p>
 <p id="section-5.3-9">The output ciphertext, C, of the AEAD is transmitted in place of P.<a href="#section-5.3-9" class="pilcrow">¶</a></p>
 <p id="section-5.3-10">Some AEAD functions have limits for how many packets can be encrypted under the
-same key and IV (see for example <span>[<a href="#AEBounds" class="xref">AEBounds</a>]</span>).  This might be lower than the
-packet number limit.  An endpoint MUST initiate a key update (<a href="#key-update" class="xref">Section 6</a>)
-prior to exceeding any limit set for the AEAD that is in use.<a href="#section-5.3-10" class="pilcrow">¶</a></p>
+same key and IV; see <a href="#aead-limits" class="xref">Section 6.6</a>.  This might be lower than the packet
+number limit.  An endpoint MUST initiate a key update (<a href="#key-update" class="xref">Section 6</a>) prior to
+exceeding any limit set for the AEAD that is in use.<a href="#section-5.3-10" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="header-protect">
@@ -2810,7 +2810,7 @@ After this period, old read keys and their corresponding secrets SHOULD be
 discarded.<a href="#section-6.5-7" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="limits-on-aead-usage">
+<div id="aead-limits">
 <section id="section-6.6">
         <h3 id="name-limits-on-aead-usage">
 <a href="#section-6.6" class="section-number selfRef">6.6. </a><a href="#name-limits-on-aead-usage" class="section-name selfRef">Limits on AEAD Usage</a>
@@ -2827,12 +2827,13 @@ packet that cannot be authenticated, allowing multiple forgery attempts.<a href=
 <p id="section-6.6-3">Endpoints MUST count the number of encrypted packets for each set of keys. If
 the total number of encrypted packets with the same key exceeds the
 confidentiality limit for the selected AEAD, the endpoint MUST stop using those
-keys. Endpoints MUST initiate a key update before the number of encrypted
-packets reaches the confidentiality limit for the selected AEAD. If a key update
-is not possible, the endpoint MUST stop using the connection for anything other
-than stateless resets. It is RECOMMENDED that endpoints immediately close the
-connection with a connection error of type PROTOCOL_VIOLATION before reaching a
-state where key updates are not possible.<a href="#section-6.6-3" class="pilcrow">¶</a></p>
+keys. Endpoints MUST initiate a key update before sending more protected packets
+than the confidentiality limit for the selected AEAD permits. If a key update
+is not possible or integrity limits are reached, the endpoint MUST stop using
+the connection and only send stateless resets in response receiving packets. It
+is RECOMMENDED that endpoints immediately close the connection with a connection
+error of type PROTOCOL_VIOLATION before reaching a state where key updates are
+not possible.<a href="#section-6.6-3" class="pilcrow">¶</a></p>
 <p id="section-6.6-4">For AEAD_AES_128_GCM and AEAD_AES_256_GCM, the confidentiality limit is 2^24.5
 encrypted packets; see <a href="#gcm-bounds" class="xref">Appendix B.1</a>. For AEAD_CHACHA20_POLY1305, the
 confidentiality limit is greater than the number of possible packets (2^62) and

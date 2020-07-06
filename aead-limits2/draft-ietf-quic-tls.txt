@@ -124,7 +124,7 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
      6.7.  Key Update Error Code . . . . . . . . . . . . . . . . . .  38
    7.  Security of Initial Messages  . . . . . . . . . . . . . . . .  38
    8.  QUIC-Specific Adjustments to the TLS Handshake  . . . . . . .  38
-     8.1.  Protocol Negotiation  . . . . . . . . . . . . . . . . . .  38
+     8.1.  Protocol Negotiation  . . . . . . . . . . . . . . . . . .  39
      8.2.  QUIC Transport Parameters Extension . . . . . . . . . . .  39
      8.3.  Removing the EndOfEarlyData Message . . . . . . . . . . .  40
      8.4.  Prohibit TLS Middlebox Compatibility Mode . . . . . . . .  40
@@ -1293,10 +1293,10 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
    The output ciphertext, C, of the AEAD is transmitted in place of P.
 
    Some AEAD functions have limits for how many packets can be encrypted
-   under the same key and IV (see for example [AEBounds]).  This might
-   be lower than the packet number limit.  An endpoint MUST initiate a
-   key update (Section 6) prior to exceeding any limit set for the AEAD
-   that is in use.
+   under the same key and IV; see Section 6.6.  This might be lower than
+   the packet number limit.  An endpoint MUST initiate a key update
+   (Section 6) prior to exceeding any limit set for the AEAD that is in
+   use.
 
 5.4.  Header Protection
 
@@ -2022,12 +2022,13 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
    keys.  If the total number of encrypted packets with the same key
    exceeds the confidentiality limit for the selected AEAD, the endpoint
    MUST stop using those keys.  Endpoints MUST initiate a key update
-   before the number of encrypted packets reaches the confidentiality
-   limit for the selected AEAD.  If a key update is not possible, the
-   endpoint MUST stop using the connection for anything other than
-   stateless resets.  It is RECOMMENDED that endpoints immediately close
-   the connection with a connection error of type PROTOCOL_VIOLATION
-   before reaching a state where key updates are not possible.
+   before sending more protected packets than the confidentiality limit
+   for the selected AEAD permits.  If a key update is not possible or
+   integrity limits are reached, the endpoint MUST stop using the
+   connection and only send stateless resets in response receiving
+   packets.  It is RECOMMENDED that endpoints immediately close the
+   connection with a connection error of type PROTOCOL_VIOLATION before
+   reaching a state where key updates are not possible.
 
    For AEAD_AES_128_GCM and AEAD_AES_256_GCM, the confidentiality limit
    is 2^24.5 encrypted packets; see Appendix B.1.  For
@@ -2063,9 +2064,8 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
       generally be smaller than TLS records.  Where packets might be
       larger than 2^14 bytes in length, smaller limits might be needed.
 
-   Any TLS cipher suite that is specified for use with QUIC MUST define
-   limits on the use of the associated AEAD function that preserves
-   margins for confidentiality and integrity.  That is, limits MUST be
+
+
 
 
 
@@ -2074,6 +2074,9 @@ Thomson & Turner         Expires 7 January 2021                [Page 37]
 Internet-Draft          Using TLS to Secure QUIC               July 2020
 
 
+   Any TLS cipher suite that is specified for use with QUIC MUST define
+   limits on the use of the associated AEAD function that preserves
+   margins for confidentiality and integrity.  That is, limits MUST be
    specified for the number of packets that can be authenticated and for
    the number packets that can fail authentication.  Providing a
    reference to any analysis upon which values are based - and any
@@ -2115,13 +2118,10 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
    values for QUIC transport parameters and allows a server to perform
    return routability checks on clients.
 
-8.1.  Protocol Negotiation
 
-   QUIC requires that the cryptographic handshake provide authenticated
-   protocol negotiation.  TLS uses Application Layer Protocol
-   Negotiation (ALPN) [ALPN] to select an application protocol.  Unless
-   another mechanism is used for agreeing on an application protocol,
-   endpoints MUST use ALPN for this purpose.
+
+
+
 
 
 
@@ -2129,6 +2129,14 @@ Thomson & Turner         Expires 7 January 2021                [Page 38]
 
 Internet-Draft          Using TLS to Secure QUIC               July 2020
 
+
+8.1.  Protocol Negotiation
+
+   QUIC requires that the cryptographic handshake provide authenticated
+   protocol negotiation.  TLS uses Application Layer Protocol
+   Negotiation (ALPN) [ALPN] to select an application protocol.  Unless
+   another mechanism is used for agreeing on an application protocol,
+   endpoints MUST use ALPN for this purpose.
 
    When using ALPN, endpoints MUST immediately close a connection (see
    Section 10.3 of [QUIC-TRANSPORT]) with a no_application_protocol TLS
@@ -2170,14 +2178,6 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
    error of type 0x16d (equivalent to a fatal TLS missing_extension
    alert, see Section 4.10).
 
-   While the transport parameters are technically available prior to the
-   completion of the handshake, they cannot be fully trusted until the
-   handshake completes, and reliance on them should be minimized.
-   However, any tampering with the parameters will cause the handshake
-   to fail.
-
-
-
 
 
 
@@ -2185,6 +2185,12 @@ Thomson & Turner         Expires 7 January 2021                [Page 39]
 
 Internet-Draft          Using TLS to Secure QUIC               July 2020
 
+
+   While the transport parameters are technically available prior to the
+   completion of the handshake, they cannot be fully trusted until the
+   handshake completes, and reliance on them should be minimized.
+   However, any tampering with the parameters will cause the handshake
+   to fail.
 
    Endpoints MUST NOT send this extension in a TLS connection that does
    not use QUIC (such as the use of TLS with TCP defined in [TLS13]).  A
@@ -2228,12 +2234,6 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
    the best way to gain an understanding of the security properties of
    QUIC.
 
-   This section summarizes some of the more important security aspects
-   specific to the TLS integration, though there are many security-
-   relevant details in the remainder of the document.
-
-
-
 
 
 
@@ -2241,6 +2241,10 @@ Thomson & Turner         Expires 7 January 2021                [Page 40]
 
 Internet-Draft          Using TLS to Secure QUIC               July 2020
 
+
+   This section summarizes some of the more important security aspects
+   specific to the TLS integration, though there are many security-
+   relevant details in the remainder of the document.
 
 9.1.  Session Linkability
 
@@ -2286,10 +2290,6 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
    analysis of replay risk needs to consider all QUIC protocol features
    that carry application semantics.
 
-   Disabling 0-RTT entirely is the most effective defense against replay
-   attack.
-
-
 
 
 
@@ -2297,6 +2297,9 @@ Thomson & Turner         Expires 7 January 2021                [Page 41]
 
 Internet-Draft          Using TLS to Secure QUIC               July 2020
 
+
+   Disabling 0-RTT entirely is the most effective defense against replay
+   attack.
 
    QUIC extensions MUST describe how replay attacks affect their
    operation, or prohibit their use in 0-RTT.  Application protocols
@@ -2340,12 +2343,9 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
    Future header protection variants based on this construction MUST use
    a PRF to ensure equivalent security guarantees.
 
-
-
-
-
-
-
+   Use of the same key and ciphertext sample more than once risks
+   compromising header protection.  Protecting two different headers
+   with the same key and ciphertext sample reveals the exclusive OR of
 
 
 
@@ -2354,9 +2354,6 @@ Thomson & Turner         Expires 7 January 2021                [Page 42]
 Internet-Draft          Using TLS to Secure QUIC               July 2020
 
 
-   Use of the same key and ciphertext sample more than once risks
-   compromising header protection.  Protecting two different headers
-   with the same key and ciphertext sample reveals the exclusive OR of
    the protected fields.  Assuming that the AEAD acts as a PRF, if L
    bits are sampled, the odds of two ciphertext samples being identical
    approach 2^(-L/2), that is, the birthday bound.  For the algorithms
@@ -2402,6 +2399,9 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
    instead choose to defer generation of the next receive packet
    protection keys until they discard old keys so that only two sets of
    receive keys need to be retained at any point in time.
+
+
+
 
 
 
