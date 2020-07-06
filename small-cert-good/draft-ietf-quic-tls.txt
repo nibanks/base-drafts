@@ -909,9 +909,9 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
       performance in QUIC as servers are limited to sending 3 bytes for
       every byte received prior to validating the client address; see
       Section 8.1 of [QUIC-TRANSPORT].  The size of a certificate chain
-      can managed by limiting the number of names or extensions; using
-      keys with small public key representations, like ECDSA; or, by
-      using certificate compression [COMPRESS].
+      can be managed by limiting the number of names or extensions;
+      using keys with small public key representations, like ECDSA; or,
+      by using certificate compression [COMPRESS].
 
    A server MAY request that the client authenticate during the
    handshake.  A server MAY refuse a connection if the client is unable
@@ -1041,7 +1041,7 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
    perspective of QUIC, this just looks like additional messages carried
    in Initial packets.  Although it is in principle possible to use this
    feature for address verification in QUIC, QUIC implementations SHOULD
-   instead use the Retry feature; see Section 8.1 of [QUIC-TRANSPORT].
+   instead use the Retry feature (see Section 8.1 of [QUIC-TRANSPORT]).
    HelloRetryRequest is still used to request key shares.
 
 4.10.  TLS Errors
@@ -2301,8 +2301,8 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
    QUIC includes three defenses against this attack.  First, the packet
    containing a ClientHello MUST be padded to a minimum size.  Second,
    if responding to an unverified source address, the server is
-   forbidden to send more than three times more bytes than it has
-   received; see Section 8.1 of [QUIC-TRANSPORT].  Finally, because
+   forbidden to send more than three UDP datagrams in its first flight
+   (see Section 8.1 of [QUIC-TRANSPORT]).  Finally, because
    acknowledgements of Handshake packets are authenticated, a blind
    attacker cannot forge them.  Put together, these defenses limit the
    level of amplification.
