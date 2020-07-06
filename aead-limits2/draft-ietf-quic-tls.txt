@@ -150,18 +150,18 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
            Limits  . . . . . . . . . . . . . . . . . . . . . . . . .  53
        B.1.1.  Confidentiality Limit . . . . . . . . . . . . . . . .  54
        B.1.2.  Integrity Limit . . . . . . . . . . . . . . . . . . .  54
-   Appendix C.  Analysis of AEAD_AES_128_CCM Usage Limits  . . . . .  55
-     C.1.  Confidentiality Limits  . . . . . . . . . . . . . . . . .  55
-     C.2.  Integrity Limits  . . . . . . . . . . . . . . . . . . . .  55
-   Appendix D.  Change Log . . . . . . . . . . . . . . . . . . . . .  56
-     D.1.  Since draft-ietf-quic-tls-27  . . . . . . . . . . . . . .  56
-     D.2.  Since draft-ietf-quic-tls-26  . . . . . . . . . . . . . .  56
-     D.3.  Since draft-ietf-quic-tls-25  . . . . . . . . . . . . . .  56
-     D.4.  Since draft-ietf-quic-tls-24  . . . . . . . . . . . . . .  56
-     D.5.  Since draft-ietf-quic-tls-23  . . . . . . . . . . . . . .  56
-     D.6.  Since draft-ietf-quic-tls-22  . . . . . . . . . . . . . .  57
-     D.7.  Since draft-ietf-quic-tls-21  . . . . . . . . . . . . . .  57
-     D.8.  Since draft-ietf-quic-tls-20  . . . . . . . . . . . . . .  57
+     B.2.  Analysis of AEAD_AES_128_CCM Usage Limits . . . . . . . .  55
+     B.3.  Confidentiality Limits  . . . . . . . . . . . . . . . . .  55
+     B.4.  Integrity Limits  . . . . . . . . . . . . . . . . . . . .  55
+   Appendix C.  Change Log . . . . . . . . . . . . . . . . . . . . .  56
+     C.1.  Since draft-ietf-quic-tls-27  . . . . . . . . . . . . . .  56
+     C.2.  Since draft-ietf-quic-tls-26  . . . . . . . . . . . . . .  56
+     C.3.  Since draft-ietf-quic-tls-25  . . . . . . . . . . . . . .  56
+     C.4.  Since draft-ietf-quic-tls-24  . . . . . . . . . . . . . .  56
+     C.5.  Since draft-ietf-quic-tls-23  . . . . . . . . . . . . . .  56
+     C.6.  Since draft-ietf-quic-tls-22  . . . . . . . . . . . . . .  57
+     C.7.  Since draft-ietf-quic-tls-21  . . . . . . . . . . . . . .  57
+     C.8.  Since draft-ietf-quic-tls-20  . . . . . . . . . . . . . .  57
 
 
 
@@ -170,23 +170,23 @@ Thomson & Turner         Expires 7 January 2021                 [Page 3]
 Internet-Draft          Using TLS to Secure QUIC               July 2020
 
 
-     D.9.  Since draft-ietf-quic-tls-18  . . . . . . . . . . . . . .  57
-     D.10. Since draft-ietf-quic-tls-17  . . . . . . . . . . . . . .  57
-     D.11. Since draft-ietf-quic-tls-14  . . . . . . . . . . . . . .  57
-     D.12. Since draft-ietf-quic-tls-13  . . . . . . . . . . . . . .  58
-     D.13. Since draft-ietf-quic-tls-12  . . . . . . . . . . . . . .  58
-     D.14. Since draft-ietf-quic-tls-11  . . . . . . . . . . . . . .  58
-     D.15. Since draft-ietf-quic-tls-10  . . . . . . . . . . . . . .  58
-     D.16. Since draft-ietf-quic-tls-09  . . . . . . . . . . . . . .  58
-     D.17. Since draft-ietf-quic-tls-08  . . . . . . . . . . . . . .  58
-     D.18. Since draft-ietf-quic-tls-07  . . . . . . . . . . . . . .  59
-     D.19. Since draft-ietf-quic-tls-05  . . . . . . . . . . . . . .  59
-     D.20. Since draft-ietf-quic-tls-04  . . . . . . . . . . . . . .  59
-     D.21. Since draft-ietf-quic-tls-03  . . . . . . . . . . . . . .  59
-     D.22. Since draft-ietf-quic-tls-02  . . . . . . . . . . . . . .  59
-     D.23. Since draft-ietf-quic-tls-01  . . . . . . . . . . . . . .  59
-     D.24. Since draft-ietf-quic-tls-00  . . . . . . . . . . . . . .  60
-     D.25. Since draft-thomson-quic-tls-01 . . . . . . . . . . . . .  60
+     C.9.  Since draft-ietf-quic-tls-18  . . . . . . . . . . . . . .  57
+     C.10. Since draft-ietf-quic-tls-17  . . . . . . . . . . . . . .  57
+     C.11. Since draft-ietf-quic-tls-14  . . . . . . . . . . . . . .  57
+     C.12. Since draft-ietf-quic-tls-13  . . . . . . . . . . . . . .  58
+     C.13. Since draft-ietf-quic-tls-12  . . . . . . . . . . . . . .  58
+     C.14. Since draft-ietf-quic-tls-11  . . . . . . . . . . . . . .  58
+     C.15. Since draft-ietf-quic-tls-10  . . . . . . . . . . . . . .  58
+     C.16. Since draft-ietf-quic-tls-09  . . . . . . . . . . . . . .  58
+     C.17. Since draft-ietf-quic-tls-08  . . . . . . . . . . . . . .  58
+     C.18. Since draft-ietf-quic-tls-07  . . . . . . . . . . . . . .  59
+     C.19. Since draft-ietf-quic-tls-05  . . . . . . . . . . . . . .  59
+     C.20. Since draft-ietf-quic-tls-04  . . . . . . . . . . . . . .  59
+     C.21. Since draft-ietf-quic-tls-03  . . . . . . . . . . . . . .  59
+     C.22. Since draft-ietf-quic-tls-02  . . . . . . . . . . . . . .  59
+     C.23. Since draft-ietf-quic-tls-01  . . . . . . . . . . . . . .  59
+     C.24. Since draft-ietf-quic-tls-00  . . . . . . . . . . . . . .  60
+     C.25. Since draft-thomson-quic-tls-01 . . . . . . . . . . . . .  60
    Contributors  . . . . . . . . . . . . . . . . . . . . . . . . . .  60
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  61
 
@@ -2031,11 +2031,11 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
    reaching a state where key updates are not possible.
 
    For AEAD_AES_128_GCM and AEAD_AES_256_GCM, the confidentiality limit
-   is 2^24.5 encrypted packets; see Appendix B.1.  For
+   is 2^25.5 encrypted packets; see Appendix B.1.  For
    AEAD_CHACHA20_POLY1305, the confidentiality limit is greater than the
    number of possible packets (2^62) and so can be disregarded.  For
    AEAD_AES_128_CCM, the confidentiality limit is 2^23.5 encrypted
-   packets; see Appendix C.  Applying a limit reduces the probability
+   packets; see Appendix B.2.  Applying a limit reduces the probability
    that an attacker can distinguish the AEAD in use from a random
    permutation; see [AEBounds], [ROBUST], and [GCM-MU].
 
@@ -2047,10 +2047,10 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
    close the connection and not process any more packets.
 
    For AEAD_AES_128_GCM and AEAD_AES_256_GCM, the integrity limit is
-   2^24.5 forged packets; see Appendix B.1.  For AEAD_CHACHA20_POLY1305,
+   2^54 forged packets; see Appendix B.1.  For AEAD_CHACHA20_POLY1305,
    the integrity limit is 2^36 forged packets; see [AEBounds].  For
    AEAD_AES_128_CCM, the integrity limit is 2^23.5 forged packets; see
-   Appendix C.  Applying this limit reduces the probability that an
+   Appendix B.2.  Applying this limit reduces the probability that an
    attacker can successfully forge a packet; see [AEBounds], [ROBUST],
    and [GCM-MU].
 
@@ -2987,15 +2987,15 @@ B.1.1.  Confidentiality Limit
    attacker gains a distinguishing advantage between a real and random
    AEAD algorithm of no more than:
 
-   ((q + v) * l)^2 / 2^128
+   (q * l)^2 / 2^128
 
    For a target advantage of 2^-57, this results in the relation:
 
-   (q + v) <= 2^25.5
+   q <= 2^25.5
 
-   Assuming "v = q", endpoints cannot protect more than 2^24.5 packets
-   in a single connection without causing an attacker to gain an larger
-   advantage than the target of 2^-57.
+   Thus, endpoints cannot protect more than 2^25.5 packets in a single
+   connection without causing an attacker to gain an larger advantage
+   than the target of 2^-57.
 
 B.1.2.  Integrity Limit
 
@@ -3027,14 +3027,10 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
 
 
    This is substantially larger than the limit for AEAD_AES_128_GCM.
+   However, this document recommends that the same limit be applied to
+   both functions as either limit is acceptably large.
 
-   However, as the confidentiality limit depends on an assumption of "v
-   = q", the total number of forged packets cannot exceed 2^24.5 packets
-   without degrading the margins for confidentiality.  Thus, this
-   document recommends tolerating no more than 2^24.5 possible forgery
-   attempts.
-
-Appendix C.  Analysis of AEAD_AES_128_CCM Usage Limits
+B.2.  Analysis of AEAD_AES_128_CCM Usage Limits
 
    TLS [TLS13] and [AEBounds] do not specify per-connection limits on
    usage for AEAD_AES_128_CCM.  However, any AEAD that is used with QUIC
@@ -3045,7 +3041,7 @@ Appendix C.  Analysis of AEAD_AES_128_CCM Usage Limits
    that analysis are used to derive usage limits that are based on those
    chosen in [TLS13].
 
-C.1.  Confidentiality Limits
+B.3.  Confidentiality Limits
 
    For confidentiality, Theorem 2 in [CCM-ANALYSIS] establishes that an
    attacker gains a distinguishing advantage over an ideal pseudorandom
@@ -3062,7 +3058,7 @@ C.1.  Confidentiality Limits
    advantage than the target of 2^-57.  Note however that the integrity
    limits further constrain this value.
 
-C.2.  Integrity Limits
+B.4.  Integrity Limits
 
    For integrity, Theorem 1 in [CCM-ANALYSIS] establishes that an
    attacker gains an advantage over an ideal PRP of no more than:
@@ -3074,6 +3070,10 @@ C.2.  Integrity Limits
    that term can be removed without a significant effect on the result.
    This produces the relation:
 
+   v + q <= 2^24.5
+
+
+
 
 
 
@@ -3082,23 +3082,21 @@ Thomson & Turner         Expires 7 January 2021                [Page 55]
 Internet-Draft          Using TLS to Secure QUIC               July 2020
 
 
-   v + q <= 2^24.5
-
    Noting that this is the same value as the confidentiality limit, the
-   value can be adjusted to allow "v" and "q" to be the same value.
-   This leads to an upper limit on both "v" and "q" of 2^23.5.  That is,
+   confidentiality limit can be adjusted to allow "v" and "q" to be the
+   same value.  Thus the limit for both "v" and "q" is 2^23.5.  That is,
    endpoints cannot attempt to protect or authenticate more than 2^23.5
    packets with the same set of keys without causing an attacker to gain
    an larger advantage than the target of 2^-57 in forging packets.
 
-Appendix D.  Change Log
+Appendix C.  Change Log
 
       *RFC Editor's Note:* Please remove this section prior to
       publication of a final version of this document.
 
    Issue and pull request numbers are listed with a leading octothorp.
 
-D.1.  Since draft-ietf-quic-tls-27
+C.1.  Since draft-ietf-quic-tls-27
 
    *  Allowed CONNECTION_CLOSE in any packet number space, with
       restrictions on use of the application-specific variant (#3430,
@@ -3107,15 +3105,15 @@ D.1.  Since draft-ietf-quic-tls-27
    *  Prohibit the use of the compatibility mode from TLS 1.3 (#3594,
       #3595)
 
-D.2.  Since draft-ietf-quic-tls-26
+C.2.  Since draft-ietf-quic-tls-26
 
    *  No changes
 
-D.3.  Since draft-ietf-quic-tls-25
+C.3.  Since draft-ietf-quic-tls-25
 
    *  No changes
 
-D.4.  Since draft-ietf-quic-tls-24
+C.4.  Since draft-ietf-quic-tls-24
 
    *  Rewrite key updates (#3050)
 
@@ -3125,11 +3123,13 @@ D.4.  Since draft-ietf-quic-tls-24
 
       -  Define the label used with HKDF-Expand-Label (#3054)
 
-D.5.  Since draft-ietf-quic-tls-23
+C.5.  Since draft-ietf-quic-tls-23
 
    *  Key update text update (#3050):
 
       -  Recommend constant-time key replacement (#2792)
+
+      -  Provide explicit labels for key update key derivation (#3054)
 
 
 
@@ -3138,22 +3138,20 @@ Thomson & Turner         Expires 7 January 2021                [Page 56]
 Internet-Draft          Using TLS to Secure QUIC               July 2020
 
 
-      -  Provide explicit labels for key update key derivation (#3054)
-
    *  Allow first Initial from a client to span multiple packets (#2928,
       #3045)
 
    *  PING can be sent at any encryption level (#3034, #3035)
 
-D.6.  Since draft-ietf-quic-tls-22
+C.6.  Since draft-ietf-quic-tls-22
 
    *  Update the salt used for Initial secrets (#2887, #2980)
 
-D.7.  Since draft-ietf-quic-tls-21
+C.7.  Since draft-ietf-quic-tls-21
 
    *  No changes
 
-D.8.  Since draft-ietf-quic-tls-20
+C.8.  Since draft-ietf-quic-tls-20
 
    *  Mandate the use of the QUIC transport parameters extension (#2528,
       #2560)
@@ -3161,20 +3159,20 @@ D.8.  Since draft-ietf-quic-tls-20
    *  Define handshake completion and confirmation; define clearer rules
       when it encryption keys should be discarded (#2214, #2267, #2673)
 
-D.9.  Since draft-ietf-quic-tls-18
+C.9.  Since draft-ietf-quic-tls-18
 
    *  Increased the set of permissible frames in 0-RTT (#2344, #2355)
 
    *  Transport parameter extension is mandatory (#2528, #2560)
 
-D.10.  Since draft-ietf-quic-tls-17
+C.10.  Since draft-ietf-quic-tls-17
 
    *  Endpoints discard initial keys as soon as handshake keys are
       available (#1951, #2045)
 
    *  Use of ALPN or equivalent is mandatory (#2263, #2284)
 
-D.11.  Since draft-ietf-quic-tls-14
+C.11.  Since draft-ietf-quic-tls-14
 
    *  Update the salt used for Initial secrets (#1970)
 
@@ -3187,14 +3185,14 @@ D.11.  Since draft-ietf-quic-tls-14
       -  Cover part of the first byte, including the key phase (#1322,
          #2006)
 
+   *  TLS provides an AEAD and KDF function (#2046)
+
 
 
 Thomson & Turner         Expires 7 January 2021                [Page 57]
 
 Internet-Draft          Using TLS to Secure QUIC               July 2020
 
-
-   *  TLS provides an AEAD and KDF function (#2046)
 
       -  Clarify that the TLS KDF is used with TLS (#1997)
 
@@ -3204,11 +3202,11 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
    *  Initial keys are discarded once Handshake keys are available
       (#1951, #2045)
 
-D.12.  Since draft-ietf-quic-tls-13
+C.12.  Since draft-ietf-quic-tls-13
 
    *  Updated to TLS 1.3 final (#1660)
 
-D.13.  Since draft-ietf-quic-tls-12
+C.13.  Since draft-ietf-quic-tls-12
 
    *  Changes to integration of the TLS handshake (#829, #1018, #1094,
       #1165, #1190, #1233, #1242, #1252, #1450)
@@ -3227,20 +3225,22 @@ D.13.  Since draft-ietf-quic-tls-12
 
    *  Changed codepoint of TLS extension (#1395, #1402)
 
-D.14.  Since draft-ietf-quic-tls-11
+C.14.  Since draft-ietf-quic-tls-11
 
    *  Encrypted packet numbers.
 
-D.15.  Since draft-ietf-quic-tls-10
+C.15.  Since draft-ietf-quic-tls-10
 
    *  No significant changes.
 
-D.16.  Since draft-ietf-quic-tls-09
+C.16.  Since draft-ietf-quic-tls-09
 
    *  Cleaned up key schedule and updated the salt used for handshake
       packet protection (#1077)
 
-D.17.  Since draft-ietf-quic-tls-08
+C.17.  Since draft-ietf-quic-tls-08
+
+   *  Specify value for max_early_data_size to enable 0-RTT (#942)
 
 
 
@@ -3250,32 +3250,30 @@ Thomson & Turner         Expires 7 January 2021                [Page 58]
 Internet-Draft          Using TLS to Secure QUIC               July 2020
 
 
-   *  Specify value for max_early_data_size to enable 0-RTT (#942)
-
    *  Update key derivation function (#1003, #1004)
 
-D.18.  Since draft-ietf-quic-tls-07
+C.18.  Since draft-ietf-quic-tls-07
 
    *  Handshake errors can be reported with CONNECTION_CLOSE (#608,
       #891)
 
-D.19.  Since draft-ietf-quic-tls-05
+C.19.  Since draft-ietf-quic-tls-05
 
    No significant changes.
 
-D.20.  Since draft-ietf-quic-tls-04
+C.20.  Since draft-ietf-quic-tls-04
 
    *  Update labels used in HKDF-Expand-Label to match TLS 1.3 (#642)
 
-D.21.  Since draft-ietf-quic-tls-03
+C.21.  Since draft-ietf-quic-tls-03
 
    No significant changes.
 
-D.22.  Since draft-ietf-quic-tls-02
+C.22.  Since draft-ietf-quic-tls-02
 
    *  Updates to match changes in transport draft
 
-D.23.  Since draft-ietf-quic-tls-01
+C.23.  Since draft-ietf-quic-tls-01
 
    *  Use TLS alerts to signal TLS errors (#272, #374)
 
@@ -3298,6 +3296,8 @@ D.23.  Since draft-ietf-quic-tls-01
    *  Define handling for protected packets before the handshake
       completes (#39)
 
+   *  Decouple QUIC version and ALPN (#12)
+
 
 
 
@@ -3306,9 +3306,7 @@ Thomson & Turner         Expires 7 January 2021                [Page 59]
 Internet-Draft          Using TLS to Secure QUIC               July 2020
 
 
-   *  Decouple QUIC version and ALPN (#12)
-
-D.24.  Since draft-ietf-quic-tls-00
+C.24.  Since draft-ietf-quic-tls-00
 
    *  Changed bit used to signal key phase
 
@@ -3320,7 +3318,7 @@ D.24.  Since draft-ietf-quic-tls-00
 
    *  Moved TLS error code definitions into this document
 
-D.25.  Since draft-thomson-quic-tls-01
+C.25.  Since draft-thomson-quic-tls-01
 
    *  Adopted as base for draft-ietf-quic-tls
 
@@ -3354,6 +3352,8 @@ Contributors
 
    *  Jana Iyengar
 
+   *  奥 一穂 (Kazuho Oku)
+
 
 
 
@@ -3361,8 +3361,6 @@ Thomson & Turner         Expires 7 January 2021                [Page 60]
 
 Internet-Draft          Using TLS to Secure QUIC               July 2020
 
-
-   *  奥 一穂 (Kazuho Oku)
 
    *  Marten Seemann
 
@@ -3396,6 +3394,8 @@ Authors' Addresses
    sn3rd
 
    Email: sean@sn3rd.com
+
+
 
 
 
