@@ -3031,7 +3031,8 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
    However, as the confidentiality limit depends on an assumption of "v
    = q", the total number of forged packets cannot exceed 2^24.5 packets
    without degrading the margins for confidentiality.  Thus, this
-   document recommends a limit of 2^24.5 possible forgeries.
+   document recommends tolerating no more than 2^24.5 possible forgery
+   attempts.
 
 Appendix C.  Analysis of AEAD_AES_128_CCM Usage Limits
 
@@ -3058,7 +3059,8 @@ C.1.  Confidentiality Limits
 
    That is, endpoints cannot protect more than 2^23 packets with the
    same set of keys without causing an attacker to gain an larger
-   advantage than the target of 2^-57.
+   advantage than the target of 2^-57.  Note however that the integrity
+   limits further constrain this value.
 
 C.2.  Integrity Limits
 
@@ -3072,8 +3074,6 @@ C.2.  Integrity Limits
    that term can be removed without a significant effect on the result.
    This produces the relation:
 
-   v + q <= 2^24.5
-
 
 
 
@@ -3082,14 +3082,14 @@ Thomson & Turner         Expires 7 January 2021                [Page 55]
 Internet-Draft          Using TLS to Secure QUIC               July 2020
 
 
+   v + q <= 2^24.5
+
    Noting that this is the same value as the confidentiality limit, the
    value can be adjusted to allow "v" and "q" to be the same value.
    This leads to an upper limit on both "v" and "q" of 2^23.5.  That is,
    endpoints cannot attempt to protect or authenticate more than 2^23.5
    packets with the same set of keys without causing an attacker to gain
    an larger advantage than the target of 2^-57 in forging packets.
-   This limit leads to a slightly better advantage with respect to
-   confidentiality.
 
 Appendix D.  Change Log
 

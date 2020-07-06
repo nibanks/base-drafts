@@ -3739,8 +3739,8 @@ v &lt;= 2^182
 <p id="section-b.1.2-7">This is substantially larger than the limit for AEAD_AES_128_GCM.<a href="#section-b.1.2-7" class="pilcrow">¶</a></p>
 <p id="section-b.1.2-8">However, as the confidentiality limit depends on an assumption of <code>v = q</code>, the
 total number of forged packets cannot exceed 2^24.5 packets without degrading
-the margins for confidentiality.  Thus, this document recommends a limit of
-2^24.5 possible forgeries.<a href="#section-b.1.2-8" class="pilcrow">¶</a></p>
+the margins for confidentiality.  Thus, this document recommends tolerating no
+more than 2^24.5 possible forgery attempts.<a href="#section-b.1.2-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -3780,7 +3780,7 @@ q &lt;= 2^24.5
 </div>
 <p id="section-c.1-5">That is, endpoints cannot protect more than 2^23 packets with the same set of
 keys without causing an attacker to gain an larger advantage than the target of
-2^-57.<a href="#section-c.1-5" class="pilcrow">¶</a></p>
+2^-57.  Note however that the integrity limits further constrain this value.<a href="#section-c.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="integrity-limits">
@@ -3808,8 +3808,7 @@ be adjusted to allow <code>v</code> and <code>q</code> to be the same value.  Th
 limit on both <code>v</code> and <code>q</code> of 2^23.5. That is, endpoints cannot attempt to
 protect or authenticate more than 2^23.5 packets with the same set of keys
 without causing an attacker to gain an larger advantage than the target of
-2^-57 in forging packets.  This limit leads to a slightly better advantage with
-respect to confidentiality.<a href="#section-c.2-5" class="pilcrow">¶</a></p>
+2^-57 in forging packets.<a href="#section-c.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -3819,8 +3818,8 @@ respect to confidentiality.<a href="#section-c.2-5" class="pilcrow">¶</a></p>
       <h2 id="name-change-log">
 <a href="#section-appendix.d" class="section-number selfRef">Appendix D. </a><a href="#name-change-log" class="section-name selfRef">Change Log</a>
       </h2>
-<ul class="ulEmpty normal">
-<li class="ulEmpty normal" id="section-appendix.d-1.1">
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-appendix.d-1.1">
           <strong>RFC Editor's Note:</strong> Please remove this section prior to publication of a
 final version of this document.<a href="#section-appendix.d-1.1" class="pilcrow">¶</a>
 </li>
