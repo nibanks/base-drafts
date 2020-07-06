@@ -151,8 +151,8 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
        B.1.1.  Confidentiality Limit . . . . . . . . . . . . . . . .  54
        B.1.2.  Integrity Limit . . . . . . . . . . . . . . . . . . .  54
      B.2.  Analysis of AEAD_AES_128_CCM Usage Limits . . . . . . . .  55
-     B.3.  Confidentiality Limits  . . . . . . . . . . . . . . . . .  55
-     B.4.  Integrity Limits  . . . . . . . . . . . . . . . . . . . .  55
+       B.2.1.  Confidentiality Limits  . . . . . . . . . . . . . . .  55
+       B.2.2.  Integrity Limits  . . . . . . . . . . . . . . . . . .  55
    Appendix C.  Change Log . . . . . . . . . . . . . . . . . . . . .  56
      C.1.  Since draft-ietf-quic-tls-27  . . . . . . . . . . . . . .  56
      C.2.  Since draft-ietf-quic-tls-26  . . . . . . . . . . . . . .  56
@@ -3041,7 +3041,7 @@ B.2.  Analysis of AEAD_AES_128_CCM Usage Limits
    that analysis are used to derive usage limits that are based on those
    chosen in [TLS13].
 
-B.3.  Confidentiality Limits
+B.2.1.  Confidentiality Limits
 
    For confidentiality, Theorem 2 in [CCM-ANALYSIS] establishes that an
    attacker gains a distinguishing advantage over an ideal pseudorandom
@@ -3058,7 +3058,7 @@ B.3.  Confidentiality Limits
    advantage than the target of 2^-57.  Note however that the integrity
    limits further constrain this value.
 
-B.4.  Integrity Limits
+B.2.2.  Integrity Limits
 
    For integrity, Theorem 1 in [CCM-ANALYSIS] establishes that an
    attacker gains an advantage over an ideal PRP of no more than:
