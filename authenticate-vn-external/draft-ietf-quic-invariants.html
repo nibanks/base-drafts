@@ -1258,8 +1258,8 @@ reliably extracting information from a flow based on version-specific traits
 requires that middleboxes retain state for every connection ID they see.<a href="#section-7-2" class="pilcrow">¶</a></p>
 <p id="section-7-3">The Version Negotiation packet described in this document is not
 integrity-protected; it only has modest protection against insertion by off-path
-attackers.  QUIC versions that use Version Negotiation packets MUST define a
-mechanism that authenticates the values it contains.<a href="#section-7-3" class="pilcrow">¶</a></p>
+attackers.  A QUIC version that uses a Version Negotiation packet MUST define a
+mechanism to verify authenticate the values the packet contains.<a href="#section-7-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana-considerations">
