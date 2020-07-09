@@ -268,9 +268,19 @@ cite {
 
 /* tables */
 table {
-  width: 100%;
+  max-width: 100%;
   margin: 0 0 1em;
   border-collapse: collapse;
+}
+table.right {
+  margin-left: auto;
+}
+table.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+table.left {
+  margin-right: auto;
 }
 thead, tbody {
   border: 1px solid var(--line-color);
@@ -281,8 +291,7 @@ th, td {
   padding: 5px 10px;
 }
 th {
-  text-align: left;
-  background-color: #eee;
+  background-color: var(--line-color);
 }
 tr:nth-child(2n) > td {
   background-color: var(--background-color);
@@ -301,8 +310,6 @@ table caption {
   padding: 3px 1em;
 }
 table p {
-  /* XXX to avoid bottom margin on table row signifiers. If paragraphs should
-     be allowed within tables more generally, it would be far better to select on a class. */
   margin: 0;
 }
 
@@ -760,21 +767,6 @@ address div.right {
   text-align: right;
 }
 
-/* Provide table alignment support.  We can't use the alignX classes above
-   since they do unwanted things with caption and other styling. */
-table.right {
- margin-left: auto;
- margin-right: 0;
-}
-table.center {
- margin-left: auto;
- margin-right: auto;
-}
-table.left {
- margin-left: 0;
- margin-right: auto;
-}
-
 /* Give the table caption label the same styling as the figcaption */
 
 @media print {
@@ -814,7 +806,7 @@ table.left {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Iyengar &amp; Thomson</td>
-<td class="center">Expires 3 January 2021</td>
+<td class="center">Expires 10 January 2021</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -827,12 +819,12 @@ table.left {
 <dd class="internet-draft">draft-ietf-quic-transport-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2020-07-02" class="published">2 July 2020</time>
+<time datetime="2020-07-09" class="published">9 July 2020</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2021-01-03">3 January 2021</time></dd>
+<dd class="expires"><time datetime="2021-01-10">10 January 2021</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -885,7 +877,7 @@ code and issues list for this draft can be found at
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 3 January 2021.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 10 January 2021.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1837,8 +1829,8 @@ port number that represents one end of a network path.<a href="#section-1.2-3.16
 <dt id="section-1.2-3.17">Connection ID:</dt>
 <dd id="section-1.2-3.18">
   An opaque identifier that is used to identify a QUIC connection at an
-endpoint.  Each endpoint sets one or more values for its peer to include in
-packets sent towards the endpoint.<a href="#section-1.2-3.18" class="pilcrow">¶</a>
+endpoint.  Each endpoint selects one or more Connection IDs for its peer to
+include in packets sent towards the endpoint.<a href="#section-1.2-3.18" class="pilcrow">¶</a>
 </dd>
 <dd class="break"></dd>
 <dt id="section-1.2-3.19">Stream:</dt>
@@ -1849,7 +1841,7 @@ connection. A QUIC connection can carry multiple simultaneous streams.<a href="#
 <dd class="break"></dd>
 <dt id="section-1.2-3.21">Application:</dt>
 <dd id="section-1.2-3.22">
-  An entity running on an endpoint that uses QUIC to send and receive data.<a href="#section-1.2-3.22" class="pilcrow">¶</a>
+  An entity that uses QUIC to send and receive data.<a href="#section-1.2-3.22" class="pilcrow">¶</a>
 </dd>
 <dd class="break"></dd>
 </dl>
@@ -2012,9 +2004,10 @@ one of four types, as summarized in <a href="#stream-id-types" class="xref">Tabl
           </tbody>
         </table>
 </div>
-<p id="section-2.1-7">Within each type, streams are created with numerically increasing stream IDs.  A
-stream ID that is used out of order results in all streams of that type with
-lower-numbered stream IDs also being opened.<a href="#section-2.1-7" class="pilcrow">¶</a></p>
+<p id="section-2.1-7">The stream space for each type begins at the minimum value (0x0 through 0x3
+respectively); successive streams of each type are created with numerically
+increasing stream IDs.  A stream ID that is used out of order results in all
+streams of that type with lower-numbered stream IDs also being opened.<a href="#section-2.1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sending-and-receiving-data">
@@ -2866,9 +2859,9 @@ are inconsistent with the state of that connection.  For example, packets are
 discarded if they indicate a different protocol version than that of the
 connection, or if the removal of packet protection is unsuccessful once the
 expected keys are available.<a href="#section-5.2-5" class="pilcrow">¶</a></p>
-<p id="section-5.2-6">Invalid packets without effective confidentiality protection, such as Initial,
-Retry, or Version Negotiation, MAY be discarded.  An endpoint MUST generate a
-connection error if it commits changes to state before discovering an error.<a href="#section-5.2-6" class="pilcrow">¶</a></p>
+<p id="section-5.2-6">Invalid packets without packet protection, such as Initial, Retry, or Version
+Negotiation, MAY be discarded.  An endpoint MUST generate a connection error if
+it commits changes to state before discovering an error.<a href="#section-5.2-6" class="pilcrow">¶</a></p>
 <div id="client-pkt-handling">
 <section id="section-5.2.1">
           <h4 id="name-client-packet-handling">
@@ -2892,7 +2885,7 @@ that packet.<a href="#section-5.2.1-3" class="pilcrow">¶</a></p>
 <a href="#section-5.2.2" class="section-number selfRef">5.2.2. </a><a href="#name-server-packet-handling" class="section-name selfRef">Server Packet Handling</a>
           </h4>
 <p id="section-5.2.2-1">If a server receives a packet that indicates an unsupported version but is large
-enough to initiate a new connection for any one supported version, the server
+enough to initiate a new connection for any supported version, the server
 SHOULD send a Version Negotiation packet as described in <a href="#send-vn" class="xref">Section 6.1</a>.  A server
 MAY limit the number of packets to which it responds with a Version Negotiation
 packet.  Servers MUST drop smaller packets that specify unsupported versions.<a href="#section-5.2.2-1" class="pilcrow">¶</a></p>
@@ -2905,8 +2898,8 @@ unknown version, but instead send a Version Negotiation packet, provided that
 the packet is sufficiently long.<a href="#section-5.2.2-2" class="pilcrow">¶</a></p>
 <p id="section-5.2.2-3">Packets with a supported version, or no version field, are matched to a
 connection using the connection ID or - for packets with zero-length connection
-IDs - the local address and port.  If the packet doesn't match an existing
-connection, the server continues below.<a href="#section-5.2.2-3" class="pilcrow">¶</a></p>
+IDs - the local address and port.  These packets are processed using the
+selected connection, otherwise the server continues below.<a href="#section-5.2.2-3" class="pilcrow">¶</a></p>
 <p id="section-5.2.2-4">If the packet is an Initial packet fully conforming with the specification, the
 server proceeds with the handshake (<a href="#handshake" class="xref">Section 7</a>). This commits the server to
 the version that the client selected.<a href="#section-5.2.2-4" class="pilcrow">¶</a></p>
@@ -3868,10 +3861,6 @@ PATH_RESPONSE frames.<a href="#section-8.4-2" class="pilcrow">¶</a></p>
 contains the data that was sent in a previous PATH_CHALLENGE frame. Receipt of
 an acknowledgment for a packet containing a PATH_CHALLENGE frame is not adequate
 validation, since the acknowledgment can be spoofed by a malicious peer.<a href="#section-8.5-1" class="pilcrow">¶</a></p>
-<p id="section-8.5-2">Note that receipt on a different local address does not result in path
-validation failure, as it might be a result of a forwarded packet (see
-<a href="#off-path-forward" class="xref">Section 9.3.3</a>) or misrouting. It is possible that a valid PATH_RESPONSE
-might be received in the future.<a href="#section-8.5-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="failed-path-validation">
@@ -3985,9 +3974,12 @@ verifies ECN capability as described in <a href="#ecn" class="xref">Section 13.4
 <p id="section-9.2-5">Receiving acknowledgments for data sent on the new path serves as proof of the
 peer's reachability from the new address.  Note that since acknowledgments may
 be received on any path, return reachability on the new path is not established.
-To establish return reachability on the new path, an endpoint MAY concurrently
-initiate path validation (<a href="#migrate-validate" class="xref">Section 8.2</a>) on the new path or it MAY choose
-to wait for the peer to send the next non-probing frame to its new address.<a href="#section-9.2-5" class="pilcrow">¶</a></p>
+No method is provided to establish return reachability, as endpoints
+independently determine reachability on each direction of a path.  To establish
+reachability on the new path, an endpoint MAY concurrently initiate path
+validation (<a href="#migrate-validate" class="xref">Section 8.2</a>) on the new path.  An endpoint MAY defer path
+validation until after a peer sends the next non-probing frame to its new
+address.<a href="#section-9.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="migration-response">
@@ -4223,7 +4215,8 @@ ensure connection stability. This section describes the protocol for migrating a
 connection to a preferred server address.<a href="#section-9.6-1" class="pilcrow">¶</a></p>
 <p id="section-9.6-2">Migrating a connection to a new server address mid-connection is left for future
 work. If a client receives packets from a new server address when the client has
-not initiated a migration, the client SHOULD discard these packets.<a href="#section-9.6-2" class="pilcrow">¶</a></p>
+not initiated a migration to that address, the client SHOULD discard these
+packets.<a href="#section-9.6-2" class="pilcrow">¶</a></p>
 <div id="communicating-a-preferred-address">
 <section id="section-9.6.1">
           <h4 id="name-communicating-a-preferred-a">
@@ -4445,8 +4438,9 @@ detrimental effect on performance.<a href="#section-10.2.2-3" class="pilcrow">¶
 longer than the time negotiated using the max_idle_timeout transport parameter;
 see <a href="#termination" class="xref">Section 10</a>.  However, state in middleboxes might time out earlier than
 that.  Though REQ-5 in <span>[<a href="#RFC4787" class="xref">RFC4787</a>]</span> recommends a 2 minute timeout interval,
-experience shows that sending packets every 15 to 30 seconds is necessary to
-prevent the majority of middleboxes from losing state for UDP flows.<a href="#section-10.2.2-4" class="pilcrow">¶</a></p>
+experience shows that sending packets every 30 seconds is necessary to prevent
+the majority of middleboxes from losing state for UDP flows
+<span>[<a href="#GATEWAY" class="xref">GATEWAY</a>]</span>.<a href="#section-10.2.2-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -4607,8 +4601,8 @@ Stateless Reset {
 indistinguishable from a regular packet with a short header.<a href="#section-10.4-6" class="pilcrow">¶</a></p>
 <p id="section-10.4-7">A stateless reset uses an entire UDP datagram, starting with the first two bits
 of the packet header.  The remainder of the first byte and an arbitrary number
-of bytes following it are set to unpredictable values.  The last 16 bytes of the
-datagram contain a Stateless Reset Token.<a href="#section-10.4-7" class="pilcrow">¶</a></p>
+of bytes following it are set to values that SHOULD be indistinguishable
+from random.  The last 16 bytes of the datagram contain a Stateless Reset Token.<a href="#section-10.4-7" class="pilcrow">¶</a></p>
 <p id="section-10.4-8">To entities other than its intended recipient, a stateless reset will appear to
 be a packet with a short header.  For the stateless reset to appear as a valid
 QUIC packet, the Unpredictable Bits field needs to include at least 38 bits of
@@ -4869,11 +4863,11 @@ after a connection is established and 1-RTT keys are available; see
         <h3 id="name-protected-packets">
 <a href="#section-12.1" class="section-number selfRef">12.1. </a><a href="#name-protected-packets" class="section-name selfRef">Protected Packets</a>
         </h3>
-<p id="section-12.1-1">All QUIC packets except Version Negotiation packets use authenticated
-encryption with additional data (AEAD) <span>[<a href="#RFC5116" class="xref">RFC5116</a>]</span> to provide confidentiality
-and integrity protection.  Retry packets use AEAD to provide integrity
-protection.  Details of packet protection are found in <span>[<a href="#QUIC-TLS" class="xref">QUIC-TLS</a>]</span>; this
-section includes an overview of the process.<a href="#section-12.1-1" class="pilcrow">¶</a></p>
+<p id="section-12.1-1">All QUIC packets except Version Negotiation packets use authenticated encryption
+with associated data (AEAD) <span>[<a href="#RFC5116" class="xref">RFC5116</a>]</span> to provide confidentiality and
+integrity protection.  Retry packets use AEAD to provide integrity protection.
+Details of packet protection are found in <span>[<a href="#QUIC-TLS" class="xref">QUIC-TLS</a>]</span>; this section includes an
+overview of the process.<a href="#section-12.1-1" class="pilcrow">¶</a></p>
 <p id="section-12.1-2">Initial packets are protected using keys that are statically derived. This
 packet protection is not effective confidentiality protection.  Initial
 protection only exists to ensure that the sender of the packet is on the network
@@ -5455,9 +5449,9 @@ send an ACK frame in response.<a href="#section-13.2.2-5" class="pilcrow">¶</a>
 <a href="#section-13.2.3" class="section-number selfRef">13.2.3. </a><a href="#name-managing-ack-ranges" class="section-name selfRef">Managing ACK Ranges</a>
           </h4>
 <p id="section-13.2.3-1">When an ACK frame is sent, one or more ranges of acknowledged packets are
-included.  Including older packets reduces the chance of spurious
-retransmissions caused by losing previously sent ACK frames, at the cost of
-larger ACK frames.<a href="#section-13.2.3-1" class="pilcrow">¶</a></p>
+included.  Including acknowledgements for older packets reduces the chance of
+spurious retransmissions caused by losing previously sent ACK frames, at the
+cost of larger ACK frames.<a href="#section-13.2.3-1" class="pilcrow">¶</a></p>
 <p id="section-13.2.3-2">ACK frames SHOULD always acknowledge the most recently received packets, and the
 more out-of-order the packets are, the more important it is to send an updated
 ACK frame quickly, to prevent the peer from declaring a packet as lost and
@@ -5762,7 +5756,7 @@ packets on a new path to a peer:<a href="#section-13.4.2.1-1" class="pilcrow">¶
 new path to the peer (<span>[<a href="#RFC8311" class="xref">RFC8311</a>]</span>).<a href="#section-13.4.2.1-2.1" class="pilcrow">¶</a>
 </li>
 <li class="normal" id="section-13.4.2.1-2.2">If all packets that were sent with the ECT(0) codepoint are eventually deemed
-lost (<span>[<a href="#QUIC-RECOVERY" class="xref">QUIC-RECOVERY</a>]</span>), validation is deemed to have failed.<a href="#section-13.4.2.1-2.2" class="pilcrow">¶</a>
+lost (Section 6 of <span>[<a href="#QUIC-RECOVERY" class="xref">QUIC-RECOVERY</a>]</span>), validation is deemed to have failed.<a href="#section-13.4.2.1-2.2" class="pilcrow">¶</a>
 </li>
 </ul>
 <p id="section-13.4.2.1-3">To reduce the chances of misinterpreting congestive loss as packets dropped by a
@@ -5770,9 +5764,9 @@ faulty network element, an endpoint could set the ECT(0) codepoint for only the
 first ten outgoing packets on a path, or for a period of three RTTs, whichever
 occurs first.<a href="#section-13.4.2.1-3" class="pilcrow">¶</a></p>
 <p id="section-13.4.2.1-4">Other methods of probing paths for ECN support are possible, as are different
-marking strategies. Implementations MAY use other methods; see <span>[<a href="#RFC8311" class="xref">RFC8311</a>]</span>.
-Implementations that use the ECT(1) codepoint need to perform ECN validation
-using ECT(1) counts.<a href="#section-13.4.2.1-4" class="pilcrow">¶</a></p>
+marking strategies. Implementations MAY use other methods defined in RFCs; see
+<span>[<a href="#RFC8311" class="xref">RFC8311</a>]</span>. Implementations that use the ECT(1) codepoint need to perform ECN
+validation using ECT(1) counts.<a href="#section-13.4.2.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="ecn-ack">
@@ -6436,9 +6430,8 @@ limit, Version Negotiation packets could carry Connection IDs that are longer
 than 20 bytes.<a href="#section-17.2.1-8" class="pilcrow">¶</a></p>
 <p id="section-17.2.1-9">The remainder of the Version Negotiation packet is a list of 32-bit versions
 which the server supports.<a href="#section-17.2.1-9" class="pilcrow">¶</a></p>
-<p id="section-17.2.1-10">A Version Negotiation packet cannot be explicitly acknowledged in an ACK frame
-by a client.  Receiving another Initial packet implicitly acknowledges a Version
-Negotiation packet.<a href="#section-17.2.1-10" class="pilcrow">¶</a></p>
+<p id="section-17.2.1-10">A Version Negotiation packet is not acknowledged.  It is only sent in response
+to a packet that indicates an unsupported version; see <a href="#server-pkt-handling" class="xref">Section 5.2.2</a>.<a href="#section-17.2.1-10" class="pilcrow">¶</a></p>
 <p id="section-17.2.1-11">The Version Negotiation packet does not include the Packet Number and Length
 fields present in other packets that use the long header form.  Consequently,
 a Version Negotiation packet consumes an entire UDP datagram.<a href="#section-17.2.1-11" class="pilcrow">¶</a></p>
@@ -8107,7 +8100,7 @@ NEW_CONNECTION_ID Frame {
           <dt id="section-19.15-5.1">Sequence Number:</dt>
 <dd id="section-19.15-5.2">
   The sequence number assigned to the connection ID by the sender, encoded as a
-variable-length integer.  See <a href="#issue-cid" class="xref">Section 5.1.1</a>.<a href="#section-19.15-5.2" class="pilcrow">¶</a>
+variable-length integer; see <a href="#issue-cid" class="xref">Section 5.1.1</a>.<a href="#section-19.15-5.2" class="pilcrow">¶</a>
 </dd>
 <dd class="break"></dd>
 <dt id="section-19.15-5.3">Retire Prior To:</dt>
@@ -8246,9 +8239,8 @@ PATH_CHALLENGE Frame {
 </dd>
 <dd class="break"></dd>
 </dl>
-<p id="section-19.17-6">A PATH_CHALLENGE frame containing 8 bytes that are hard to guess is sufficient
-to ensure that it is easier to receive the packet than it is to guess the value
-correctly.<a href="#section-19.17-6" class="pilcrow">¶</a></p>
+<p id="section-19.17-6">Including 64 bits of entropy in a PATH_CHALLENGE frame ensures that it is easier
+to receive the packet than it is to guess the value correctly.<a href="#section-19.17-6" class="pilcrow">¶</a></p>
 <p id="section-19.17-7">The recipient of this frame MUST generate a PATH_RESPONSE frame
 (<a href="#frame-path-response" class="xref">Section 19.18</a>) containing the same Data.<a href="#section-19.17-7" class="pilcrow">¶</a></p>
 </section>
@@ -9637,11 +9629,11 @@ specification reference is provided.<a href="#section-22.4-4.4" class="pilcrow">
 <dd class="break"></dd>
 <dt id="QUIC-RECOVERY">[QUIC-RECOVERY]</dt>
 <dd>
-<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and I. Swett, Ed.</span>, <span class="refTitle">"QUIC Loss Detection and Congestion Control"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-recovery-latest</span>, <time datetime="2020-07-02">2 July 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-recovery-latest">https://tools.ietf.org/html/draft-ietf-quic-recovery-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and I. Swett, Ed.</span>, <span class="refTitle">"QUIC Loss Detection and Congestion Control"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-recovery-latest</span>, <time datetime="2020-07-09">9 July 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-recovery-latest">https://tools.ietf.org/html/draft-ietf-quic-recovery-latest</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="QUIC-TLS">[QUIC-TLS]</dt>
 <dd>
-<span class="refAuthor">Thomson, M., Ed.</span><span class="refAuthor"> and S. Turner, Ed.</span>, <span class="refTitle">"Using Transport Layer Security (TLS) to Secure QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-tls-latest</span>, <time datetime="2020-07-02">2 July 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-tls-latest">https://tools.ietf.org/html/draft-ietf-quic-tls-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Thomson, M., Ed.</span><span class="refAuthor"> and S. Turner, Ed.</span>, <span class="refTitle">"Using Transport Layer Security (TLS) to Secure QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-tls-latest</span>, <time datetime="2020-07-09">9 July 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-tls-latest">https://tools.ietf.org/html/draft-ietf-quic-tls-latest</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC1191">[RFC1191]</dt>
 <dd>
@@ -9710,6 +9702,10 @@ specification reference is provided.<a href="#section-22.4-4.4" class="pilcrow">
 <dd>
 <span class="refAuthor">Roskind, J.</span>, <span class="refTitle">"QUIC: Multiplexed Transport Over UDP"</span>, <time datetime="2013-12-02">2 December 2013</time>, <span>&lt;<a href="https://goo.gl/dMVtFi">https://goo.gl/dMVtFi</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="GATEWAY">[GATEWAY]</dt>
+<dd>
+<span class="refAuthor">Hätönen, S.</span><span class="refAuthor">, Nyrhinen, A.</span><span class="refAuthor">, Eggert, L.</span><span class="refAuthor">, Strowes, S.</span><span class="refAuthor">, Sarolahti, P.</span><span class="refAuthor">, and M. Kojo</span>, <span class="refTitle">"An experimental study of home gateway characteristics"</span>, <span class="seriesInfo">DOI 10.1145/1879141.1879174</span>, <span class="seriesInfo">Proceedings of the 10th annual conference on Internet measurement - IMC '10</span>, <time datetime="2010">2010</time>, <span>&lt;<a href="https://doi.org/10.1145/1879141.1879174">https://doi.org/10.1145/1879141.1879174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="HTTP2">[HTTP2]</dt>
 <dd>
 <span class="refAuthor">Belshe, M.</span><span class="refAuthor">, Peon, R.</span><span class="refAuthor">, and M. Thomson, Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol Version 2 (HTTP/2)"</span>, <span class="seriesInfo">RFC 7540</span>, <span class="seriesInfo">DOI 10.17487/RFC7540</span>, <time datetime="2015-05">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7540">https://www.rfc-editor.org/info/rfc7540</a>&gt;</span>. </dd>
@@ -9720,11 +9716,11 @@ specification reference is provided.<a href="#section-22.4-4.4" class="pilcrow">
 <dd class="break"></dd>
 <dt id="QUIC-INVARIANTS">[QUIC-INVARIANTS]</dt>
 <dd>
-<span class="refAuthor">Thomson, M.</span>, <span class="refTitle">"Version-Independent Properties of QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-invariants-latest</span>, <time datetime="2020-07-02">2 July 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-invariants-latest">https://tools.ietf.org/html/draft-ietf-quic-invariants-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Thomson, M.</span>, <span class="refTitle">"Version-Independent Properties of QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-invariants-latest</span>, <time datetime="2020-07-09">9 July 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-invariants-latest">https://tools.ietf.org/html/draft-ietf-quic-invariants-latest</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="QUIC-MANAGEABILITY">[QUIC-MANAGEABILITY]</dt>
 <dd>
-<span class="refAuthor">Kuehlewind, M.</span><span class="refAuthor"> and B. Trammell</span>, <span class="refTitle">"Manageability of the QUIC Transport Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-manageability-06</span>, <time datetime="2020-01-06">6 January 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-quic-manageability-06.txt">http://www.ietf.org/internet-drafts/draft-ietf-quic-manageability-06.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Kuehlewind, M.</span><span class="refAuthor"> and B. Trammell</span>, <span class="refTitle">"Manageability of the QUIC Transport Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-manageability-07</span>, <time datetime="2020-07-08">8 July 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-quic-manageability-07.txt">http://www.ietf.org/internet-drafts/draft-ietf-quic-manageability-07.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC1812">[RFC1812]</dt>
 <dd>
