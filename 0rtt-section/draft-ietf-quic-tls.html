@@ -11,7 +11,7 @@
        This document describes how Transport Layer Security (TLS) is used to secure
 QUIC. 
     " name="description">
-<meta content="xml2rfc 2.45.2" name="generator">
+<meta content="xml2rfc 2.45.3" name="generator">
 <meta content="draft-ietf-quic-tls-latest" name="ietf.draft">
 <link href="draft-ietf-quic-tls.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -75,9 +75,6 @@ p {
   padding: 0;
   margin: 0.5em 0;
   text-align: left;
-}
-div, span {
-  position: relative;
 }
 div {
   margin: 0;
@@ -270,9 +267,19 @@ cite {
 
 /* tables */
 table {
-  width: 100%;
+  max-width: 100%;
   margin: 0 0 1em;
   border-collapse: collapse;
+}
+table.right {
+  margin-left: auto;
+}
+table.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+table.left {
+  margin-right: auto;
 }
 thead, tbody {
   border: 1px solid var(--line-color);
@@ -283,8 +290,7 @@ th, td {
   padding: 5px 10px;
 }
 th {
-  text-align: left;
-  background-color: #eee;
+  background-color: var(--line-color);
 }
 tr:nth-child(2n) > td {
   background-color: var(--background-color);
@@ -303,8 +309,6 @@ table caption {
   padding: 3px 1em;
 }
 table p {
-  /* XXX to avoid bottom margin on table row signifiers. If paragraphs should
-     be allowed within tables more generally, it would be far better to select on a class. */
   margin: 0;
 }
 
@@ -762,21 +766,6 @@ address div.right {
   text-align: right;
 }
 
-/* Provide table alignment support.  We can't use the alignX classes above
-   since they do unwanted things with caption and other styling. */
-table.right {
- margin-left: auto;
- margin-right: 0;
-}
-table.center {
- margin-left: auto;
- margin-right: auto;
-}
-table.left {
- margin-left: 0;
- margin-right: auto;
-}
-
 /* Give the table caption label the same styling as the figcaption */
 
 @media print {
@@ -812,11 +801,11 @@ table.left {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Using TLS to Secure QUIC</td>
-<td class="right">June 2020</td>
+<td class="right">July 2020</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Thomson &amp; Turner</td>
-<td class="center">Expires 11 December 2020</td>
+<td class="center">Expires 10 January 2021</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -829,12 +818,12 @@ table.left {
 <dd class="internet-draft">draft-ietf-quic-tls-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2020-06-09" class="published">9 June 2020</time>
+<time datetime="2020-07-09" class="published">9 July 2020</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2020-12-11">11 December 2020</time></dd>
+<dd class="expires"><time datetime="2021-01-10">10 January 2021</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -886,7 +875,7 @@ code and issues list for this draft can be found at
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 11 December 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 10 January 2021.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -920,8 +909,8 @@ code and issues list for this draft can be found at
 </li>
 <li class="ulEmpty compact toc" id="section-toc.1-1.2">
             <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="xref">2</a>.  <a href="#name-notational-conventions" class="xref">Notational Conventions</a><a href="#section-toc.1-1.2.1" class="pilcrow">¶</a></p>
-<ul class="ulEmpty compact toc">
-<li class="ulEmpty compact toc" id="section-toc.1-1.2.2.1">
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.2.2.1">
                 <p id="section-toc.1-1.2.2.1.1" class="keepWithNext"><a href="#section-2.1" class="xref">2.1</a>.  <a href="#name-tls-overview" class="xref">TLS Overview</a><a href="#section-toc.1-1.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
 </ul>
@@ -931,8 +920,8 @@ code and issues list for this draft can be found at
 </li>
 <li class="ulEmpty compact toc" id="section-toc.1-1.4">
             <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-carrying-tls-messages" class="xref">Carrying TLS Messages</a><a href="#section-toc.1-1.4.1" class="pilcrow">¶</a></p>
-<ul class="ulEmpty compact toc">
-<li class="ulEmpty compact toc" id="section-toc.1-1.4.2.1">
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.4.2.1">
                 <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="xref">4.1</a>.  <a href="#name-interface-to-tls" class="xref">Interface to TLS</a><a href="#section-toc.1-1.4.2.1.1" class="pilcrow">¶</a></p>
 <ul class="ulEmpty compact toc">
 <li class="ulEmpty compact toc" id="section-toc.1-1.4.2.1.2.1">
@@ -952,44 +941,49 @@ code and issues list for this draft can be found at
 </li>
 </ul>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.4.2.2">
+<li class="ulEmpty toc compact" id="section-toc.1-1.4.2.2">
                 <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="xref">4.2</a>.  <a href="#name-tls-version" class="xref">TLS Version</a><a href="#section-toc.1-1.4.2.2.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.4.2.3">
+<li class="ulEmpty toc compact" id="section-toc.1-1.4.2.3">
                 <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="xref">4.3</a>.  <a href="#name-clienthello-size" class="xref">ClientHello Size</a><a href="#section-toc.1-1.4.2.3.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.4.2.4">
+<li class="ulEmpty toc compact" id="section-toc.1-1.4.2.4">
                 <p id="section-toc.1-1.4.2.4.1"><a href="#section-4.4" class="xref">4.4</a>.  <a href="#name-peer-authentication" class="xref">Peer Authentication</a><a href="#section-toc.1-1.4.2.4.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.4.2.5">
+<li class="ulEmpty toc compact" id="section-toc.1-1.4.2.5">
                 <p id="section-toc.1-1.4.2.5.1"><a href="#section-4.5" class="xref">4.5</a>.  <a href="#name-session-resumption" class="xref">Session Resumption</a><a href="#section-toc.1-1.4.2.5.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.4.2.6">
-                <p id="section-toc.1-1.4.2.6.1"><a href="#section-4.6" class="xref">4.6</a>.  <a href="#name-enabling-0-rtt" class="xref">Enabling 0-RTT</a><a href="#section-toc.1-1.4.2.6.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.4.2.7">
-                <p id="section-toc.1-1.4.2.7.1"><a href="#section-4.7" class="xref">4.7</a>.  <a href="#name-accepting-and-rejecting-0-r" class="xref">Accepting and Rejecting 0-RTT</a><a href="#section-toc.1-1.4.2.7.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.4.2.8">
-                <p id="section-toc.1-1.4.2.8.1"><a href="#section-4.8" class="xref">4.8</a>.  <a href="#name-validating-0-rtt-configurat" class="xref">Validating 0-RTT Configuration</a><a href="#section-toc.1-1.4.2.8.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.4.2.9">
-                <p id="section-toc.1-1.4.2.9.1"><a href="#section-4.9" class="xref">4.9</a>.  <a href="#name-helloretryrequest" class="xref">HelloRetryRequest</a><a href="#section-toc.1-1.4.2.9.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.4.2.10">
-                <p id="section-toc.1-1.4.2.10.1"><a href="#section-4.10" class="xref">4.10</a>. <a href="#name-tls-errors" class="xref">TLS Errors</a><a href="#section-toc.1-1.4.2.10.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.4.2.11">
-                <p id="section-toc.1-1.4.2.11.1"><a href="#section-4.11" class="xref">4.11</a>. <a href="#name-discarding-unused-keys" class="xref">Discarding Unused Keys</a><a href="#section-toc.1-1.4.2.11.1" class="pilcrow">¶</a></p>
+<li class="ulEmpty toc compact" id="section-toc.1-1.4.2.6">
+                <p id="section-toc.1-1.4.2.6.1"><a href="#section-4.6" class="xref">4.6</a>.  <a href="#name-0-rtt" class="xref">0-RTT</a><a href="#section-toc.1-1.4.2.6.1" class="pilcrow">¶</a></p>
 <ul class="ulEmpty compact toc">
-<li class="ulEmpty compact toc" id="section-toc.1-1.4.2.11.2.1">
-                    <p id="section-toc.1-1.4.2.11.2.1.1"><a href="#section-4.11.1" class="xref">4.11.1</a>.  <a href="#name-discarding-initial-keys" class="xref">Discarding Initial Keys</a><a href="#section-toc.1-1.4.2.11.2.1.1" class="pilcrow">¶</a></p>
+<li class="ulEmpty compact toc" id="section-toc.1-1.4.2.6.2.1">
+                    <p id="section-toc.1-1.4.2.6.2.1.1"><a href="#section-4.6.1" class="xref">4.6.1</a>.  <a href="#name-enabling-0-rtt" class="xref">Enabling 0-RTT</a><a href="#section-toc.1-1.4.2.6.2.1.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.4.2.11.2.2">
-                    <p id="section-toc.1-1.4.2.11.2.2.1"><a href="#section-4.11.2" class="xref">4.11.2</a>.  <a href="#name-discarding-handshake-keys" class="xref">Discarding Handshake Keys</a><a href="#section-toc.1-1.4.2.11.2.2.1" class="pilcrow">¶</a></p>
+<li class="ulEmpty compact toc" id="section-toc.1-1.4.2.6.2.2">
+                    <p id="section-toc.1-1.4.2.6.2.2.1"><a href="#section-4.6.2" class="xref">4.6.2</a>.  <a href="#name-accepting-and-rejecting-0-r" class="xref">Accepting and Rejecting 0-RTT</a><a href="#section-toc.1-1.4.2.6.2.2.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.4.2.11.2.3">
-                    <p id="section-toc.1-1.4.2.11.2.3.1"><a href="#section-4.11.3" class="xref">4.11.3</a>.  <a href="#name-discarding-0-rtt-keys" class="xref">Discarding 0-RTT Keys</a><a href="#section-toc.1-1.4.2.11.2.3.1" class="pilcrow">¶</a></p>
+<li class="ulEmpty compact toc" id="section-toc.1-1.4.2.6.2.3">
+                    <p id="section-toc.1-1.4.2.6.2.3.1"><a href="#section-4.6.3" class="xref">4.6.3</a>.  <a href="#name-validating-0-rtt-configurat" class="xref">Validating 0-RTT Configuration</a><a href="#section-toc.1-1.4.2.6.2.3.1" class="pilcrow">¶</a></p>
+</li>
+</ul>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.4.2.7">
+                <p id="section-toc.1-1.4.2.7.1"><a href="#section-4.7" class="xref">4.7</a>.  <a href="#name-helloretryrequest" class="xref">HelloRetryRequest</a><a href="#section-toc.1-1.4.2.7.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.4.2.8">
+                <p id="section-toc.1-1.4.2.8.1"><a href="#section-4.8" class="xref">4.8</a>.  <a href="#name-tls-errors" class="xref">TLS Errors</a><a href="#section-toc.1-1.4.2.8.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.4.2.9">
+                <p id="section-toc.1-1.4.2.9.1"><a href="#section-4.9" class="xref">4.9</a>.  <a href="#name-discarding-unused-keys" class="xref">Discarding Unused Keys</a><a href="#section-toc.1-1.4.2.9.1" class="pilcrow">¶</a></p>
+<ul class="ulEmpty compact toc">
+<li class="ulEmpty compact toc" id="section-toc.1-1.4.2.9.2.1">
+                    <p id="section-toc.1-1.4.2.9.2.1.1"><a href="#section-4.9.1" class="xref">4.9.1</a>.  <a href="#name-discarding-initial-keys" class="xref">Discarding Initial Keys</a><a href="#section-toc.1-1.4.2.9.2.1.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty compact toc" id="section-toc.1-1.4.2.9.2.2">
+                    <p id="section-toc.1-1.4.2.9.2.2.1"><a href="#section-4.9.2" class="xref">4.9.2</a>.  <a href="#name-discarding-handshake-keys" class="xref">Discarding Handshake Keys</a><a href="#section-toc.1-1.4.2.9.2.2.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty compact toc" id="section-toc.1-1.4.2.9.2.3">
+                    <p id="section-toc.1-1.4.2.9.2.3.1"><a href="#section-4.9.3" class="xref">4.9.3</a>.  <a href="#name-discarding-0-rtt-keys" class="xref">Discarding 0-RTT Keys</a><a href="#section-toc.1-1.4.2.9.2.3.1" class="pilcrow">¶</a></p>
 </li>
 </ul>
 </li>
@@ -997,17 +991,17 @@ code and issues list for this draft can be found at
 </li>
 <li class="ulEmpty compact toc" id="section-toc.1-1.5">
             <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-packet-protection" class="xref">Packet Protection</a><a href="#section-toc.1-1.5.1" class="pilcrow">¶</a></p>
-<ul class="ulEmpty compact toc">
-<li class="ulEmpty compact toc" id="section-toc.1-1.5.2.1">
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.5.2.1">
                 <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="xref">5.1</a>.  <a href="#name-packet-protection-keys" class="xref">Packet Protection Keys</a><a href="#section-toc.1-1.5.2.1.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.5.2.2">
+<li class="ulEmpty toc compact" id="section-toc.1-1.5.2.2">
                 <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="xref">5.2</a>.  <a href="#name-initial-secrets" class="xref">Initial Secrets</a><a href="#section-toc.1-1.5.2.2.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.5.2.3">
+<li class="ulEmpty toc compact" id="section-toc.1-1.5.2.3">
                 <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="xref">5.3</a>.  <a href="#name-aead-usage" class="xref">AEAD Usage</a><a href="#section-toc.1-1.5.2.3.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.5.2.4">
+<li class="ulEmpty toc compact" id="section-toc.1-1.5.2.4">
                 <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="xref">5.4</a>.  <a href="#name-header-protection" class="xref">Header Protection</a><a href="#section-toc.1-1.5.2.4.1" class="pilcrow">¶</a></p>
 <ul class="ulEmpty compact toc">
 <li class="ulEmpty compact toc" id="section-toc.1-1.5.2.4.2.1">
@@ -1024,42 +1018,42 @@ code and issues list for this draft can be found at
 </li>
 </ul>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.5.2.5">
+<li class="ulEmpty toc compact" id="section-toc.1-1.5.2.5">
                 <p id="section-toc.1-1.5.2.5.1"><a href="#section-5.5" class="xref">5.5</a>.  <a href="#name-receiving-protected-packets" class="xref">Receiving Protected Packets</a><a href="#section-toc.1-1.5.2.5.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.5.2.6">
+<li class="ulEmpty toc compact" id="section-toc.1-1.5.2.6">
                 <p id="section-toc.1-1.5.2.6.1"><a href="#section-5.6" class="xref">5.6</a>.  <a href="#name-use-of-0-rtt-keys" class="xref">Use of 0-RTT Keys</a><a href="#section-toc.1-1.5.2.6.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.5.2.7">
+<li class="ulEmpty toc compact" id="section-toc.1-1.5.2.7">
                 <p id="section-toc.1-1.5.2.7.1"><a href="#section-5.7" class="xref">5.7</a>.  <a href="#name-receiving-out-of-order-prot" class="xref">Receiving Out-of-Order Protected Frames</a><a href="#section-toc.1-1.5.2.7.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.5.2.8">
+<li class="ulEmpty toc compact" id="section-toc.1-1.5.2.8">
                 <p id="section-toc.1-1.5.2.8.1"><a href="#section-5.8" class="xref">5.8</a>.  <a href="#name-retry-packet-integrity" class="xref">Retry Packet Integrity</a><a href="#section-toc.1-1.5.2.8.1" class="pilcrow">¶</a></p>
 </li>
 </ul>
 </li>
 <li class="ulEmpty compact toc" id="section-toc.1-1.6">
             <p id="section-toc.1-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-key-update" class="xref">Key Update</a><a href="#section-toc.1-1.6.1" class="pilcrow">¶</a></p>
-<ul class="ulEmpty compact toc">
-<li class="ulEmpty compact toc" id="section-toc.1-1.6.2.1">
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.6.2.1">
                 <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="xref">6.1</a>.  <a href="#name-initiating-a-key-update" class="xref">Initiating a Key Update</a><a href="#section-toc.1-1.6.2.1.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.6.2.2">
+<li class="ulEmpty toc compact" id="section-toc.1-1.6.2.2">
                 <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="xref">6.2</a>.  <a href="#name-responding-to-a-key-update" class="xref">Responding to a Key Update</a><a href="#section-toc.1-1.6.2.2.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.6.2.3">
+<li class="ulEmpty toc compact" id="section-toc.1-1.6.2.3">
                 <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="xref">6.3</a>.  <a href="#name-timing-of-receive-key-gener" class="xref">Timing of Receive Key Generation</a><a href="#section-toc.1-1.6.2.3.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.6.2.4">
+<li class="ulEmpty toc compact" id="section-toc.1-1.6.2.4">
                 <p id="section-toc.1-1.6.2.4.1"><a href="#section-6.4" class="xref">6.4</a>.  <a href="#name-sending-with-updated-keys" class="xref">Sending with Updated Keys</a><a href="#section-toc.1-1.6.2.4.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.6.2.5">
+<li class="ulEmpty toc compact" id="section-toc.1-1.6.2.5">
                 <p id="section-toc.1-1.6.2.5.1"><a href="#section-6.5" class="xref">6.5</a>.  <a href="#name-receiving-with-different-ke" class="xref">Receiving with Different Keys</a><a href="#section-toc.1-1.6.2.5.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.6.2.6">
-                <p id="section-toc.1-1.6.2.6.1"><a href="#section-6.6" class="xref">6.6</a>.  <a href="#name-key-update-frequency" class="xref">Key Update Frequency</a><a href="#section-toc.1-1.6.2.6.1" class="pilcrow">¶</a></p>
+<li class="ulEmpty toc compact" id="section-toc.1-1.6.2.6">
+                <p id="section-toc.1-1.6.2.6.1"><a href="#section-6.6" class="xref">6.6</a>.  <a href="#name-minimum-key-update-frequenc" class="xref">Minimum Key Update Frequency</a><a href="#section-toc.1-1.6.2.6.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.6.2.7">
+<li class="ulEmpty toc compact" id="section-toc.1-1.6.2.7">
                 <p id="section-toc.1-1.6.2.7.1"><a href="#section-6.7" class="xref">6.7</a>.  <a href="#name-key-update-error-code" class="xref">Key Update Error Code</a><a href="#section-toc.1-1.6.2.7.1" class="pilcrow">¶</a></p>
 </li>
 </ul>
@@ -1069,40 +1063,40 @@ code and issues list for this draft can be found at
 </li>
 <li class="ulEmpty compact toc" id="section-toc.1-1.8">
             <p id="section-toc.1-1.8.1"><a href="#section-8" class="xref">8</a>.  <a href="#name-quic-specific-adjustments-t" class="xref">QUIC-Specific Adjustments to the TLS Handshake</a><a href="#section-toc.1-1.8.1" class="pilcrow">¶</a></p>
-<ul class="ulEmpty compact toc">
-<li class="ulEmpty compact toc" id="section-toc.1-1.8.2.1">
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.8.2.1">
                 <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="xref">8.1</a>.  <a href="#name-protocol-negotiation" class="xref">Protocol Negotiation</a><a href="#section-toc.1-1.8.2.1.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.8.2.2">
+<li class="ulEmpty toc compact" id="section-toc.1-1.8.2.2">
                 <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="xref">8.2</a>.  <a href="#name-quic-transport-parameters-e" class="xref">QUIC Transport Parameters Extension</a><a href="#section-toc.1-1.8.2.2.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.8.2.3">
+<li class="ulEmpty toc compact" id="section-toc.1-1.8.2.3">
                 <p id="section-toc.1-1.8.2.3.1"><a href="#section-8.3" class="xref">8.3</a>.  <a href="#name-removing-the-endofearlydata" class="xref">Removing the EndOfEarlyData Message</a><a href="#section-toc.1-1.8.2.3.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.8.2.4">
+<li class="ulEmpty toc compact" id="section-toc.1-1.8.2.4">
                 <p id="section-toc.1-1.8.2.4.1"><a href="#section-8.4" class="xref">8.4</a>.  <a href="#name-prohibit-tls-middlebox-comp" class="xref">Prohibit TLS Middlebox Compatibility Mode</a><a href="#section-toc.1-1.8.2.4.1" class="pilcrow">¶</a></p>
 </li>
 </ul>
 </li>
 <li class="ulEmpty compact toc" id="section-toc.1-1.9">
             <p id="section-toc.1-1.9.1"><a href="#section-9" class="xref">9</a>.  <a href="#name-security-considerations" class="xref">Security Considerations</a><a href="#section-toc.1-1.9.1" class="pilcrow">¶</a></p>
-<ul class="ulEmpty compact toc">
-<li class="ulEmpty compact toc" id="section-toc.1-1.9.2.1">
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.9.2.1">
                 <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="xref">9.1</a>.  <a href="#name-session-linkability" class="xref">Session Linkability</a><a href="#section-toc.1-1.9.2.1.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.9.2.2">
+<li class="ulEmpty toc compact" id="section-toc.1-1.9.2.2">
                 <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="xref">9.2</a>.  <a href="#name-replay-attacks-with-0-rtt" class="xref">Replay Attacks with 0-RTT</a><a href="#section-toc.1-1.9.2.2.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.9.2.3">
+<li class="ulEmpty toc compact" id="section-toc.1-1.9.2.3">
                 <p id="section-toc.1-1.9.2.3.1"><a href="#section-9.3" class="xref">9.3</a>.  <a href="#name-packet-reflection-attack-mi" class="xref">Packet Reflection Attack Mitigation</a><a href="#section-toc.1-1.9.2.3.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.9.2.4">
+<li class="ulEmpty toc compact" id="section-toc.1-1.9.2.4">
                 <p id="section-toc.1-1.9.2.4.1"><a href="#section-9.4" class="xref">9.4</a>.  <a href="#name-header-protection-analysis" class="xref">Header Protection Analysis</a><a href="#section-toc.1-1.9.2.4.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.9.2.5">
+<li class="ulEmpty toc compact" id="section-toc.1-1.9.2.5">
                 <p id="section-toc.1-1.9.2.5.1"><a href="#section-9.5" class="xref">9.5</a>.  <a href="#name-header-protection-timing-si" class="xref">Header Protection Timing Side-Channels</a><a href="#section-toc.1-1.9.2.5.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.9.2.6">
+<li class="ulEmpty toc compact" id="section-toc.1-1.9.2.6">
                 <p id="section-toc.1-1.9.2.6.1"><a href="#section-9.6" class="xref">9.6</a>.  <a href="#name-key-diversity" class="xref">Key Diversity</a><a href="#section-toc.1-1.9.2.6.1" class="pilcrow">¶</a></p>
 </li>
 </ul>
@@ -1112,120 +1106,134 @@ code and issues list for this draft can be found at
 </li>
 <li class="ulEmpty compact toc" id="section-toc.1-1.11">
             <p id="section-toc.1-1.11.1"><a href="#section-11" class="xref">11</a>. <a href="#name-references" class="xref">References</a><a href="#section-toc.1-1.11.1" class="pilcrow">¶</a></p>
-<ul class="ulEmpty compact toc">
-<li class="ulEmpty compact toc" id="section-toc.1-1.11.2.1">
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.11.2.1">
                 <p id="section-toc.1-1.11.2.1.1"><a href="#section-11.1" class="xref">11.1</a>.  <a href="#name-normative-references" class="xref">Normative References</a><a href="#section-toc.1-1.11.2.1.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.11.2.2">
+<li class="ulEmpty toc compact" id="section-toc.1-1.11.2.2">
                 <p id="section-toc.1-1.11.2.2.1"><a href="#section-11.2" class="xref">11.2</a>.  <a href="#name-informative-references" class="xref">Informative References</a><a href="#section-toc.1-1.11.2.2.1" class="pilcrow">¶</a></p>
 </li>
 </ul>
 </li>
 <li class="ulEmpty compact toc" id="section-toc.1-1.12">
             <p id="section-toc.1-1.12.1"><a href="#section-appendix.a" class="xref">Appendix A</a>.  <a href="#name-sample-packet-protection" class="xref">Sample Packet Protection</a><a href="#section-toc.1-1.12.1" class="pilcrow">¶</a></p>
-<ul class="ulEmpty compact toc">
-<li class="ulEmpty compact toc" id="section-toc.1-1.12.2.1">
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.12.2.1">
                 <p id="section-toc.1-1.12.2.1.1"><a href="#section-a.1" class="xref">A.1</a>.  <a href="#name-keys" class="xref">Keys</a><a href="#section-toc.1-1.12.2.1.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.12.2.2">
+<li class="ulEmpty toc compact" id="section-toc.1-1.12.2.2">
                 <p id="section-toc.1-1.12.2.2.1"><a href="#section-a.2" class="xref">A.2</a>.  <a href="#name-client-initial" class="xref">Client Initial</a><a href="#section-toc.1-1.12.2.2.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.12.2.3">
+<li class="ulEmpty toc compact" id="section-toc.1-1.12.2.3">
                 <p id="section-toc.1-1.12.2.3.1"><a href="#section-a.3" class="xref">A.3</a>.  <a href="#name-server-initial" class="xref">Server Initial</a><a href="#section-toc.1-1.12.2.3.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.12.2.4">
+<li class="ulEmpty toc compact" id="section-toc.1-1.12.2.4">
                 <p id="section-toc.1-1.12.2.4.1"><a href="#section-a.4" class="xref">A.4</a>.  <a href="#name-retry" class="xref">Retry</a><a href="#section-toc.1-1.12.2.4.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.12.2.5">
+<li class="ulEmpty toc compact" id="section-toc.1-1.12.2.5">
                 <p id="section-toc.1-1.12.2.5.1"><a href="#section-a.5" class="xref">A.5</a>.  <a href="#name-chacha20-poly1305-short-hea" class="xref">ChaCha20-Poly1305 Short Header Packet</a><a href="#section-toc.1-1.12.2.5.1" class="pilcrow">¶</a></p>
 </li>
 </ul>
 </li>
 <li class="ulEmpty compact toc" id="section-toc.1-1.13">
-            <p id="section-toc.1-1.13.1"><a href="#section-appendix.b" class="xref">Appendix B</a>.  <a href="#name-change-log" class="xref">Change Log</a><a href="#section-toc.1-1.13.1" class="pilcrow">¶</a></p>
-<ul class="ulEmpty compact toc">
-<li class="ulEmpty compact toc" id="section-toc.1-1.13.2.1">
-                <p id="section-toc.1-1.13.2.1.1"><a href="#section-b.1" class="xref">B.1</a>.  <a href="#name-since-draft-ietf-quic-tls-2" class="xref">Since draft-ietf-quic-tls-27</a><a href="#section-toc.1-1.13.2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-toc.1-1.13.1"><a href="#section-appendix.b" class="xref">Appendix B</a>.  <a href="#name-analysis-of-limits-on-aead_" class="xref">Analysis of Limits on AEAD_AES_128_CCM Usage</a><a href="#section-toc.1-1.13.1" class="pilcrow">¶</a></p>
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.13.2.1">
+                <p id="section-toc.1-1.13.2.1.1"><a href="#section-b.1" class="xref">B.1</a>.  <a href="#name-confidentiality-limits" class="xref">Confidentiality Limits</a><a href="#section-toc.1-1.13.2.1.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.13.2.2">
-                <p id="section-toc.1-1.13.2.2.1"><a href="#section-b.2" class="xref">B.2</a>.  <a href="#name-since-draft-ietf-quic-tls-26" class="xref">Since draft-ietf-quic-tls-26</a><a href="#section-toc.1-1.13.2.2.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.13.2.3">
-                <p id="section-toc.1-1.13.2.3.1"><a href="#section-b.3" class="xref">B.3</a>.  <a href="#name-since-draft-ietf-quic-tls-25" class="xref">Since draft-ietf-quic-tls-25</a><a href="#section-toc.1-1.13.2.3.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.13.2.4">
-                <p id="section-toc.1-1.13.2.4.1"><a href="#section-b.4" class="xref">B.4</a>.  <a href="#name-since-draft-ietf-quic-tls-24" class="xref">Since draft-ietf-quic-tls-24</a><a href="#section-toc.1-1.13.2.4.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.13.2.5">
-                <p id="section-toc.1-1.13.2.5.1"><a href="#section-b.5" class="xref">B.5</a>.  <a href="#name-since-draft-ietf-quic-tls-23" class="xref">Since draft-ietf-quic-tls-23</a><a href="#section-toc.1-1.13.2.5.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.13.2.6">
-                <p id="section-toc.1-1.13.2.6.1"><a href="#section-b.6" class="xref">B.6</a>.  <a href="#name-since-draft-ietf-quic-tls-22" class="xref">Since draft-ietf-quic-tls-22</a><a href="#section-toc.1-1.13.2.6.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.13.2.7">
-                <p id="section-toc.1-1.13.2.7.1"><a href="#section-b.7" class="xref">B.7</a>.  <a href="#name-since-draft-ietf-quic-tls-21" class="xref">Since draft-ietf-quic-tls-21</a><a href="#section-toc.1-1.13.2.7.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.13.2.8">
-                <p id="section-toc.1-1.13.2.8.1"><a href="#section-b.8" class="xref">B.8</a>.  <a href="#name-since-draft-ietf-quic-tls-20" class="xref">Since draft-ietf-quic-tls-20</a><a href="#section-toc.1-1.13.2.8.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.13.2.9">
-                <p id="section-toc.1-1.13.2.9.1"><a href="#section-b.9" class="xref">B.9</a>.  <a href="#name-since-draft-ietf-quic-tls-1" class="xref">Since draft-ietf-quic-tls-18</a><a href="#section-toc.1-1.13.2.9.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.13.2.10">
-                <p id="section-toc.1-1.13.2.10.1"><a href="#section-b.10" class="xref">B.10</a>. <a href="#name-since-draft-ietf-quic-tls-17" class="xref">Since draft-ietf-quic-tls-17</a><a href="#section-toc.1-1.13.2.10.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.13.2.11">
-                <p id="section-toc.1-1.13.2.11.1"><a href="#section-b.11" class="xref">B.11</a>. <a href="#name-since-draft-ietf-quic-tls-14" class="xref">Since draft-ietf-quic-tls-14</a><a href="#section-toc.1-1.13.2.11.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.13.2.12">
-                <p id="section-toc.1-1.13.2.12.1"><a href="#section-b.12" class="xref">B.12</a>. <a href="#name-since-draft-ietf-quic-tls-13" class="xref">Since draft-ietf-quic-tls-13</a><a href="#section-toc.1-1.13.2.12.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.13.2.13">
-                <p id="section-toc.1-1.13.2.13.1"><a href="#section-b.13" class="xref">B.13</a>. <a href="#name-since-draft-ietf-quic-tls-12" class="xref">Since draft-ietf-quic-tls-12</a><a href="#section-toc.1-1.13.2.13.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.13.2.14">
-                <p id="section-toc.1-1.13.2.14.1"><a href="#section-b.14" class="xref">B.14</a>. <a href="#name-since-draft-ietf-quic-tls-11" class="xref">Since draft-ietf-quic-tls-11</a><a href="#section-toc.1-1.13.2.14.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.13.2.15">
-                <p id="section-toc.1-1.13.2.15.1"><a href="#section-b.15" class="xref">B.15</a>. <a href="#name-since-draft-ietf-quic-tls-10" class="xref">Since draft-ietf-quic-tls-10</a><a href="#section-toc.1-1.13.2.15.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.13.2.16">
-                <p id="section-toc.1-1.13.2.16.1"><a href="#section-b.16" class="xref">B.16</a>. <a href="#name-since-draft-ietf-quic-tls-0" class="xref">Since draft-ietf-quic-tls-09</a><a href="#section-toc.1-1.13.2.16.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.13.2.17">
-                <p id="section-toc.1-1.13.2.17.1"><a href="#section-b.17" class="xref">B.17</a>. <a href="#name-since-draft-ietf-quic-tls-08" class="xref">Since draft-ietf-quic-tls-08</a><a href="#section-toc.1-1.13.2.17.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.13.2.18">
-                <p id="section-toc.1-1.13.2.18.1"><a href="#section-b.18" class="xref">B.18</a>. <a href="#name-since-draft-ietf-quic-tls-07" class="xref">Since draft-ietf-quic-tls-07</a><a href="#section-toc.1-1.13.2.18.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.13.2.19">
-                <p id="section-toc.1-1.13.2.19.1"><a href="#section-b.19" class="xref">B.19</a>. <a href="#name-since-draft-ietf-quic-tls-05" class="xref">Since draft-ietf-quic-tls-05</a><a href="#section-toc.1-1.13.2.19.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.13.2.20">
-                <p id="section-toc.1-1.13.2.20.1"><a href="#section-b.20" class="xref">B.20</a>. <a href="#name-since-draft-ietf-quic-tls-04" class="xref">Since draft-ietf-quic-tls-04</a><a href="#section-toc.1-1.13.2.20.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.13.2.21">
-                <p id="section-toc.1-1.13.2.21.1"><a href="#section-b.21" class="xref">B.21</a>. <a href="#name-since-draft-ietf-quic-tls-03" class="xref">Since draft-ietf-quic-tls-03</a><a href="#section-toc.1-1.13.2.21.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.13.2.22">
-                <p id="section-toc.1-1.13.2.22.1"><a href="#section-b.22" class="xref">B.22</a>. <a href="#name-since-draft-ietf-quic-tls-02" class="xref">Since draft-ietf-quic-tls-02</a><a href="#section-toc.1-1.13.2.22.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.13.2.23">
-                <p id="section-toc.1-1.13.2.23.1"><a href="#section-b.23" class="xref">B.23</a>. <a href="#name-since-draft-ietf-quic-tls-01" class="xref">Since draft-ietf-quic-tls-01</a><a href="#section-toc.1-1.13.2.23.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.13.2.24">
-                <p id="section-toc.1-1.13.2.24.1"><a href="#section-b.24" class="xref">B.24</a>. <a href="#name-since-draft-ietf-quic-tls-00" class="xref">Since draft-ietf-quic-tls-00</a><a href="#section-toc.1-1.13.2.24.1" class="pilcrow">¶</a></p>
-</li>
-<li class="ulEmpty compact toc" id="section-toc.1-1.13.2.25">
-                <p id="section-toc.1-1.13.2.25.1"><a href="#section-b.25" class="xref">B.25</a>. <a href="#name-since-draft-thomson-quic-tl" class="xref">Since draft-thomson-quic-tls-01</a><a href="#section-toc.1-1.13.2.25.1" class="pilcrow">¶</a></p>
+<li class="ulEmpty toc compact" id="section-toc.1-1.13.2.2">
+                <p id="section-toc.1-1.13.2.2.1"><a href="#section-b.2" class="xref">B.2</a>.  <a href="#name-integrity-limits" class="xref">Integrity Limits</a><a href="#section-toc.1-1.13.2.2.1" class="pilcrow">¶</a></p>
 </li>
 </ul>
 </li>
 <li class="ulEmpty compact toc" id="section-toc.1-1.14">
-            <p id="section-toc.1-1.14.1"><a href="#section-appendix.c" class="xref"></a><a href="#name-contributors" class="xref">Contributors</a><a href="#section-toc.1-1.14.1" class="pilcrow">¶</a></p>
+            <p id="section-toc.1-1.14.1"><a href="#section-appendix.c" class="xref">Appendix C</a>.  <a href="#name-change-log" class="xref">Change Log</a><a href="#section-toc.1-1.14.1" class="pilcrow">¶</a></p>
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.14.2.1">
+                <p id="section-toc.1-1.14.2.1.1"><a href="#section-c.1" class="xref">C.1</a>.  <a href="#name-since-draft-ietf-quic-tls-2" class="xref">Since draft-ietf-quic-tls-28</a><a href="#section-toc.1-1.14.2.1.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.14.2.2">
+                <p id="section-toc.1-1.14.2.2.1"><a href="#section-c.2" class="xref">C.2</a>.  <a href="#name-since-draft-ietf-quic-tls-27" class="xref">Since draft-ietf-quic-tls-27</a><a href="#section-toc.1-1.14.2.2.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.14.2.3">
+                <p id="section-toc.1-1.14.2.3.1"><a href="#section-c.3" class="xref">C.3</a>.  <a href="#name-since-draft-ietf-quic-tls-26" class="xref">Since draft-ietf-quic-tls-26</a><a href="#section-toc.1-1.14.2.3.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.14.2.4">
+                <p id="section-toc.1-1.14.2.4.1"><a href="#section-c.4" class="xref">C.4</a>.  <a href="#name-since-draft-ietf-quic-tls-25" class="xref">Since draft-ietf-quic-tls-25</a><a href="#section-toc.1-1.14.2.4.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.14.2.5">
+                <p id="section-toc.1-1.14.2.5.1"><a href="#section-c.5" class="xref">C.5</a>.  <a href="#name-since-draft-ietf-quic-tls-24" class="xref">Since draft-ietf-quic-tls-24</a><a href="#section-toc.1-1.14.2.5.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.14.2.6">
+                <p id="section-toc.1-1.14.2.6.1"><a href="#section-c.6" class="xref">C.6</a>.  <a href="#name-since-draft-ietf-quic-tls-23" class="xref">Since draft-ietf-quic-tls-23</a><a href="#section-toc.1-1.14.2.6.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.14.2.7">
+                <p id="section-toc.1-1.14.2.7.1"><a href="#section-c.7" class="xref">C.7</a>.  <a href="#name-since-draft-ietf-quic-tls-22" class="xref">Since draft-ietf-quic-tls-22</a><a href="#section-toc.1-1.14.2.7.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.14.2.8">
+                <p id="section-toc.1-1.14.2.8.1"><a href="#section-c.8" class="xref">C.8</a>.  <a href="#name-since-draft-ietf-quic-tls-21" class="xref">Since draft-ietf-quic-tls-21</a><a href="#section-toc.1-1.14.2.8.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.14.2.9">
+                <p id="section-toc.1-1.14.2.9.1"><a href="#section-c.9" class="xref">C.9</a>.  <a href="#name-since-draft-ietf-quic-tls-20" class="xref">Since draft-ietf-quic-tls-20</a><a href="#section-toc.1-1.14.2.9.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.14.2.10">
+                <p id="section-toc.1-1.14.2.10.1"><a href="#section-c.10" class="xref">C.10</a>. <a href="#name-since-draft-ietf-quic-tls-1" class="xref">Since draft-ietf-quic-tls-18</a><a href="#section-toc.1-1.14.2.10.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.14.2.11">
+                <p id="section-toc.1-1.14.2.11.1"><a href="#section-c.11" class="xref">C.11</a>. <a href="#name-since-draft-ietf-quic-tls-17" class="xref">Since draft-ietf-quic-tls-17</a><a href="#section-toc.1-1.14.2.11.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.14.2.12">
+                <p id="section-toc.1-1.14.2.12.1"><a href="#section-c.12" class="xref">C.12</a>. <a href="#name-since-draft-ietf-quic-tls-14" class="xref">Since draft-ietf-quic-tls-14</a><a href="#section-toc.1-1.14.2.12.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.14.2.13">
+                <p id="section-toc.1-1.14.2.13.1"><a href="#section-c.13" class="xref">C.13</a>. <a href="#name-since-draft-ietf-quic-tls-13" class="xref">Since draft-ietf-quic-tls-13</a><a href="#section-toc.1-1.14.2.13.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.14.2.14">
+                <p id="section-toc.1-1.14.2.14.1"><a href="#section-c.14" class="xref">C.14</a>. <a href="#name-since-draft-ietf-quic-tls-12" class="xref">Since draft-ietf-quic-tls-12</a><a href="#section-toc.1-1.14.2.14.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.14.2.15">
+                <p id="section-toc.1-1.14.2.15.1"><a href="#section-c.15" class="xref">C.15</a>. <a href="#name-since-draft-ietf-quic-tls-11" class="xref">Since draft-ietf-quic-tls-11</a><a href="#section-toc.1-1.14.2.15.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.14.2.16">
+                <p id="section-toc.1-1.14.2.16.1"><a href="#section-c.16" class="xref">C.16</a>. <a href="#name-since-draft-ietf-quic-tls-10" class="xref">Since draft-ietf-quic-tls-10</a><a href="#section-toc.1-1.14.2.16.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.14.2.17">
+                <p id="section-toc.1-1.14.2.17.1"><a href="#section-c.17" class="xref">C.17</a>. <a href="#name-since-draft-ietf-quic-tls-0" class="xref">Since draft-ietf-quic-tls-09</a><a href="#section-toc.1-1.14.2.17.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.14.2.18">
+                <p id="section-toc.1-1.14.2.18.1"><a href="#section-c.18" class="xref">C.18</a>. <a href="#name-since-draft-ietf-quic-tls-08" class="xref">Since draft-ietf-quic-tls-08</a><a href="#section-toc.1-1.14.2.18.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.14.2.19">
+                <p id="section-toc.1-1.14.2.19.1"><a href="#section-c.19" class="xref">C.19</a>. <a href="#name-since-draft-ietf-quic-tls-07" class="xref">Since draft-ietf-quic-tls-07</a><a href="#section-toc.1-1.14.2.19.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.14.2.20">
+                <p id="section-toc.1-1.14.2.20.1"><a href="#section-c.20" class="xref">C.20</a>. <a href="#name-since-draft-ietf-quic-tls-05" class="xref">Since draft-ietf-quic-tls-05</a><a href="#section-toc.1-1.14.2.20.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.14.2.21">
+                <p id="section-toc.1-1.14.2.21.1"><a href="#section-c.21" class="xref">C.21</a>. <a href="#name-since-draft-ietf-quic-tls-04" class="xref">Since draft-ietf-quic-tls-04</a><a href="#section-toc.1-1.14.2.21.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.14.2.22">
+                <p id="section-toc.1-1.14.2.22.1"><a href="#section-c.22" class="xref">C.22</a>. <a href="#name-since-draft-ietf-quic-tls-03" class="xref">Since draft-ietf-quic-tls-03</a><a href="#section-toc.1-1.14.2.22.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.14.2.23">
+                <p id="section-toc.1-1.14.2.23.1"><a href="#section-c.23" class="xref">C.23</a>. <a href="#name-since-draft-ietf-quic-tls-02" class="xref">Since draft-ietf-quic-tls-02</a><a href="#section-toc.1-1.14.2.23.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.14.2.24">
+                <p id="section-toc.1-1.14.2.24.1"><a href="#section-c.24" class="xref">C.24</a>. <a href="#name-since-draft-ietf-quic-tls-01" class="xref">Since draft-ietf-quic-tls-01</a><a href="#section-toc.1-1.14.2.24.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.14.2.25">
+                <p id="section-toc.1-1.14.2.25.1"><a href="#section-c.25" class="xref">C.25</a>. <a href="#name-since-draft-ietf-quic-tls-00" class="xref">Since draft-ietf-quic-tls-00</a><a href="#section-toc.1-1.14.2.25.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty toc compact" id="section-toc.1-1.14.2.26">
+                <p id="section-toc.1-1.14.2.26.1"><a href="#section-c.26" class="xref">C.26</a>. <a href="#name-since-draft-thomson-quic-tl" class="xref">Since draft-thomson-quic-tls-01</a><a href="#section-toc.1-1.14.2.26.1" class="pilcrow">¶</a></p>
+</li>
+</ul>
 </li>
 <li class="ulEmpty compact toc" id="section-toc.1-1.15">
-            <p id="section-toc.1-1.15.1"><a href="#section-appendix.d" class="xref"></a><a href="#name-authors-addresses" class="xref">Authors' Addresses</a><a href="#section-toc.1-1.15.1" class="pilcrow">¶</a></p>
+            <p id="section-toc.1-1.15.1"><a href="#section-appendix.d" class="xref"></a><a href="#name-contributors" class="xref">Contributors</a><a href="#section-toc.1-1.15.1" class="pilcrow">¶</a></p>
+</li>
+<li class="ulEmpty compact toc" id="section-toc.1-1.16">
+            <p id="section-toc.1-1.16.1"><a href="#section-appendix.e" class="xref"></a><a href="#name-authors-addresses" class="xref">Authors' Addresses</a><a href="#section-toc.1-1.16.1" class="pilcrow">¶</a></p>
 </li>
 </ul>
 </nav>
@@ -1605,7 +1613,8 @@ than or equal to the former, the handshake is confirmed.<a href="#section-4.1.2-
           </h4>
 <p id="section-4.1.3-1">In order to drive the handshake, TLS depends on being able to send and receive
 handshake messages. There are two basic functions on this interface: one where
-QUIC requests handshake messages and one where QUIC provides handshake packets.<a href="#section-4.1.3-1" class="pilcrow">¶</a></p>
+QUIC requests handshake messages and one where QUIC provides bytes that comprise
+handshake messages.<a href="#section-4.1.3-1" class="pilcrow">¶</a></p>
 <p id="section-4.1.3-2">Before starting the handshake QUIC provides TLS with the transport parameters
 (see <a href="#quic_parameters" class="xref">Section 8.2</a>) that it wishes to carry.<a href="#section-4.1.3-2" class="pilcrow">¶</a></p>
 <p id="section-4.1.3-3">A QUIC client starts TLS by requesting TLS handshake bytes from TLS.  The client
@@ -1616,56 +1625,63 @@ encryption level and receiving encryption level. Encryption levels determine
 the packet type and keys that are used for protecting data.<a href="#section-4.1.3-4" class="pilcrow">¶</a></p>
 <p id="section-4.1.3-5">Each encryption level is associated with a different sequence of bytes, which is
 reliably transmitted to the peer in CRYPTO frames. When TLS provides handshake
-bytes to be sent, they are appended to the current flow. Any packet that
-includes the CRYPTO frame is protected using keys from the corresponding
-encryption level. Four encryption levels are used, producing keys for Initial,
-0-RTT, Handshake, and 1-RTT packets. CRYPTO frames are carried in just three of
-these levels, omitting the 0-RTT level. These four levels correspond to three
-packet number spaces: Initial and Handshake encrypted packets use their own
-separate spaces; 0-RTT and 1-RTT packets use the application data packet number
-space.<a href="#section-4.1.3-5" class="pilcrow">¶</a></p>
-<p id="section-4.1.3-6">QUIC takes the unprotected content of TLS handshake records as the content of
+bytes to be sent, they are appended to the handshake bytes for the current
+encryption level. The encryption level then determines the type of packet that
+the resulting CRYPTO frame is carried in; see <a href="#packet-types-keys" class="xref">Table 1</a>.<a href="#section-4.1.3-5" class="pilcrow">¶</a></p>
+<p id="section-4.1.3-6">Four encryption levels are used, producing keys for Initial, 0-RTT, Handshake,
+and 1-RTT packets. CRYPTO frames are carried in just three of these levels,
+omitting the 0-RTT level. These four levels correspond to three packet number
+spaces: Initial and Handshake encrypted packets use their own separate spaces;
+0-RTT and 1-RTT packets use the application data packet number space.<a href="#section-4.1.3-6" class="pilcrow">¶</a></p>
+<p id="section-4.1.3-7">QUIC takes the unprotected content of TLS handshake records as the content of
 CRYPTO frames. TLS record protection is not used by QUIC. QUIC assembles
 CRYPTO frames into QUIC packets, which are protected using QUIC packet
-protection.<a href="#section-4.1.3-6" class="pilcrow">¶</a></p>
-<p id="section-4.1.3-7">QUIC is only capable of conveying TLS handshake records in CRYPTO frames.  TLS
-alerts are turned into QUIC CONNECTION_CLOSE error codes; see <a href="#tls-errors" class="xref">Section 4.10</a>.
+protection.<a href="#section-4.1.3-7" class="pilcrow">¶</a></p>
+<p id="section-4.1.3-8">QUIC is only capable of conveying TLS handshake records in CRYPTO frames.  TLS
+alerts are turned into QUIC CONNECTION_CLOSE error codes; see <a href="#tls-errors" class="xref">Section 4.8</a>.
 TLS application data and other message types cannot be carried by QUIC at any
-encryption level and is an error if they are received from the TLS stack.<a href="#section-4.1.3-7" class="pilcrow">¶</a></p>
-<p id="section-4.1.3-8">When an endpoint receives a QUIC packet containing a CRYPTO frame from the
-network, it proceeds as follows:<a href="#section-4.1.3-8" class="pilcrow">¶</a></p>
+encryption level and is an error if they are received from the TLS stack.<a href="#section-4.1.3-8" class="pilcrow">¶</a></p>
+<p id="section-4.1.3-9">When an endpoint receives a QUIC packet containing a CRYPTO frame from the
+network, it proceeds as follows:<a href="#section-4.1.3-9" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.1.3-9.1">If the packet was in the TLS receiving encryption level, sequence the data
-into the input flow as usual. As with STREAM frames, the offset is used to
-find the proper location in the data sequence.  If the result of this process
-is that new data is available, then it is delivered to TLS in order.<a href="#section-4.1.3-9.1" class="pilcrow">¶</a>
+<li class="normal" id="section-4.1.3-10.1">If the packet uses the current TLS receiving encryption level, sequence the
+data into the input flow as usual. As with STREAM frames, the offset is used
+to find the proper location in the data sequence.  If the result of this
+process is that new data is available, then it is delivered to TLS in order.<a href="#section-4.1.3-10.1" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-4.1.3-9.2">If the packet is from a previously installed encryption level, it MUST NOT
+<li class="normal" id="section-4.1.3-10.2">If the packet is from a previously installed encryption level, it MUST NOT
 contain data which extends past the end of previously received data in that
 flow. Implementations MUST treat any violations of this requirement as a
-connection error of type PROTOCOL_VIOLATION.<a href="#section-4.1.3-9.2" class="pilcrow">¶</a>
+connection error of type PROTOCOL_VIOLATION.<a href="#section-4.1.3-10.2" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-4.1.3-9.3">If the packet is from a new encryption level, it is saved for later processing
+<li class="normal" id="section-4.1.3-10.3">If the packet is from a new encryption level, it is saved for later processing
 by TLS.  Once TLS moves to receiving from this encryption level, saved data
-can be provided.  When providing data from any new encryption level to TLS, if
-there is data from a previous encryption level that TLS has not consumed, this
-MUST be treated as a connection error of type PROTOCOL_VIOLATION.<a href="#section-4.1.3-9.3" class="pilcrow">¶</a>
+can be provided to TLS.  When providing data from any new encryption level to
+TLS, if there is data from a previous encryption level that TLS has not
+consumed, this MUST be treated as a connection error of type
+PROTOCOL_VIOLATION.<a href="#section-4.1.3-10.3" class="pilcrow">¶</a>
 </li>
 </ul>
-<p id="section-4.1.3-10">Each time that TLS is provided with new data, new handshake bytes are requested
+<p id="section-4.1.3-11">Each time that TLS is provided with new data, new handshake bytes are requested
 from TLS.  TLS might not provide any bytes if the handshake messages it has
-received are incomplete or it has no data to send.<a href="#section-4.1.3-10" class="pilcrow">¶</a></p>
-<p id="section-4.1.3-11">Once the TLS handshake is complete, this is indicated to QUIC along with any
+received are incomplete or it has no data to send.<a href="#section-4.1.3-11" class="pilcrow">¶</a></p>
+<p id="section-4.1.3-12">The content of CRYPTO frames might either be processed incrementally by TLS or
+buffered until complete messages or flights are available.  TLS is responsible
+for buffering handshake bytes that have arrived in order.  QUIC is responsible
+for buffering handshake bytes that arrive out of order or for encryption levels
+that are not yet ready.  QUIC does not provide any means of flow control for
+CRYPTO frames; see Section 7.5 of <span>[<a href="#QUIC-TRANSPORT" class="xref">QUIC-TRANSPORT</a>]</span>.<a href="#section-4.1.3-12" class="pilcrow">¶</a></p>
+<p id="section-4.1.3-13">Once the TLS handshake is complete, this is indicated to QUIC along with any
 final handshake bytes that TLS needs to send.  TLS also provides QUIC with the
-transport parameters that the peer advertised during the handshake.<a href="#section-4.1.3-11" class="pilcrow">¶</a></p>
-<p id="section-4.1.3-12">Once the handshake is complete, TLS becomes passive.  TLS can still receive data
+transport parameters that the peer advertised during the handshake.<a href="#section-4.1.3-13" class="pilcrow">¶</a></p>
+<p id="section-4.1.3-14">Once the handshake is complete, TLS becomes passive.  TLS can still receive data
 from its peer and respond in kind, but it will not need to send more data unless
 specifically requested - either by an application or QUIC.  One reason to send
 data is that the server might wish to provide additional or updated session
-tickets to a client.<a href="#section-4.1.3-12" class="pilcrow">¶</a></p>
-<p id="section-4.1.3-13">When the handshake is complete, QUIC only needs to provide TLS with any data
+tickets to a client.<a href="#section-4.1.3-14" class="pilcrow">¶</a></p>
+<p id="section-4.1.3-15">When the handshake is complete, QUIC only needs to provide TLS with any data
 that arrives in CRYPTO streams.  In the same way that is done during the
-handshake, new data is requested from TLS after providing received data.<a href="#section-4.1.3-13" class="pilcrow">¶</a></p>
+handshake, new data is requested from TLS after providing received data.<a href="#section-4.1.3-15" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="encryption-level-changes">
@@ -1859,7 +1875,7 @@ also enabling 0-RTT.<a href="#section-4.5-1" class="pilcrow">¶</a></p>
 about the current connection when creating a resumed connection. TLS requires
 that some information be retained; see Section 4.6.1 of <span>[<a href="#TLS13" class="xref">TLS13</a>]</span>. QUIC itself
 does not depend on any state being retained when resuming a connection, unless
-0-RTT is also used; see <a href="#enable-0rtt" class="xref">Section 4.6</a> and Section 7.4.1 of
+0-RTT is also used; see <a href="#enable-0rtt" class="xref">Section 4.6.1</a> and Section 7.4.1 of
 <span>[<a href="#QUIC-TRANSPORT" class="xref">QUIC-TRANSPORT</a>]</span>. Application protocols could depend on state that is
 retained between resumed connections.<a href="#section-4.5-2" class="pilcrow">¶</a></p>
 <p id="section-4.5-3">Clients can store any state required for resumption along with the session
@@ -1871,167 +1887,189 @@ Client SHOULD NOT reuse tickets as that allows entities other than the server
 to correlate connections; see Section C.4 of <span>[<a href="#TLS13" class="xref">TLS13</a>]</span>.<a href="#section-4.5-4" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="enable-0rtt">
+<div id="rtt">
 <section id="section-4.6">
-        <h3 id="name-enabling-0-rtt">
-<a href="#section-4.6" class="section-number selfRef">4.6. </a><a href="#name-enabling-0-rtt" class="section-name selfRef">Enabling 0-RTT</a>
+        <h3 id="name-0-rtt">
+<a href="#section-4.6" class="section-number selfRef">4.6. </a><a href="#name-0-rtt" class="section-name selfRef">0-RTT</a>
         </h3>
-<p id="section-4.6-1">To communicate their willingness to process 0-RTT data, servers send a
+<p id="section-4.6-1">The 0-RTT feature in QUIC allows a client to send application data before the
+handshake is complete.  This is made possible by reusing negotiated parameters
+from a previous connection.  To enable this, 0-RTT depends on the client
+remembering critical parameters and providing the server with a TLS session
+ticket that allows the server to recover the same information.<a href="#section-4.6-1" class="pilcrow">¶</a></p>
+<p id="section-4.6-2">This information includes parameters that determine TLS state, as governed by
+<span>[<a href="#TLS13" class="xref">TLS13</a>]</span>, QUIC transport parameters, the chosen application protocol, and any
+information the application protocol might need; see <a href="#app-0rtt" class="xref">Section 4.6.3</a>.  This
+information determines how 0-RTT packets and their contents are formed.<a href="#section-4.6-2" class="pilcrow">¶</a></p>
+<p id="section-4.6-3"><span>[<a href="#TLS13" class="xref">TLS13</a>]</span> sets a limit of 7 days on the time between the original connection
+and any attempt to use 0-RTT.  There are other constraints on 0-RTT usage,
+notably those caused by the potential exposure to replay attack; see <a href="#replay" class="xref">Section 9.2</a>.<a href="#section-4.6-3" class="pilcrow">¶</a></p>
+<div id="enable-0rtt">
+<section id="section-4.6.1">
+          <h4 id="name-enabling-0-rtt">
+<a href="#section-4.6.1" class="section-number selfRef">4.6.1. </a><a href="#name-enabling-0-rtt" class="section-name selfRef">Enabling 0-RTT</a>
+          </h4>
+<p id="section-4.6.1-1">To communicate their willingness to process 0-RTT data, servers send a
 NewSessionTicket message that contains the "early_data" extension with a
-max_early_data_size of 0xffffffff; the amount of data which the client can send
-in 0-RTT is controlled by the "initial_max_data" transport parameter supplied
-by the server.  Servers MUST NOT send the "early_data" extension with a
-max_early_data_size set to any value other than 0xffffffff.  A client MUST
-treat receipt of a NewSessionTicket that contains an "early_data" extension
-with any other value as a connection error of type PROTOCOL_VIOLATION.<a href="#section-4.6-1" class="pilcrow">¶</a></p>
-<p id="section-4.6-2">A client that wishes to send 0-RTT packets uses the "early_data" extension in
-the ClientHello message of a subsequent handshake (see Section 4.2.10 of
-<span>[<a href="#TLS13" class="xref">TLS13</a>]</span>). It then sends the application data in 0-RTT packets.<a href="#section-4.6-2" class="pilcrow">¶</a></p>
+max_early_data_size of 0xffffffff.  The TLS max_early_data_size parameter is not
+used in QUIC, the amount of data which the client can send in 0-RTT is
+controlled by the "initial_max_data" transport parameter supplied by the server.<a href="#section-4.6.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.6.1-2">Servers MUST NOT send the "early_data" extension with a max_early_data_size set
+to any value other than 0xffffffff.  A client MUST treat receipt of a
+NewSessionTicket that contains an "early_data" extension with any other value as
+a connection error of type PROTOCOL_VIOLATION.<a href="#section-4.6.1-2" class="pilcrow">¶</a></p>
+<p id="section-4.6.1-3">A client that wishes to send 0-RTT packets uses the "early_data" extension in
+the ClientHello message of a subsequent handshake; see Section 4.2.10 of
+<span>[<a href="#TLS13" class="xref">TLS13</a>]</span>. It then sends application data in 0-RTT packets.<a href="#section-4.6.1-3" class="pilcrow">¶</a></p>
+<p id="section-4.6.1-4">A client that attempts 0-RTT might also provide an address validation token if
+the server has sent a NEW_TOKEN frame; see Section 8.1 of <span>[<a href="#QUIC-TRANSPORT" class="xref">QUIC-TRANSPORT</a>]</span>.<a href="#section-4.6.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="accepting-and-rejecting-0-rtt">
-<section id="section-4.7">
-        <h3 id="name-accepting-and-rejecting-0-r">
-<a href="#section-4.7" class="section-number selfRef">4.7. </a><a href="#name-accepting-and-rejecting-0-r" class="section-name selfRef">Accepting and Rejecting 0-RTT</a>
-        </h3>
-<p id="section-4.7-1">A server accepts 0-RTT by sending an early_data extension in the
+<section id="section-4.6.2">
+          <h4 id="name-accepting-and-rejecting-0-r">
+<a href="#section-4.6.2" class="section-number selfRef">4.6.2. </a><a href="#name-accepting-and-rejecting-0-r" class="section-name selfRef">Accepting and Rejecting 0-RTT</a>
+          </h4>
+<p id="section-4.6.2-1">A server accepts 0-RTT by sending an early_data extension in the
 EncryptedExtensions (see Section 4.2.10 of <span>[<a href="#TLS13" class="xref">TLS13</a>]</span>).  The server then
-processes and acknowledges the 0-RTT packets that it receives.<a href="#section-4.7-1" class="pilcrow">¶</a></p>
-<p id="section-4.7-2">A server rejects 0-RTT by sending the EncryptedExtensions without an early_data
+processes and acknowledges the 0-RTT packets that it receives.<a href="#section-4.6.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.6.2-2">A server rejects 0-RTT by sending the EncryptedExtensions without an early_data
 extension.  A server will always reject 0-RTT if it sends a TLS
 HelloRetryRequest.  When rejecting 0-RTT, a server MUST NOT process any 0-RTT
 packets, even if it could.  When 0-RTT was rejected, a client SHOULD treat
 receipt of an acknowledgement for a 0-RTT packet as a connection error of type
-PROTOCOL_VIOLATION, if it is able to detect the condition.<a href="#section-4.7-2" class="pilcrow">¶</a></p>
-<p id="section-4.7-3">When 0-RTT is rejected, all connection characteristics that the client assumed
+PROTOCOL_VIOLATION, if it is able to detect the condition.<a href="#section-4.6.2-2" class="pilcrow">¶</a></p>
+<p id="section-4.6.2-3">When 0-RTT is rejected, all connection characteristics that the client assumed
 might be incorrect.  This includes the choice of application protocol, transport
 parameters, and any application configuration.  The client therefore MUST reset
-the state of all streams, including application state bound to those streams.<a href="#section-4.7-3" class="pilcrow">¶</a></p>
-<p id="section-4.7-4">A client MAY attempt to send 0-RTT again if it receives a Retry or Version
-Negotiation packet.  These packets do not signify rejection of 0-RTT.<a href="#section-4.7-4" class="pilcrow">¶</a></p>
+the state of all streams, including application state bound to those streams.<a href="#section-4.6.2-3" class="pilcrow">¶</a></p>
+<p id="section-4.6.2-4">A client MAY reattempt 0-RTT if it receives a Retry or Version Negotiation
+packet.  These packets do not signify rejection of 0-RTT.<a href="#section-4.6.2-4" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="validating-0-rtt-configuration">
-<section id="section-4.8">
-        <h3 id="name-validating-0-rtt-configurat">
-<a href="#section-4.8" class="section-number selfRef">4.8. </a><a href="#name-validating-0-rtt-configurat" class="section-name selfRef">Validating 0-RTT Configuration</a>
-        </h3>
-<p id="section-4.8-1">When a server receives a ClientHello with the "early_data" extension, it has to
+<div id="app-0rtt">
+<section id="section-4.6.3">
+          <h4 id="name-validating-0-rtt-configurat">
+<a href="#section-4.6.3" class="section-number selfRef">4.6.3. </a><a href="#name-validating-0-rtt-configurat" class="section-name selfRef">Validating 0-RTT Configuration</a>
+          </h4>
+<p id="section-4.6.3-1">When a server receives a ClientHello with the "early_data" extension, it has to
 decide whether to accept or reject early data from the client. Some of this
 decision is made by the TLS stack (e.g., checking that the cipher suite being
 resumed was included in the ClientHello; see Section 4.2.10 of <span>[<a href="#TLS13" class="xref">TLS13</a>]</span>). Even
 when the TLS stack has no reason to reject early data, the QUIC stack or the
 application protocol using QUIC might reject early data because the
 configuration of the transport or application associated with the resumed
-session is not compatible with the server's current configuration.<a href="#section-4.8-1" class="pilcrow">¶</a></p>
-<p id="section-4.8-2">QUIC requires additional transport state to be associated with a 0-RTT session
+session is not compatible with the server's current configuration.<a href="#section-4.6.3-1" class="pilcrow">¶</a></p>
+<p id="section-4.6.3-2">QUIC requires additional transport state to be associated with a 0-RTT session
 ticket. One common way to implement this is using stateless session tickets and
 storing this state in the session ticket. Application protocols that use QUIC
 might have similar requirements regarding associating or storing state. This
 associated state is used for deciding whether early data must be rejected. For
 example, HTTP/3 (<span>[<a href="#QUIC-HTTP" class="xref">QUIC-HTTP</a>]</span>) settings determine how early data from the
 client is interpreted. Other applications using QUIC could have different
-requirements for determining whether to accept or reject early data.<a href="#section-4.8-2" class="pilcrow">¶</a></p>
+requirements for determining whether to accept or reject early data.<a href="#section-4.6.3-2" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="helloretryrequest">
-<section id="section-4.9">
+<section id="section-4.7">
         <h3 id="name-helloretryrequest">
-<a href="#section-4.9" class="section-number selfRef">4.9. </a><a href="#name-helloretryrequest" class="section-name selfRef">HelloRetryRequest</a>
+<a href="#section-4.7" class="section-number selfRef">4.7. </a><a href="#name-helloretryrequest" class="section-name selfRef">HelloRetryRequest</a>
         </h3>
-<p id="section-4.9-1">In TLS over TCP, the HelloRetryRequest feature (see Section 4.1.4 of
+<p id="section-4.7-1">In TLS over TCP, the HelloRetryRequest feature (see Section 4.1.4 of
 <span>[<a href="#TLS13" class="xref">TLS13</a>]</span>) can be used to correct a client's incorrect KeyShare extension as
 well as for a stateless round-trip check. From the perspective of QUIC, this
 just looks like additional messages carried in Initial packets. Although it is
 in principle possible to use this feature for address verification in QUIC,
 QUIC implementations SHOULD instead use the Retry feature (see Section 8.1 of
-<span>[<a href="#QUIC-TRANSPORT" class="xref">QUIC-TRANSPORT</a>]</span>). HelloRetryRequest is still used to request key shares.<a href="#section-4.9-1" class="pilcrow">¶</a></p>
+<span>[<a href="#QUIC-TRANSPORT" class="xref">QUIC-TRANSPORT</a>]</span>). HelloRetryRequest is still used to request key shares.<a href="#section-4.7-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="tls-errors">
-<section id="section-4.10">
+<section id="section-4.8">
         <h3 id="name-tls-errors">
-<a href="#section-4.10" class="section-number selfRef">4.10. </a><a href="#name-tls-errors" class="section-name selfRef">TLS Errors</a>
+<a href="#section-4.8" class="section-number selfRef">4.8. </a><a href="#name-tls-errors" class="section-name selfRef">TLS Errors</a>
         </h3>
-<p id="section-4.10-1">If TLS experiences an error, it generates an appropriate alert as defined in
-Section 6 of <span>[<a href="#TLS13" class="xref">TLS13</a>]</span>.<a href="#section-4.10-1" class="pilcrow">¶</a></p>
-<p id="section-4.10-2">A TLS alert is converted into a QUIC connection error. The alert description is
+<p id="section-4.8-1">If TLS experiences an error, it generates an appropriate alert as defined in
+Section 6 of <span>[<a href="#TLS13" class="xref">TLS13</a>]</span>.<a href="#section-4.8-1" class="pilcrow">¶</a></p>
+<p id="section-4.8-2">A TLS alert is converted into a QUIC connection error. The alert description is
 added to 0x100 to produce a QUIC error code from the range reserved for
 CRYPTO_ERROR. The resulting value is sent in a QUIC CONNECTION_CLOSE frame of
-type 0x1c.<a href="#section-4.10-2" class="pilcrow">¶</a></p>
-<p id="section-4.10-3">The alert level of all TLS alerts is "fatal"; a TLS stack MUST NOT generate
-alerts at the "warning" level.<a href="#section-4.10-3" class="pilcrow">¶</a></p>
-<p id="section-4.10-4">QUIC permits the use of a generic code in place of a specific error code; see
+type 0x1c.<a href="#section-4.8-2" class="pilcrow">¶</a></p>
+<p id="section-4.8-3">The alert level of all TLS alerts is "fatal"; a TLS stack MUST NOT generate
+alerts at the "warning" level.<a href="#section-4.8-3" class="pilcrow">¶</a></p>
+<p id="section-4.8-4">QUIC permits the use of a generic code in place of a specific error code; see
 Section 11 of <span>[<a href="#QUIC-TRANSPORT" class="xref">QUIC-TRANSPORT</a>]</span>. For TLS alerts, this includes replacing any
 alert with a generic alert, such as handshake_failure (0x128 in QUIC).
 Endpoints MAY use a generic error code to avoid possibly exposing confidential
-information.<a href="#section-4.10-4" class="pilcrow">¶</a></p>
+information.<a href="#section-4.8-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="discarding-unused-keys">
-<section id="section-4.11">
+<section id="section-4.9">
         <h3 id="name-discarding-unused-keys">
-<a href="#section-4.11" class="section-number selfRef">4.11. </a><a href="#name-discarding-unused-keys" class="section-name selfRef">Discarding Unused Keys</a>
+<a href="#section-4.9" class="section-number selfRef">4.9. </a><a href="#name-discarding-unused-keys" class="section-name selfRef">Discarding Unused Keys</a>
         </h3>
-<p id="section-4.11-1">After QUIC moves to a new encryption level, packet protection keys for previous
+<p id="section-4.9-1">After QUIC moves to a new encryption level, packet protection keys for previous
 encryption levels can be discarded.  This occurs several times during the
-handshake, as well as when keys are updated; see <a href="#key-update" class="xref">Section 6</a>.<a href="#section-4.11-1" class="pilcrow">¶</a></p>
-<p id="section-4.11-2">Packet protection keys are not discarded immediately when new keys are
+handshake, as well as when keys are updated; see <a href="#key-update" class="xref">Section 6</a>.<a href="#section-4.9-1" class="pilcrow">¶</a></p>
+<p id="section-4.9-2">Packet protection keys are not discarded immediately when new keys are
 available.  If packets from a lower encryption level contain CRYPTO frames,
 frames that retransmit that data MUST be sent at the same encryption level.
 Similarly, an endpoint generates acknowledgements for packets at the same
 encryption level as the packet being acknowledged.  Thus, it is possible that
 keys for a lower encryption level are needed for a short time after keys for a
-newer encryption level are available.<a href="#section-4.11-2" class="pilcrow">¶</a></p>
-<p id="section-4.11-3">An endpoint cannot discard keys for a given encryption level unless it has both
+newer encryption level are available.<a href="#section-4.9-2" class="pilcrow">¶</a></p>
+<p id="section-4.9-3">An endpoint cannot discard keys for a given encryption level unless it has both
 received and acknowledged all CRYPTO frames for that encryption level and when
 all CRYPTO frames for that encryption level have been acknowledged by its peer.
 However, this does not guarantee that no further packets will need to be
 received or sent at that encryption level because a peer might not have received
-all the acknowledgements necessary to reach the same state.<a href="#section-4.11-3" class="pilcrow">¶</a></p>
-<p id="section-4.11-4">Though an endpoint might retain older keys, new data MUST be sent at the highest
+all the acknowledgements necessary to reach the same state.<a href="#section-4.9-3" class="pilcrow">¶</a></p>
+<p id="section-4.9-4">Though an endpoint might retain older keys, new data MUST be sent at the highest
 currently-available encryption level.  Only ACK frames and retransmissions of
 data in CRYPTO frames are sent at a previous encryption level.  These packets
-MAY also include PADDING frames.<a href="#section-4.11-4" class="pilcrow">¶</a></p>
+MAY also include PADDING frames.<a href="#section-4.9-4" class="pilcrow">¶</a></p>
 <div id="discarding-initial-keys">
-<section id="section-4.11.1">
+<section id="section-4.9.1">
           <h4 id="name-discarding-initial-keys">
-<a href="#section-4.11.1" class="section-number selfRef">4.11.1. </a><a href="#name-discarding-initial-keys" class="section-name selfRef">Discarding Initial Keys</a>
+<a href="#section-4.9.1" class="section-number selfRef">4.9.1. </a><a href="#name-discarding-initial-keys" class="section-name selfRef">Discarding Initial Keys</a>
           </h4>
-<p id="section-4.11.1-1">Packets protected with Initial secrets (<a href="#initial-secrets" class="xref">Section 5.2</a>) are not
+<p id="section-4.9.1-1">Packets protected with Initial secrets (<a href="#initial-secrets" class="xref">Section 5.2</a>) are not
 authenticated, meaning that an attacker could spoof packets with the intent to
 disrupt a connection.  To limit these attacks, Initial packet protection keys
-can be discarded more aggressively than other keys.<a href="#section-4.11.1-1" class="pilcrow">¶</a></p>
-<p id="section-4.11.1-2">The successful use of Handshake packets indicates that no more Initial packets
+can be discarded more aggressively than other keys.<a href="#section-4.9.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.9.1-2">The successful use of Handshake packets indicates that no more Initial packets
 need to be exchanged, as these keys can only be produced after receiving all
 CRYPTO frames from Initial packets.  Thus, a client MUST discard Initial keys
 when it first sends a Handshake packet and a server MUST discard Initial keys
 when it first successfully processes a Handshake packet.  Endpoints MUST NOT
-send Initial packets after this point.<a href="#section-4.11.1-2" class="pilcrow">¶</a></p>
-<p id="section-4.11.1-3">This results in abandoning loss recovery state for the Initial encryption level
-and ignoring any outstanding Initial packets.<a href="#section-4.11.1-3" class="pilcrow">¶</a></p>
+send Initial packets after this point.<a href="#section-4.9.1-2" class="pilcrow">¶</a></p>
+<p id="section-4.9.1-3">This results in abandoning loss recovery state for the Initial encryption level
+and ignoring any outstanding Initial packets.<a href="#section-4.9.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="discarding-handshake-keys">
-<section id="section-4.11.2">
+<section id="section-4.9.2">
           <h4 id="name-discarding-handshake-keys">
-<a href="#section-4.11.2" class="section-number selfRef">4.11.2. </a><a href="#name-discarding-handshake-keys" class="section-name selfRef">Discarding Handshake Keys</a>
+<a href="#section-4.9.2" class="section-number selfRef">4.9.2. </a><a href="#name-discarding-handshake-keys" class="section-name selfRef">Discarding Handshake Keys</a>
           </h4>
-<p id="section-4.11.2-1">An endpoint MUST discard its handshake keys when the TLS handshake is confirmed
+<p id="section-4.9.2-1">An endpoint MUST discard its handshake keys when the TLS handshake is confirmed
 (<a href="#handshake-confirmed" class="xref">Section 4.1.2</a>).  The server MUST send a HANDSHAKE_DONE frame as soon
-as it completes the handshake.<a href="#section-4.11.2-1" class="pilcrow">¶</a></p>
+as it completes the handshake.<a href="#section-4.9.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="discarding-0-rtt-keys">
-<section id="section-4.11.3">
+<section id="section-4.9.3">
           <h4 id="name-discarding-0-rtt-keys">
-<a href="#section-4.11.3" class="section-number selfRef">4.11.3. </a><a href="#name-discarding-0-rtt-keys" class="section-name selfRef">Discarding 0-RTT Keys</a>
+<a href="#section-4.9.3" class="section-number selfRef">4.9.3. </a><a href="#name-discarding-0-rtt-keys" class="section-name selfRef">Discarding 0-RTT Keys</a>
           </h4>
-<p id="section-4.11.3-1">0-RTT and 1-RTT packets share the same packet number space, and clients do not
-send 0-RTT packets after sending a 1-RTT packet (<a href="#using-early-data" class="xref">Section 5.6</a>).<a href="#section-4.11.3-1" class="pilcrow">¶</a></p>
-<p id="section-4.11.3-2">Therefore, a client SHOULD discard 0-RTT keys as soon as it installs 1-RTT
-keys, since they have no use after that moment.<a href="#section-4.11.3-2" class="pilcrow">¶</a></p>
-<p id="section-4.11.3-3">Additionally, a server MAY discard 0-RTT keys as soon as it receives a 1-RTT
+<p id="section-4.9.3-1">0-RTT and 1-RTT packets share the same packet number space, and clients do not
+send 0-RTT packets after sending a 1-RTT packet (<a href="#using-early-data" class="xref">Section 5.6</a>).<a href="#section-4.9.3-1" class="pilcrow">¶</a></p>
+<p id="section-4.9.3-2">Therefore, a client SHOULD discard 0-RTT keys as soon as it installs 1-RTT
+keys, since they have no use after that moment.<a href="#section-4.9.3-2" class="pilcrow">¶</a></p>
+<p id="section-4.9.3-3">Additionally, a server MAY discard 0-RTT keys as soon as it receives a 1-RTT
 packet.  However, due to packet reordering, a 0-RTT packet could arrive after
 a 1-RTT packet.  Servers MAY temporarily retain 0-RTT keys to allow decrypting
 reordered packets without requiring their contents to be retransmitted with
@@ -2039,7 +2077,7 @@ reordered packets without requiring their contents to be retransmitted with
 within a short time; the RECOMMENDED time period is three times the Probe
 Timeout (PTO, see <span>[<a href="#QUIC-RECOVERY" class="xref">QUIC-RECOVERY</a>]</span>).  A server MAY discard 0-RTT keys earlier
 if it determines that it has received all 0-RTT packets, which can be done by
-keeping track of missing packet numbers.<a href="#section-4.11.3-3" class="pilcrow">¶</a></p>
+keeping track of missing packet numbers.<a href="#section-4.9.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2089,7 +2127,7 @@ TLS 1.3 (see <a href="#initial-secrets" class="xref">Section 5.2</a>).<a href="#
 Connection ID field from the client's Initial packet. Specifically:<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-5.2-2">
 <pre>
-initial_salt = 0xc3eef712c72ebb5a11a7d2432bb46365bef9f502
+initial_salt = 0xafbfec289993d24c9e9786f19c6111e04390a899
 initial_secret = HKDF-Extract(initial_salt,
                               client_dst_connection_id)
 
@@ -2188,8 +2226,8 @@ prior to exceeding any limit set for the AEAD that is in use.<a href="#section-5
 <a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-header-protection" class="section-name selfRef">Header Protection</a>
         </h3>
 <p id="section-5.4-1">Parts of QUIC packet headers, in particular the Packet Number field, are
-protected using a key that is derived separate to the packet protection key and
-IV.  The key derived using the "quic hp" label is used to provide
+protected using a key that is derived separately from the packet protection key
+and IV.  The key derived using the "quic hp" label is used to provide
 confidentiality protection for those fields that are not exposed to on-path
 elements.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
 <p id="section-5.4-2">This protection applies to the least-significant bits of the first byte, plus
@@ -2418,7 +2456,7 @@ delayed significantly.<a href="#section-5.5-2" class="pilcrow">¶</a></p>
         <h3 id="name-use-of-0-rtt-keys">
 <a href="#section-5.6" class="section-number selfRef">5.6. </a><a href="#name-use-of-0-rtt-keys" class="section-name selfRef">Use of 0-RTT Keys</a>
         </h3>
-<p id="section-5.6-1">If 0-RTT keys are available (see <a href="#enable-0rtt" class="xref">Section 4.6</a>), the lack of replay protection
+<p id="section-5.6-1">If 0-RTT keys are available (see <a href="#enable-0rtt" class="xref">Section 4.6.1</a>), the lack of replay protection
 means that restrictions on their use are necessary to avoid replay attacks on
 the protocol.<a href="#section-5.6-1" class="pilcrow">¶</a></p>
 <p id="section-5.6-2">A client MUST only use 0-RTT keys to protect data that is idempotent.  A client
@@ -2509,9 +2547,9 @@ off-path attackers' ability to send valid Retry packets.<a href="#section-5.8-1"
 <p id="section-5.8-2">The Retry Integrity Tag is a 128-bit field that is computed as the output of
 AEAD_AES_128_GCM <span>[<a href="#AEAD" class="xref">AEAD</a>]</span> used with the following inputs:<a href="#section-5.8-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.8-3.1">The secret key, K, is 128 bits equal to 0x4d32ecdb2a2133c841e4043df27d4430.<a href="#section-5.8-3.1" class="pilcrow">¶</a>
+<li class="normal" id="section-5.8-3.1">The secret key, K, is 128 bits equal to 0xccce187ed09a09d05728155a6cb96be1.<a href="#section-5.8-3.1" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-5.8-3.2">The nonce, N, is 96 bits equal to 0x4d1611d05513a552c587d575.<a href="#section-5.8-3.2" class="pilcrow">¶</a>
+<li class="normal" id="section-5.8-3.2">The nonce, N, is 96 bits equal to 0xe54930f97f2136f0530a8c1c.<a href="#section-5.8-3.2" class="pilcrow">¶</a>
 </li>
 <li class="normal" id="section-5.8-3.3">The plaintext, P, is empty.<a href="#section-5.8-3.3" class="pilcrow">¶</a>
 </li>
@@ -2520,7 +2558,7 @@ illustrated in <a href="#retry-pseudo" class="xref">Figure 8</a>:<a href="#secti
 </li>
 </ul>
 <p id="section-5.8-4">The secret key and the nonce are values derived by calling HKDF-Expand-Label
-using 0x656e61e336ae9417f7f0edd8d78d461e2aa7084aba7a14c1e9f726d55709169a as the
+using 0x8b0d37eb8535022ebc8d76a207d80df22646ec06dc809642c30a8baa2baaff4c as the
 secret, with labels being "quic key" and "quic iv" (<a href="#protection-keys" class="xref">Section 5.1</a>).<a href="#section-5.8-4" class="pilcrow">¶</a></p>
 <span id="name-retry-pseudo-packet"></span><div id="retry-pseudo">
 <figure id="figure-8">
@@ -2585,7 +2623,7 @@ packet that contains the changed value.<a href="#section-6-3" class="pilcrow">¶
 <p id="section-6-4">This mechanism replaces the TLS KeyUpdate message.  Endpoints MUST NOT send a
 TLS KeyUpdate message.  Endpoints MUST treat the receipt of a TLS KeyUpdate
 message as a connection error of type 0x10a, equivalent to a fatal TLS alert of
-unexpected_message (see <a href="#tls-errors" class="xref">Section 4.10</a>).<a href="#section-6-4" class="pilcrow">¶</a></p>
+unexpected_message (see <a href="#tls-errors" class="xref">Section 4.8</a>).<a href="#section-6-4" class="pilcrow">¶</a></p>
 <p id="section-6-5"><a href="#ex-key-update" class="xref">Figure 9</a> shows a key update process, where the initial set of keys used
 (identified with @M) are replaced by updated keys (identified with @N).  The
 value of the Key Phase bit is indicated in brackets [].<a href="#section-6-5" class="pilcrow">¶</a></p>
@@ -2783,15 +2821,68 @@ After this period, old read keys and their corresponding secrets SHOULD be
 discarded.<a href="#section-6.5-7" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="key-update-frequency">
+<div id="minimum-key-update-frequency">
 <section id="section-6.6">
-        <h3 id="name-key-update-frequency">
-<a href="#section-6.6" class="section-number selfRef">6.6. </a><a href="#name-key-update-frequency" class="section-name selfRef">Key Update Frequency</a>
+        <h3 id="name-minimum-key-update-frequenc">
+<a href="#section-6.6" class="section-number selfRef">6.6. </a><a href="#name-minimum-key-update-frequenc" class="section-name selfRef">Minimum Key Update Frequency</a>
         </h3>
 <p id="section-6.6-1">Key updates MUST be initiated before usage limits on packet protection keys are
-exceeded.  For the cipher suites mentioned in this document, the limits in
-Section 5.5 of <span>[<a href="#TLS13" class="xref">TLS13</a>]</span> apply.  Other cipher suites MUST define usage limits
-in order to be used with QUIC.<a href="#section-6.6-1" class="pilcrow">¶</a></p>
+exceeded. For the cipher suites mentioned in this document, the limits in
+Section 5.5 of <span>[<a href="#TLS13" class="xref">TLS13</a>]</span> apply. <span>[<a href="#TLS13" class="xref">TLS13</a>]</span> does not specify a limit for
+AEAD_AES_128_CCM, but the analysis in <a href="#ccm-bounds" class="xref">Appendix B</a> shows that a limit of 2^23
+packets can be used to obtain the same confidentiality protection as the limits
+specified in TLS.<a href="#section-6.6-1" class="pilcrow">¶</a></p>
+<p id="section-6.6-2">The usage limits defined in TLS 1.3 exist for protection against attacks
+on confidentiality and apply to successful applications of AEAD protection. The
+integrity protections in authenticated encryption also depend on limiting the
+number of attempts to forge packets. TLS achieves this by closing connections
+after any record fails an authentication check. In comparison, QUIC ignores any
+packet that cannot be authenticated, allowing multiple forgery attempts.<a href="#section-6.6-2" class="pilcrow">¶</a></p>
+<p id="section-6.6-3">Endpoints MUST count the number of received packets that fail authentication for
+each set of keys.  If the number of packets that fail authentication with the
+same key exceeds a limit that is specific to the AEAD in use, the endpoint MUST
+stop using those keys.  Endpoints MUST initiate a key update before reaching
+this limit.  If a key update is not possible, the endpoint MUST immediately
+close the connection.  Applying a limit reduces the probability that an attacker
+is able to successfully forge a packet; see <span>[<a href="#AEBounds" class="xref">AEBounds</a>]</span> and <span>[<a href="#ROBUST" class="xref">ROBUST</a>]</span>.<a href="#section-6.6-3" class="pilcrow">¶</a></p>
+<dl class="dlParallel" id="section-6.6-4">
+          <dt id="section-6.6-4.1">Note:</dt>
+<dd id="section-6.6-4.2">
+  Due to the way that header protection protects the Key Phase, packets that are
+discarded are likely to have an even distribution of both Key Phase values.
+This means that packets that fail authentication will often use the packet
+protection keys from the next key phase.  It is therefore necessary to also
+track the number of packets that fail authentication with the next set of
+packet protection keys.  To avoid exhaustion of both sets of keys, it might be
+necessary to initiate two key updates in succession.<a href="#section-6.6-4.2" class="pilcrow">¶</a>
+</dd>
+<dd class="break"></dd>
+</dl>
+<p id="section-6.6-5">For AEAD_AES_128_GCM, AEAD_AES_256_GCM, and AEAD_CHACHA20_POLY1305, the limit on
+the number of packets that fail authentication is 2^36.  Note that the analysis
+in <span>[<a href="#AEBounds" class="xref">AEBounds</a>]</span> supports a higher limit for the AEAD_AES_128_GCM and
+AEAD_AES_256_GCM, but this specification recommends a lower limit.  For
+AEAD_AES_128_CCM, the limit on the number of packets that fail authentication
+is 2^23.5; see <a href="#ccm-bounds" class="xref">Appendix B</a>.<a href="#section-6.6-5" class="pilcrow">¶</a></p>
+<dl class="dlParallel" id="section-6.6-6">
+          <dt id="section-6.6-6.1">Note:</dt>
+<dd id="section-6.6-6.2">
+  These limits were originally calculated using assumptions about the
+limits on TLS record size. The maximum size of a TLS record is 2^14 bytes.
+In comparison, QUIC packets can be up to 2^16 bytes.  However, it is
+expected that QUIC packets will generally be smaller than TLS records.
+Where packets might be larger than 2^14 bytes in length, smaller limits might
+be needed.<a href="#section-6.6-6.2" class="pilcrow">¶</a>
+</dd>
+<dd class="break"></dd>
+</dl>
+<p id="section-6.6-7">Any TLS cipher suite that is specified for use with QUIC MUST define limits on
+the use of the associated AEAD function that preserves margins for
+confidentiality and integrity. That is, limits MUST be specified for the number
+of packets that can be authenticated and for the number packets that can fail
+authentication.  Providing a reference to any analysis upon which values are
+based - and any assumptions used in that analysis - allows limits to be adapted
+to varying usage conditions.<a href="#section-6.6-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="key-update-error">
@@ -2847,7 +2938,7 @@ is used for agreeing on an application protocol, endpoints MUST use ALPN for
 this purpose.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
 <p id="section-8.1-2">When using ALPN, endpoints MUST immediately close a connection (see Section
 10.3 of <span>[<a href="#QUIC-TRANSPORT" class="xref">QUIC-TRANSPORT</a>]</span>) with a no_application_protocol TLS alert (QUIC error
-code 0x178; see <a href="#tls-errors" class="xref">Section 4.10</a>) if an application protocol is not negotiated.
+code 0x178; see <a href="#tls-errors" class="xref">Section 4.8</a>) if an application protocol is not negotiated.
 While <span>[<a href="#ALPN" class="xref">ALPN</a>]</span> only specifies that servers use this alert, QUIC clients MUST
 use error 0x178 to terminate a connection when ALPN negotiation fails.<a href="#section-8.1-2" class="pilcrow">¶</a></p>
 <p id="section-8.1-3">An application protocol MAY restrict the QUIC versions that it can operate over.
@@ -2882,7 +2973,7 @@ EncryptedExtensions messages during the handshake. Endpoints MUST send the
 quic_transport_parameters extension; endpoints that receive ClientHello or
 EncryptedExtensions messages without the quic_transport_parameters extension
 MUST close the connection with an error of type 0x16d (equivalent to a fatal TLS
-missing_extension alert, see <a href="#tls-errors" class="xref">Section 4.10</a>).<a href="#section-8.2-5" class="pilcrow">¶</a></p>
+missing_extension alert, see <a href="#tls-errors" class="xref">Section 4.8</a>).<a href="#section-8.2-5" class="pilcrow">¶</a></p>
 <p id="section-8.2-6">While the transport parameters are technically available prior to the completion
 of the handshake, they cannot be fully trusted until the handshake completes,
 and reliance on them should be minimized.  However, any tampering with the
@@ -2946,7 +3037,7 @@ remainder of the document.<a href="#section-9-2" class="pilcrow">¶</a></p>
 correlate connections made by the same client; see <a href="#resumption" class="xref">Section 4.5</a> for details.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="replay-attacks-with-0-rtt">
+<div id="replay">
 <section id="section-9.2">
         <h3 id="name-replay-attacks-with-0-rtt">
 <a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-replay-attacks-with-0-rtt" class="section-name selfRef">Replay Attacks with 0-RTT</a>
@@ -3146,11 +3237,11 @@ the KEY_UPDATE_ERROR (0xE), as described in <a href="#key-update-error" class="x
 <dd class="break"></dd>
 <dt id="QUIC-RECOVERY">[QUIC-RECOVERY]</dt>
 <dd>
-<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and I. Swett, Ed.</span>, <span class="refTitle">"QUIC Loss Detection and Congestion Control"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-recovery-latest</span>, <time datetime="2020-06-09">9 June 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-recovery-latest">https://tools.ietf.org/html/draft-ietf-quic-recovery-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and I. Swett, Ed.</span>, <span class="refTitle">"QUIC Loss Detection and Congestion Control"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-recovery-latest</span>, <time datetime="2020-07-09">9 July 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-recovery-latest">https://tools.ietf.org/html/draft-ietf-quic-recovery-latest</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="QUIC-TRANSPORT">[QUIC-TRANSPORT]</dt>
 <dd>
-<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and M. Thomson, Ed.</span>, <span class="refTitle">"QUIC: A UDP-Based Multiplexed and Secure Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-transport-latest</span>, <time datetime="2020-06-09">9 June 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-transport-latest">https://tools.ietf.org/html/draft-ietf-quic-transport-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and M. Thomson, Ed.</span>, <span class="refTitle">"QUIC: A UDP-Based Multiplexed and Secure Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-transport-latest</span>, <time datetime="2020-07-09">9 July 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-transport-latest">https://tools.ietf.org/html/draft-ietf-quic-transport-latest</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
 <dd>
@@ -3183,6 +3274,10 @@ the KEY_UPDATE_ERROR (0xE), as described in <a href="#key-update-error" class="x
 <dd>
 <span class="refAuthor">Luykx, A.</span><span class="refAuthor"> and K. Paterson</span>, <span class="refTitle">"Limits on Authenticated Encryption Use in TLS"</span>, <time datetime="2016-03-08">8 March 2016</time>, <span>&lt;<a href="http://www.isg.rhul.ac.uk/~kp/TLS-AEbounds.pdf">http://www.isg.rhul.ac.uk/~kp/TLS-AEbounds.pdf</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="CCM-ANALYSIS">[CCM-ANALYSIS]</dt>
+<dd>
+<span class="refAuthor">Jonsson, J.</span>, <span class="refTitle">"On the Security of CTR + CBC-MAC"</span>, <span class="seriesInfo">DOI 10.1007/3-540-36492-7_7</span>, <span class="seriesInfo">Selected Areas in Cryptography pp. 76-93</span>, <time datetime="2003">2003</time>, <span>&lt;<a href="https://doi.org/10.1007/3-540-36492-7_7">https://doi.org/10.1007/3-540-36492-7_7</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="HTTP2-TLS13">[HTTP2-TLS13]</dt>
 <dd>
 <span class="refAuthor">Benjamin, D.</span>, <span class="refTitle">"Using TLS 1.3 with HTTP/2"</span>, <span class="seriesInfo">RFC 8740</span>, <span class="seriesInfo">DOI 10.17487/RFC8740</span>, <time datetime="2020-02">February 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8740">https://www.rfc-editor.org/info/rfc8740</a>&gt;</span>. </dd>
@@ -3197,7 +3292,7 @@ the KEY_UPDATE_ERROR (0xE), as described in <a href="#key-update-error" class="x
 <dd class="break"></dd>
 <dt id="QUIC-HTTP">[QUIC-HTTP]</dt>
 <dd>
-<span class="refAuthor">Bishop, M., Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol Version 3 (HTTP/3)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-http-latest</span>, <time datetime="2020-06-09">9 June 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-http-latest">https://tools.ietf.org/html/draft-ietf-quic-http-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Bishop, M., Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol Version 3 (HTTP/3)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-http-latest</span>, <time datetime="2020-07-09">9 July 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-http-latest">https://tools.ietf.org/html/draft-ietf-quic-http-latest</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2818">[RFC2818]</dt>
 <dd>
@@ -3206,6 +3301,10 @@ the KEY_UPDATE_ERROR (0xE), as described in <a href="#key-update-error" class="x
 <dt id="RFC5280">[RFC5280]</dt>
 <dd>
 <span class="refAuthor">Cooper, D.</span><span class="refAuthor">, Santesson, S.</span><span class="refAuthor">, Farrell, S.</span><span class="refAuthor">, Boeyen, S.</span><span class="refAuthor">, Housley, R.</span><span class="refAuthor">, and W. Polk</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile"</span>, <span class="seriesInfo">RFC 5280</span>, <span class="seriesInfo">DOI 10.17487/RFC5280</span>, <time datetime="2008-05">May 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5280">https://www.rfc-editor.org/info/rfc5280</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="ROBUST">[ROBUST]</dt>
+<dd>
+<span class="refAuthor">Fischlin, M.</span><span class="refAuthor">, Günther, F.</span><span class="refAuthor">, and C. Janson</span>, <span class="refTitle">"Robust Channels: Handling Unreliable Networks in the Record Layers of QUIC and DTLS 1.3"</span>, <time datetime="2020-05-16">16 May 2020</time>, <span>&lt;<a href="https://eprint.iacr.org/2020/718">https://eprint.iacr.org/2020/718</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -3257,8 +3356,8 @@ included. All values are shown in hexadecimal.<a href="#section-appendix.a-1" cl
 <div class="artwork art-text alignLeft" id="section-a.1-4">
 <pre>
 initial_secret = HKDF-Extract(initial_salt, cid)
-    = 524e374c6da8cf8b496f4bcb69678350
-      7aafee6198b202b4bc823ebf7514a423
+    = 1e7e7764529715b1e0ddc8e9753c6157
+      6769605187793ed366f8bbf8c9e986eb
 </pre><a href="#section-a.1-4" class="pilcrow">¶</a>
 </div>
 <p id="section-a.1-5">The secrets for protecting client packets are:<a href="#section-a.1-5" class="pilcrow">¶</a></p>
@@ -3266,17 +3365,17 @@ initial_secret = HKDF-Extract(initial_salt, cid)
 <pre>
 client_initial_secret
     = HKDF-Expand-Label(initial_secret, "client in", _, 32)
-    = fda3953aecc040e48b34e27ef87de3a6
-      098ecf0e38b7e032c5c57bcbd5975b84
+    = 0088119288f1d866733ceeed15ff9d50
+      902cf82952eee27e9d4d4918ea371d87
 
 key = HKDF-Expand-Label(client_initial_secret, "quic key", _, 16)
-    = af7fd7efebd21878ff66811248983694
+    = 175257a31eb09dea9366d8bb79ad80ba
 
 iv  = HKDF-Expand-Label(client_initial_secret, "quic iv", _, 12)
-    = 8681359410a70bb9c92f0420
+    = 6b26114b9cba2b63a9e8dd4f
 
 hp  = HKDF-Expand-Label(client_initial_secret, "quic hp", _, 16)
-    = a980b8b4fb7d9fbc13e814c23164253d
+    = 9ddd12c994c0698b89374a9c077a3077
 </pre><a href="#section-a.1-6" class="pilcrow">¶</a>
 </div>
 <p id="section-a.1-7">The secrets for protecting server packets are:<a href="#section-a.1-7" class="pilcrow">¶</a></p>
@@ -3284,17 +3383,17 @@ hp  = HKDF-Expand-Label(client_initial_secret, "quic hp", _, 16)
 <pre>
 server_initial_secret
     = HKDF-Expand-Label(initial_secret, "server in", _, 32)
-    = 554366b81912ff90be41f17e80222130
-      90ab17d8149179bcadf222f29ff2ddd5
+    = 006f881359244dd9ad1acf85f595bad6
+      7c13f9f5586f5e64e1acae1d9ea8f616
 
 key = HKDF-Expand-Label(server_initial_secret, "quic key", _, 16)
-    = 5d51da9ee897a21b2659ccc7e5bfa577
+    = 149d0b1662ab871fbe63c49b5e655a5d
 
 iv  = HKDF-Expand-Label(server_initial_secret, "quic iv", _, 12)
-    = 5e5ae651fd1e8495af13508b
+    = bab2b12a4c76016ace47856d
 
 hp  = HKDF-Expand-Label(server_initial_secret, "quic hp", _, 16)
-    = a8ed82e6664f865aedf6106943f95fb8
+    = c0c499a65a60024a18a250974ea01dfa
 </pre><a href="#section-a.1-8" class="pilcrow">¶</a>
 </div>
 </section>
@@ -3309,20 +3408,21 @@ contains the following CRYPTO frame, plus enough PADDING frames to make a 1162
 byte payload:<a href="#section-a.2-1" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-a.2-2">
 <pre>
-060040c4010000c003036660261ff947 cea49cce6cfad687f457cf1b14531ba1
-4131a0e8f309a1d0b9c4000006130113 031302010000910000000b0009000006
-736572766572ff01000100000a001400 12001d00170018001901000101010201
-03010400230000003300260024001d00 204cfdfcd178b784bf328cae793b136f
-2aedce005ff183d7bb14952072366470 37002b0003020304000d0020001e0403
-05030603020308040805080604010501 060102010402050206020202002d0002
-0101001c00024001
+060040f1010000ed0303ebf8fa56f129 39b9584a3896472ec40bb863cfd3e868
+04fe3a47f06a2b69484c000004130113 02010000c000000010000e00000b6578
+616d706c652e636f6dff01000100000a 00080006001d00170018001000070005
+04616c706e0005000501000000000033 00260024001d00209370b2c9caa47fba
+baf4559fedba753de171fa71f50f1ce1 5d43e994ec74d748002b000302030400
+0d0010000e0403050306030203080408 050806002d00020101001c00024001ff
+a500320408ffffffffffffffff050480 00ffff07048000ffff08011001048000
+75300901100f088394c8f03e51570806 048000ffff
 </pre><a href="#section-a.2-2" class="pilcrow">¶</a>
 </div>
 <p id="section-a.2-3">The unprotected header includes the connection ID and a 4 byte packet number
 encoding for a packet number of 2:<a href="#section-a.2-3" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-a.2-4">
 <pre>
-c3ff00001c088394c8f03e5157080000449e00000002
+c3ff00001d088394c8f03e5157080000449e00000002
 </pre><a href="#section-a.2-4" class="pilcrow">¶</a>
 </div>
 <p id="section-a.2-5">Protecting the payload produces output that is sampled for header protection.
@@ -3330,59 +3430,59 @@ Because the header uses a 4 byte packet number encoding, the first 16 bytes of
 the protected payload is sampled, then applied to the header:<a href="#section-a.2-5" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-a.2-6">
 <pre>
-sample = 535064a4268a0d9d7b1c9d250ae35516
+sample = fb66bc6a93032b50dd8973972d149421
 
 mask = AES-ECB(hp, sample)[0..4]
-     = 833b343aaa
+     = 1e9cdb9909
 
 header[0] ^= mask[0] &amp; 0x0f
-     = c0
+     = cd
 header[18..21] ^= mask[1..4]
-     = 3b343aa8
-header = c0ff00001c088394c8f03e5157080000449e3b343aa8
+     = 9cdb990b
+header = cdff00001d088394c8f03e5157080000449e9cdb990b
 </pre><a href="#section-a.2-6" class="pilcrow">¶</a>
 </div>
 <p id="section-a.2-7">The resulting protected packet is:<a href="#section-a.2-7" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-a.2-8">
 <pre>
-c0ff00001c088394c8f03e5157080000 449e3b343aa8535064a4268a0d9d7b1c
-9d250ae355162276e9b1e3011ef6bbc0 ab48ad5bcc2681e953857ca62becd752
-4daac473e68d7405fbba4e9ee616c870 38bdbe908c06d9605d9ac49030359eec
-b1d05a14e117db8cede2bb09d0dbbfee 271cb374d8f10abec82d0f59a1dee29f
-e95638ed8dd41da07487468791b719c5 5c46968eb3b54680037102a28e53dc1d
-12903db0af5821794b41c4a93357fa59 ce69cfe7f6bdfa629eef78616447e1d6
-11c4baf71bf33febcb03137c2c75d253 17d3e13b684370f668411c0f00304b50
-1c8fd422bd9b9ad81d643b20da89ca05 25d24d2b142041cae0af205092e43008
-0cd8559ea4c5c6e4fa3f66082b7d303e 52ce0162baa958532b0bbc2bc785681f
-cf37485dff6595e01e739c8ac9efba31 b985d5f656cc092432d781db95221724
-87641c4d3ab8ece01e39bc85b1543661 4775a98ba8fa12d46f9b35e2a55eb72d
-7f85181a366663387ddc20551807e007 673bd7e26bf9b29b5ab10a1ca87cbb7a
-d97e99eb66959c2a9bc3cbde4707ff77 20b110fa95354674e395812e47a0ae53
-b464dcb2d1f345df360dc227270c7506 76f6724eb479f0d2fbb6124429990457
-ac6c9167f40aab739998f38b9eccb24f d47c8410131bf65a52af841275d5b3d1
-880b197df2b5dea3e6de56ebce3ffb6e 9277a82082f8d9677a6767089b671ebd
-244c214f0bde95c2beb02cd1172d58bd f39dce56ff68eb35ab39b49b4eac7c81
-5ea60451d6e6ab82119118df02a58684 4a9ffe162ba006d0669ef57668cab38b
-62f71a2523a084852cd1d079b3658dc2 f3e87949b550bab3e177cfc49ed190df
-f0630e43077c30de8f6ae081537f1e83 da537da980afa668e7b7fb25301cf741
-524be3c49884b42821f17552fbd1931a 813017b6b6590a41ea18b6ba49cd48a4
-40bd9a3346a7623fb4ba34a3ee571e3c 731f35a7a3cf25b551a680fa68763507
-b7fde3aaf023c50b9d22da6876ba337e b5e9dd9ec3daf970242b6c5aab3aa4b2
-96ad8b9f6832f686ef70fa938b31b4e5 ddd7364442d3ea72e73d668fb0937796
-f462923a81a47e1cee7426ff6d922126 9b5a62ec03d6ec94d12606cb485560ba
-b574816009e96504249385bb61a819be 04f62c2066214d8360a2022beb316240
-b6c7d78bbe56c13082e0ca272661210a bf020bf3b5783f1426436cf9ff418405
-93a5d0638d32fc51c5c65ff291a3a7a5 2fd6775e623a4439cc08dd25582febc9
-44ef92d8dbd329c91de3e9c9582e41f1 7f3d186f104ad3f90995116c682a2a14
-a3b4b1f547c335f0be710fc9fc03e0e5 87b8cda31ce65b969878a4ad4283e6d5
-b0373f43da86e9e0ffe1ae0fddd35162 55bd74566f36a38703d5f34249ded1f6
-6b3d9b45b9af2ccfefe984e13376b1b2 c6404aa48c8026132343da3f3a33659e
-c1b3e95080540b28b7f3fcd35fa5d843 b579a84c089121a60d8c1754915c344e
-eaf45a9bf27dc0c1e784161691220913 13eb0e87555abd706626e557fc36a04f
-cd191a58829104d6075c5594f627ca50 6bf181daec940f4a4f3af0074eee89da
-acde6758312622d4fa675b39f728e062 d2bee680d8f41a597c262648bb18bcfc
-13c8b3d97b1a77b2ac3af745d61a34cc 4709865bac824a94bb19058015e4e42d
-ea5388b911e76d2856d68cf6cf394185
+cdff00001d088394c8f03e5157080000 449e9cdb990bfb66bc6a93032b50dd89
+73972d149421874d3849e3708d71354e a33bcdc356f3ea6e2a1a1bd7c3d14003
+8d3e784d04c30a2cdb40c32523aba2da fe1c1bf3d27a6be38fe38ae033fbb071
+3c1c73661bb6639795b42b97f77068ea d51f11fbf9489af2501d09481e6c64d4
+b8551cd3cea70d830ce2aeeec789ef55 1a7fbe36b3f7e1549a9f8d8e153b3fac
+3fb7b7812c9ed7c20b4be190ebd89956 26e7f0fc887925ec6f0606c5d36aa81b
+ebb7aacdc4a31bb5f23d55faef5c5190 5783384f375a43235b5c742c78ab1bae
+0a188b75efbde6b3774ed61282f9670a 9dea19e1566103ce675ab4e21081fb58
+60340a1e88e4f10e39eae25cd685b109 29636d4f02e7fad2a5a458249f5c0298
+a6d53acbe41a7fc83fa7cc01973f7a74 d1237a51974e097636b6203997f921d0
+7bc1940a6f2d0de9f5a11432946159ed 6cc21df65c4ddd1115f86427259a196c
+7148b25b6478b0dc7766e1c4d1b1f515 9f90eabc61636226244642ee148b464c
+9e619ee50a5e3ddc836227cad938987c 4ea3c1fa7c75bbf88d89e9ada642b2b8
+8fe8107b7ea375b1b64889a4e9e5c38a 1c896ce275a5658d250e2d76e1ed3a34
+ce7e3a3f383d0c996d0bed106c2899ca 6fc263ef0455e74bb6ac1640ea7bfedc
+59f03fee0e1725ea150ff4d69a7660c5 542119c71de270ae7c3ecfd1af2c4ce5
+51986949cc34a66b3e216bfe18b347e6 c05fd050f85912db303a8f054ec23e38
+f44d1c725ab641ae929fecc8e3cefa56 19df4231f5b4c009fa0c0bbc60bc75f7
+6d06ef154fc8577077d9d6a1d2bd9bf0 81dc783ece60111bea7da9e5a9748069
+d078b2bef48de04cabe3755b197d52b3 2046949ecaa310274b4aac0d008b1948
+c1082cdfe2083e386d4fd84c0ed0666d 3ee26c4515c4fee73433ac703b690a9f
+7bf278a77486ace44c489a0c7ac8dfe4 d1a58fb3a730b993ff0f0d61b4d89557
+831eb4c752ffd39c10f6b9f46d8db278 da624fd800e4af85548a294c1518893a
+8778c4f6d6d73c93df200960104e062b 388ea97dcf4016bced7f62b4f062cb6c
+04c20693d9a0e3b74ba8fe74cc012378 84f40d765ae56a51688d985cf0ceaef4
+3045ed8c3f0c33bced08537f6882613a cd3b08d665fce9dd8aa73171e2d3771a
+61dba2790e491d413d93d987e2745af2 9418e428be34941485c93447520ffe23
+1da2304d6a0fd5d07d08372202369661 59bef3cf904d722324dd852513df39ae
+030d8173908da6364786d3c1bfcb19ea 77a63b25f1e7fc661def480c5d00d444
+56269ebd84efd8e3a8b2c257eec76060 682848cbf5194bc99e49ee75e4d0d254
+bad4bfd74970c30e44b65511d4ad0e6e c7398e08e01307eeeea14e46ccd87cf3
+6b285221254d8fc6a6765c524ded0085 dca5bd688ddf722e2c0faf9d0fb2ce7a
+0c3f2cee19ca0ffba461ca8dc5d2c817 8b0762cf67135558494d2a96f1a139f0
+edb42d2af89a9c9122b07acbc29e5e72 2df8615c343702491098478a389c9872
+a10b0c9875125e257c7bfdf27eef4060 bd3d00f4c14fd3e3496c38d3c5d1a566
+8c39350effbc2d16ca17be4ce29f02ed 969504dda2a8c6b9ff919e693ee79e09
+089316e7d1d89ec099db3b2b268725d8 88536a4b8bf9aee8fb43e82a4d919d48
+1802771a449b30f3fa2289852607b660
 </pre><a href="#section-a.2-8" class="pilcrow">¶</a>
 </div>
 </section>
@@ -3396,36 +3496,36 @@ ea5388b911e76d2856d68cf6cf394185
 CRYPTO frame, and no PADDING frames:<a href="#section-a.3-1" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-a.3-2">
 <pre>
-0d0000000018410a020000560303eefc e7f7b37ba1d1632e96677825ddf73988
-cfc79825df566dc5430b9a045a120013 0100002e00330024001d00209d3c940d
-89690b84d08a60993c144eca684d1081 287c834d5311bcf32bb9da1a002b0002
-0304
+02000000000600405a020000560303ee fce7f7b37ba1d1632e96677825ddf739
+88cfc79825df566dc5430b9a045a1200 130100002e00330024001d00209d3c94
+0d89690b84d08a60993c144eca684d10 81287c834d5311bcf32bb9da1a002b00
+020304
 </pre><a href="#section-a.3-2" class="pilcrow">¶</a>
 </div>
 <p id="section-a.3-3">The header from the server includes a new connection ID and a 2-byte packet
 number encoding for a packet number of 1:<a href="#section-a.3-3" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-a.3-4">
 <pre>
-c1ff00001c0008f067a5502a4262b50040740001
+c1ff00001d0008f067a5502a4262b50040740001
 </pre><a href="#section-a.3-4" class="pilcrow">¶</a>
 </div>
 <p id="section-a.3-5">As a result, after protection, the header protection sample is taken starting
 from the third protected octet:<a href="#section-a.3-5" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-a.3-6">
 <pre>
-sample = 7002596f99ae67abf65a5852f54f58c3
-mask   = 38168a0c25
-header = c9ff00001c0008f067a5502a4262b5004074168b
+sample = 823a5d3a1207c86ee49132824f046524
+mask   = abaaf34fdc
+header = caff00001d0008f067a5502a4262b5004074aaf2
 </pre><a href="#section-a.3-6" class="pilcrow">¶</a>
 </div>
 <p id="section-a.3-7">The final protected packet is then:<a href="#section-a.3-7" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-a.3-8">
 <pre>
-c9ff00001c0008f067a5502a4262b500 4074168bf22b7002596f99ae67abf65a
-5852f54f58c37c808682e2e40492d8a3 899fb04fc0afe9aabc8767b18a0aa493
-537426373b48d502214dd856d63b78ce e37bc664b3fe86d487ac7a77c53038a3
-cd32f0b5004d9f5754c4f7f2d1f35cf3 f7116351c92bda5b23c81034ab74f54c
-b1bd72951256
+c7ff00001d0008f067a5502a4262b500 4075fb12ff07823a5d24534d906ce4c7
+6782a2167e3479c0f7f6395dc2c91676 302fe6d70bb7cbeb117b4ddb7d173498
+44fd61dae200b8338e1b932976b61d91 e64a02e9e0ee72e3a6f63aba4ceeeec5
+be2f24f2d86027572943533846caa13e 6f163fb257473dcca25396e88724f1e5
+d964dedee9b633
 </pre><a href="#section-a.3-8" class="pilcrow">¶</a>
 </div>
 </section>
@@ -3441,8 +3541,8 @@ connection ID value of 0x8394c8f03e515708, but that value is not
 included in the final Retry packet:<a href="#section-a.4-1" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-a.4-2">
 <pre>
-ffff00001c0008f067a5502a4262b574 6f6b656ef71a5f12afe3ecf8001a920e
-6fdf1d63
+ffff00001d0008f067a5502a4262b574 6f6b656ed16926d81f6f9ca2953a8aa4
+575e1e49
 </pre><a href="#section-a.4-2" class="pilcrow">¶</a>
 </div>
 </section>
@@ -3514,68 +3614,194 @@ packet = 4cfe4189655e5cd55c41f69080575d7999c25a5bfb
 </div>
 </section>
 </div>
-<div id="change-log">
+<div id="ccm-bounds">
 <section id="section-appendix.b">
+      <h2 id="name-analysis-of-limits-on-aead_">
+<a href="#section-appendix.b" class="section-number selfRef">Appendix B. </a><a href="#name-analysis-of-limits-on-aead_" class="section-name selfRef">Analysis of Limits on AEAD_AES_128_CCM Usage</a>
+      </h2>
+<p id="section-appendix.b-1">TLS <span>[<a href="#TLS13" class="xref">TLS13</a>]</span> and <span>[<a href="#AEBounds" class="xref">AEBounds</a>]</span> do not specify limits on usage for
+AEAD_AES_128_CCM. However, any AEAD that is used with QUIC requires limits on
+use that ensure that both confidentiality and integrity are preserved. This
+section documents that analysis.<a href="#section-appendix.b-1" class="pilcrow">¶</a></p>
+<p id="section-appendix.b-2"><span>[<a href="#CCM-ANALYSIS" class="xref">CCM-ANALYSIS</a>]</span> is used as the basis of this
+analysis. The results of that analysis are used to derive usage limits that are
+based on those chosen in <span>[<a href="#TLS13" class="xref">TLS13</a>]</span>.<a href="#section-appendix.b-2" class="pilcrow">¶</a></p>
+<p id="section-appendix.b-3">This analysis uses symbols for multiplication (*), division (/), and
+exponentiation (^), plus parentheses for establishing precedence. The following
+symbols are also used:<a href="#section-appendix.b-3" class="pilcrow">¶</a></p>
+<dl class="dlParallel" id="section-appendix.b-4">
+        <dt id="section-appendix.b-4.1">t:</dt>
+<dd id="section-appendix.b-4.2">
+  The size of the authentication tag in bits. For this cipher, t is 128.<a href="#section-appendix.b-4.2" class="pilcrow">¶</a>
+</dd>
+<dd class="break"></dd>
+<dt id="section-appendix.b-4.3">n:</dt>
+<dd id="section-appendix.b-4.4">
+  The size of the block function in bits. For this cipher, n is 128.<a href="#section-appendix.b-4.4" class="pilcrow">¶</a>
+</dd>
+<dd class="break"></dd>
+<dt id="section-appendix.b-4.5">l:</dt>
+<dd id="section-appendix.b-4.6">
+  The number of blocks in each packet (see below).<a href="#section-appendix.b-4.6" class="pilcrow">¶</a>
+</dd>
+<dd class="break"></dd>
+<dt id="section-appendix.b-4.7">q:</dt>
+<dd id="section-appendix.b-4.8">
+  The number of genuine packets created and protected by endpoints. This value
+is the bound on the number of packets that can be protected before updating
+keys.<a href="#section-appendix.b-4.8" class="pilcrow">¶</a>
+</dd>
+<dd class="break"></dd>
+<dt id="section-appendix.b-4.9">v:</dt>
+<dd id="section-appendix.b-4.10">
+  The number of forged packets that endpoints will accept. This value is the
+bound on the number of forged packets that an endpoint can reject before
+updating keys.<a href="#section-appendix.b-4.10" class="pilcrow">¶</a>
+</dd>
+<dd class="break"></dd>
+</dl>
+<p id="section-appendix.b-5">The analysis of AEAD_AES_128_CCM relies on a count of the number of block
+operations involved in producing each message. For simplicity, and to match the
+analysis of other AEAD functions in <span>[<a href="#AEBounds" class="xref">AEBounds</a>]</span>, this analysis assumes a
+packet length of 2^10 blocks and a packet size limit of 2^14.<a href="#section-appendix.b-5" class="pilcrow">¶</a></p>
+<p id="section-appendix.b-6">For AEAD_AES_128_CCM, the total number of block cipher operations is the sum
+of: the length of the associated data in blocks, the length of the ciphertext
+in blocks, the length of the plaintext in blocks, plus 1. In this analysis,
+this is simplified to a value of twice the length of the packet in blocks (that
+is, <code>2l = 2^11</code>). This simplification is based on the packet containing all of
+the associated data and ciphertext. This results in a negligible 1 to 3 block
+overestimation of the number of operations.<a href="#section-appendix.b-6" class="pilcrow">¶</a></p>
+<div id="confidentiality-limits">
+<section id="section-b.1">
+        <h2 id="name-confidentiality-limits">
+<a href="#section-b.1" class="section-number selfRef">B.1. </a><a href="#name-confidentiality-limits" class="section-name selfRef">Confidentiality Limits</a>
+        </h2>
+<p id="section-b.1-1">For confidentiality, Theorem 2 in <span>[<a href="#CCM-ANALYSIS" class="xref">CCM-ANALYSIS</a>]</span> establishes that an attacker
+gains a distinguishing advantage over an ideal pseudorandom permutation (PRP) of
+no more than:<a href="#section-b.1-1" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignLeft" id="section-b.1-2">
+<pre>
+(2l * q)^2 / 2^n
+</pre><a href="#section-b.1-2" class="pilcrow">¶</a>
+</div>
+<p id="section-b.1-3">For a target advantage of 2^-60, which matches that used by <span>[<a href="#TLS13" class="xref">TLS13</a>]</span>, this
+results in the relation:<a href="#section-b.1-3" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignLeft" id="section-b.1-4">
+<pre>
+q &lt;= 2^23
+</pre><a href="#section-b.1-4" class="pilcrow">¶</a>
+</div>
+<p id="section-b.1-5">That is, endpoints cannot protect more than 2^23 packets with the same set of
+keys without causing an attacker to gain an larger advantage than the target of
+2^-60.<a href="#section-b.1-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="integrity-limits">
+<section id="section-b.2">
+        <h2 id="name-integrity-limits">
+<a href="#section-b.2" class="section-number selfRef">B.2. </a><a href="#name-integrity-limits" class="section-name selfRef">Integrity Limits</a>
+        </h2>
+<p id="section-b.2-1">For integrity, Theorem 1 in <span>[<a href="#CCM-ANALYSIS" class="xref">CCM-ANALYSIS</a>]</span> establishes that an attacker
+gains an advantage over an ideal PRP of no more than:<a href="#section-b.2-1" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignLeft" id="section-b.2-2">
+<pre>
+v / 2^t + (2l * (v + q))^2 / 2^n
+</pre><a href="#section-b.2-2" class="pilcrow">¶</a>
+</div>
+<p id="section-b.2-3">The goal is to limit this advantage to 2^-57, to match the target in
+<span>[<a href="#TLS13" class="xref">TLS13</a>]</span>. As <code>t</code> and <code>n</code> are both 128, the first term is negligible relative
+to the second, so that term can be removed without a significant effect on the
+result. This produces the relation:<a href="#section-b.2-3" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignLeft" id="section-b.2-4">
+<pre>
+v + q &lt;= 2^24.5
+</pre><a href="#section-b.2-4" class="pilcrow">¶</a>
+</div>
+<p id="section-b.2-5">Using the previously-established value of 2^23 for <code>q</code> and rounding, this leads
+to an upper limit on <code>v</code> of 2^23.5. That is, endpoints cannot attempt to
+authenticate more than 2^23.5 packets with the same set of keys without causing
+an attacker to gain an larger advantage than the target of 2^-57.<a href="#section-b.2-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="change-log">
+<section id="section-appendix.c">
       <h2 id="name-change-log">
-<a href="#section-appendix.b" class="section-number selfRef">Appendix B. </a><a href="#name-change-log" class="section-name selfRef">Change Log</a>
+<a href="#section-appendix.c" class="section-number selfRef">Appendix C. </a><a href="#name-change-log" class="section-name selfRef">Change Log</a>
       </h2>
 <ul class="ulEmpty normal">
-<li class="ulEmpty normal" id="section-appendix.b-1.1">
+<li class="ulEmpty normal" id="section-appendix.c-1.1">
           <strong>RFC Editor's Note:</strong> Please remove this section prior to publication of a
-final version of this document.<a href="#section-appendix.b-1.1" class="pilcrow">¶</a>
+final version of this document.<a href="#section-appendix.c-1.1" class="pilcrow">¶</a>
 </li>
 </ul>
-<p id="section-appendix.b-2">Issue and pull request numbers are listed with a leading octothorp.<a href="#section-appendix.b-2" class="pilcrow">¶</a></p>
-<div id="since-draft-ietf-quic-tls-27">
-<section id="section-b.1">
+<p id="section-appendix.c-2">Issue and pull request numbers are listed with a leading octothorp.<a href="#section-appendix.c-2" class="pilcrow">¶</a></p>
+<div id="since-draft-ietf-quic-tls-28">
+<section id="section-c.1">
         <h2 id="name-since-draft-ietf-quic-tls-2">
-<a href="#section-b.1" class="section-number selfRef">B.1. </a><a href="#name-since-draft-ietf-quic-tls-2" class="section-name selfRef">Since draft-ietf-quic-tls-27</a>
+<a href="#section-c.1" class="section-number selfRef">C.1. </a><a href="#name-since-draft-ietf-quic-tls-2" class="section-name selfRef">Since draft-ietf-quic-tls-28</a>
         </h2>
 <ul class="normal">
-<li class="normal" id="section-b.1-1.1">Allowed CONNECTION_CLOSE in any packet number space, with restrictions on
-use of the application-specific variant (#3430, #3435, #3440)<a href="#section-b.1-1.1" class="pilcrow">¶</a>
+<li class="normal" id="section-c.1-1.1">Defined limits on the number of packets that can be protected with a single
+key and limits on the number of packets that can fail authentication (#3619,
+#3620)<a href="#section-c.1-1.1" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.1-1.2">Prohibit the use of the compatibility mode from TLS 1.3 (#3594, #3595)<a href="#section-b.1-1.2" class="pilcrow">¶</a>
+<li class="normal" id="section-c.1-1.2">Update Initial salt, Retry keys, and samples (#3711)<a href="#section-c.1-1.2" class="pilcrow">¶</a>
+</li>
+</ul>
+</section>
+</div>
+<div id="since-draft-ietf-quic-tls-27">
+<section id="section-c.2">
+        <h2 id="name-since-draft-ietf-quic-tls-27">
+<a href="#section-c.2" class="section-number selfRef">C.2. </a><a href="#name-since-draft-ietf-quic-tls-27" class="section-name selfRef">Since draft-ietf-quic-tls-27</a>
+        </h2>
+<ul class="normal">
+<li class="normal" id="section-c.2-1.1">Allowed CONNECTION_CLOSE in any packet number space, with restrictions on
+use of the application-specific variant (#3430, #3435, #3440)<a href="#section-c.2-1.1" class="pilcrow">¶</a>
+</li>
+<li class="normal" id="section-c.2-1.2">Prohibit the use of the compatibility mode from TLS 1.3 (#3594, #3595)<a href="#section-c.2-1.2" class="pilcrow">¶</a>
 </li>
 </ul>
 </section>
 </div>
 <div id="since-draft-ietf-quic-tls-26">
-<section id="section-b.2">
+<section id="section-c.3">
         <h2 id="name-since-draft-ietf-quic-tls-26">
-<a href="#section-b.2" class="section-number selfRef">B.2. </a><a href="#name-since-draft-ietf-quic-tls-26" class="section-name selfRef">Since draft-ietf-quic-tls-26</a>
+<a href="#section-c.3" class="section-number selfRef">C.3. </a><a href="#name-since-draft-ietf-quic-tls-26" class="section-name selfRef">Since draft-ietf-quic-tls-26</a>
         </h2>
 <ul class="normal">
-<li class="normal" id="section-b.2-1.1">No changes<a href="#section-b.2-1.1" class="pilcrow">¶</a>
+<li class="normal" id="section-c.3-1.1">No changes<a href="#section-c.3-1.1" class="pilcrow">¶</a>
 </li>
 </ul>
 </section>
 </div>
 <div id="since-draft-ietf-quic-tls-25">
-<section id="section-b.3">
+<section id="section-c.4">
         <h2 id="name-since-draft-ietf-quic-tls-25">
-<a href="#section-b.3" class="section-number selfRef">B.3. </a><a href="#name-since-draft-ietf-quic-tls-25" class="section-name selfRef">Since draft-ietf-quic-tls-25</a>
+<a href="#section-c.4" class="section-number selfRef">C.4. </a><a href="#name-since-draft-ietf-quic-tls-25" class="section-name selfRef">Since draft-ietf-quic-tls-25</a>
         </h2>
 <ul class="normal">
-<li class="normal" id="section-b.3-1.1">No changes<a href="#section-b.3-1.1" class="pilcrow">¶</a>
+<li class="normal" id="section-c.4-1.1">No changes<a href="#section-c.4-1.1" class="pilcrow">¶</a>
 </li>
 </ul>
 </section>
 </div>
 <div id="since-draft-ietf-quic-tls-24">
-<section id="section-b.4">
+<section id="section-c.5">
         <h2 id="name-since-draft-ietf-quic-tls-24">
-<a href="#section-b.4" class="section-number selfRef">B.4. </a><a href="#name-since-draft-ietf-quic-tls-24" class="section-name selfRef">Since draft-ietf-quic-tls-24</a>
+<a href="#section-c.5" class="section-number selfRef">C.5. </a><a href="#name-since-draft-ietf-quic-tls-24" class="section-name selfRef">Since draft-ietf-quic-tls-24</a>
         </h2>
 <ul class="normal">
-<li class="normal" id="section-b.4-1.1">
-            <p id="section-b.4-1.1.1">Rewrite key updates (#3050)<a href="#section-b.4-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-c.5-1.1">
+            <p id="section-c.5-1.1.1">Rewrite key updates (#3050)<a href="#section-c.5-1.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-b.4-1.1.2.1">Allow but don't recommend deferring key updates (#2792, #3263)<a href="#section-b.4-1.1.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-c.5-1.1.2.1">Allow but don't recommend deferring key updates (#2792, #3263)<a href="#section-c.5-1.1.2.1" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.4-1.1.2.2">More completely define received behavior (#2791)<a href="#section-b.4-1.1.2.2" class="pilcrow">¶</a>
+<li class="normal" id="section-c.5-1.1.2.2">More completely define received behavior (#2791)<a href="#section-c.5-1.1.2.2" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.4-1.1.2.3">Define the label used with HKDF-Expand-Label (#3054)<a href="#section-b.4-1.1.2.3" class="pilcrow">¶</a>
+<li class="normal" id="section-c.5-1.1.2.3">Define the label used with HKDF-Expand-Label (#3054)<a href="#section-c.5-1.1.2.3" class="pilcrow">¶</a>
 </li>
 </ul>
 </li>
@@ -3583,316 +3809,316 @@ use of the application-specific variant (#3430, #3435, #3440)<a href="#section-b
 </section>
 </div>
 <div id="since-draft-ietf-quic-tls-23">
-<section id="section-b.5">
+<section id="section-c.6">
         <h2 id="name-since-draft-ietf-quic-tls-23">
-<a href="#section-b.5" class="section-number selfRef">B.5. </a><a href="#name-since-draft-ietf-quic-tls-23" class="section-name selfRef">Since draft-ietf-quic-tls-23</a>
+<a href="#section-c.6" class="section-number selfRef">C.6. </a><a href="#name-since-draft-ietf-quic-tls-23" class="section-name selfRef">Since draft-ietf-quic-tls-23</a>
         </h2>
 <ul class="normal">
-<li class="normal" id="section-b.5-1.1">
-            <p id="section-b.5-1.1.1">Key update text update (#3050):<a href="#section-b.5-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-c.6-1.1">
+            <p id="section-c.6-1.1.1">Key update text update (#3050):<a href="#section-c.6-1.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-b.5-1.1.2.1">Recommend constant-time key replacement (#2792)<a href="#section-b.5-1.1.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-c.6-1.1.2.1">Recommend constant-time key replacement (#2792)<a href="#section-c.6-1.1.2.1" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.5-1.1.2.2">Provide explicit labels for key update key derivation (#3054)<a href="#section-b.5-1.1.2.2" class="pilcrow">¶</a>
+<li class="normal" id="section-c.6-1.1.2.2">Provide explicit labels for key update key derivation (#3054)<a href="#section-c.6-1.1.2.2" class="pilcrow">¶</a>
 </li>
 </ul>
 </li>
-<li class="normal" id="section-b.5-1.2">Allow first Initial from a client to span multiple packets (#2928, #3045)<a href="#section-b.5-1.2" class="pilcrow">¶</a>
+<li class="normal" id="section-c.6-1.2">Allow first Initial from a client to span multiple packets (#2928, #3045)<a href="#section-c.6-1.2" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.5-1.3">PING can be sent at any encryption level (#3034, #3035)<a href="#section-b.5-1.3" class="pilcrow">¶</a>
+<li class="normal" id="section-c.6-1.3">PING can be sent at any encryption level (#3034, #3035)<a href="#section-c.6-1.3" class="pilcrow">¶</a>
 </li>
 </ul>
 </section>
 </div>
 <div id="since-draft-ietf-quic-tls-22">
-<section id="section-b.6">
+<section id="section-c.7">
         <h2 id="name-since-draft-ietf-quic-tls-22">
-<a href="#section-b.6" class="section-number selfRef">B.6. </a><a href="#name-since-draft-ietf-quic-tls-22" class="section-name selfRef">Since draft-ietf-quic-tls-22</a>
+<a href="#section-c.7" class="section-number selfRef">C.7. </a><a href="#name-since-draft-ietf-quic-tls-22" class="section-name selfRef">Since draft-ietf-quic-tls-22</a>
         </h2>
 <ul class="normal">
-<li class="normal" id="section-b.6-1.1">Update the salt used for Initial secrets (#2887, #2980)<a href="#section-b.6-1.1" class="pilcrow">¶</a>
+<li class="normal" id="section-c.7-1.1">Update the salt used for Initial secrets (#2887, #2980)<a href="#section-c.7-1.1" class="pilcrow">¶</a>
 </li>
 </ul>
 </section>
 </div>
 <div id="since-draft-ietf-quic-tls-21">
-<section id="section-b.7">
+<section id="section-c.8">
         <h2 id="name-since-draft-ietf-quic-tls-21">
-<a href="#section-b.7" class="section-number selfRef">B.7. </a><a href="#name-since-draft-ietf-quic-tls-21" class="section-name selfRef">Since draft-ietf-quic-tls-21</a>
+<a href="#section-c.8" class="section-number selfRef">C.8. </a><a href="#name-since-draft-ietf-quic-tls-21" class="section-name selfRef">Since draft-ietf-quic-tls-21</a>
         </h2>
 <ul class="normal">
-<li class="normal" id="section-b.7-1.1">No changes<a href="#section-b.7-1.1" class="pilcrow">¶</a>
+<li class="normal" id="section-c.8-1.1">No changes<a href="#section-c.8-1.1" class="pilcrow">¶</a>
 </li>
 </ul>
 </section>
 </div>
 <div id="since-draft-ietf-quic-tls-20">
-<section id="section-b.8">
+<section id="section-c.9">
         <h2 id="name-since-draft-ietf-quic-tls-20">
-<a href="#section-b.8" class="section-number selfRef">B.8. </a><a href="#name-since-draft-ietf-quic-tls-20" class="section-name selfRef">Since draft-ietf-quic-tls-20</a>
+<a href="#section-c.9" class="section-number selfRef">C.9. </a><a href="#name-since-draft-ietf-quic-tls-20" class="section-name selfRef">Since draft-ietf-quic-tls-20</a>
         </h2>
 <ul class="normal">
-<li class="normal" id="section-b.8-1.1">Mandate the use of the QUIC transport parameters extension (#2528, #2560)<a href="#section-b.8-1.1" class="pilcrow">¶</a>
+<li class="normal" id="section-c.9-1.1">Mandate the use of the QUIC transport parameters extension (#2528, #2560)<a href="#section-c.9-1.1" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.8-1.2">Define handshake completion and confirmation; define clearer rules when it
-encryption keys should be discarded (#2214, #2267, #2673)<a href="#section-b.8-1.2" class="pilcrow">¶</a>
+<li class="normal" id="section-c.9-1.2">Define handshake completion and confirmation; define clearer rules when it
+encryption keys should be discarded (#2214, #2267, #2673)<a href="#section-c.9-1.2" class="pilcrow">¶</a>
 </li>
 </ul>
 </section>
 </div>
 <div id="since-draft-ietf-quic-tls-18">
-<section id="section-b.9">
+<section id="section-c.10">
         <h2 id="name-since-draft-ietf-quic-tls-1">
-<a href="#section-b.9" class="section-number selfRef">B.9. </a><a href="#name-since-draft-ietf-quic-tls-1" class="section-name selfRef">Since draft-ietf-quic-tls-18</a>
+<a href="#section-c.10" class="section-number selfRef">C.10. </a><a href="#name-since-draft-ietf-quic-tls-1" class="section-name selfRef">Since draft-ietf-quic-tls-18</a>
         </h2>
 <ul class="normal">
-<li class="normal" id="section-b.9-1.1">Increased the set of permissible frames in 0-RTT (#2344, #2355)<a href="#section-b.9-1.1" class="pilcrow">¶</a>
+<li class="normal" id="section-c.10-1.1">Increased the set of permissible frames in 0-RTT (#2344, #2355)<a href="#section-c.10-1.1" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.9-1.2">Transport parameter extension is mandatory (#2528, #2560)<a href="#section-b.9-1.2" class="pilcrow">¶</a>
+<li class="normal" id="section-c.10-1.2">Transport parameter extension is mandatory (#2528, #2560)<a href="#section-c.10-1.2" class="pilcrow">¶</a>
 </li>
 </ul>
 </section>
 </div>
 <div id="since-draft-ietf-quic-tls-17">
-<section id="section-b.10">
+<section id="section-c.11">
         <h2 id="name-since-draft-ietf-quic-tls-17">
-<a href="#section-b.10" class="section-number selfRef">B.10. </a><a href="#name-since-draft-ietf-quic-tls-17" class="section-name selfRef">Since draft-ietf-quic-tls-17</a>
+<a href="#section-c.11" class="section-number selfRef">C.11. </a><a href="#name-since-draft-ietf-quic-tls-17" class="section-name selfRef">Since draft-ietf-quic-tls-17</a>
         </h2>
 <ul class="normal">
-<li class="normal" id="section-b.10-1.1">Endpoints discard initial keys as soon as handshake keys are available (#1951,
-#2045)<a href="#section-b.10-1.1" class="pilcrow">¶</a>
+<li class="normal" id="section-c.11-1.1">Endpoints discard initial keys as soon as handshake keys are available (#1951,
+#2045)<a href="#section-c.11-1.1" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.10-1.2">Use of ALPN or equivalent is mandatory (#2263, #2284)<a href="#section-b.10-1.2" class="pilcrow">¶</a>
+<li class="normal" id="section-c.11-1.2">Use of ALPN or equivalent is mandatory (#2263, #2284)<a href="#section-c.11-1.2" class="pilcrow">¶</a>
 </li>
 </ul>
 </section>
 </div>
 <div id="since-draft-ietf-quic-tls-14">
-<section id="section-b.11">
+<section id="section-c.12">
         <h2 id="name-since-draft-ietf-quic-tls-14">
-<a href="#section-b.11" class="section-number selfRef">B.11. </a><a href="#name-since-draft-ietf-quic-tls-14" class="section-name selfRef">Since draft-ietf-quic-tls-14</a>
+<a href="#section-c.12" class="section-number selfRef">C.12. </a><a href="#name-since-draft-ietf-quic-tls-14" class="section-name selfRef">Since draft-ietf-quic-tls-14</a>
         </h2>
 <ul class="normal">
-<li class="normal" id="section-b.11-1.1">Update the salt used for Initial secrets (#1970)<a href="#section-b.11-1.1" class="pilcrow">¶</a>
+<li class="normal" id="section-c.12-1.1">Update the salt used for Initial secrets (#1970)<a href="#section-c.12-1.1" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.11-1.2">Clarify that TLS_AES_128_CCM_8_SHA256 isn't supported (#2019)<a href="#section-b.11-1.2" class="pilcrow">¶</a>
+<li class="normal" id="section-c.12-1.2">Clarify that TLS_AES_128_CCM_8_SHA256 isn't supported (#2019)<a href="#section-c.12-1.2" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.11-1.3">
-            <p id="section-b.11-1.3.1">Change header protection<a href="#section-b.11-1.3.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-c.12-1.3">
+            <p id="section-c.12-1.3.1">Change header protection<a href="#section-c.12-1.3.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-b.11-1.3.2.1">Sample from a fixed offset (#1575, #2030)<a href="#section-b.11-1.3.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-c.12-1.3.2.1">Sample from a fixed offset (#1575, #2030)<a href="#section-c.12-1.3.2.1" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.11-1.3.2.2">Cover part of the first byte, including the key phase (#1322, #2006)<a href="#section-b.11-1.3.2.2" class="pilcrow">¶</a>
+<li class="normal" id="section-c.12-1.3.2.2">Cover part of the first byte, including the key phase (#1322, #2006)<a href="#section-c.12-1.3.2.2" class="pilcrow">¶</a>
 </li>
 </ul>
 </li>
-<li class="normal" id="section-b.11-1.4">
-            <p id="section-b.11-1.4.1">TLS provides an AEAD and KDF function (#2046)<a href="#section-b.11-1.4.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-c.12-1.4">
+            <p id="section-c.12-1.4.1">TLS provides an AEAD and KDF function (#2046)<a href="#section-c.12-1.4.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-b.11-1.4.2.1">Clarify that the TLS KDF is used with TLS (#1997)<a href="#section-b.11-1.4.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-c.12-1.4.2.1">Clarify that the TLS KDF is used with TLS (#1997)<a href="#section-c.12-1.4.2.1" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.11-1.4.2.2">Change the labels for calculation of QUIC keys (#1845, #1971, #1991)<a href="#section-b.11-1.4.2.2" class="pilcrow">¶</a>
+<li class="normal" id="section-c.12-1.4.2.2">Change the labels for calculation of QUIC keys (#1845, #1971, #1991)<a href="#section-c.12-1.4.2.2" class="pilcrow">¶</a>
 </li>
 </ul>
 </li>
-<li class="normal" id="section-b.11-1.5">Initial keys are discarded once Handshake keys are available (#1951, #2045)<a href="#section-b.11-1.5" class="pilcrow">¶</a>
+<li class="normal" id="section-c.12-1.5">Initial keys are discarded once Handshake keys are available (#1951, #2045)<a href="#section-c.12-1.5" class="pilcrow">¶</a>
 </li>
 </ul>
 </section>
 </div>
 <div id="since-draft-ietf-quic-tls-13">
-<section id="section-b.12">
+<section id="section-c.13">
         <h2 id="name-since-draft-ietf-quic-tls-13">
-<a href="#section-b.12" class="section-number selfRef">B.12. </a><a href="#name-since-draft-ietf-quic-tls-13" class="section-name selfRef">Since draft-ietf-quic-tls-13</a>
+<a href="#section-c.13" class="section-number selfRef">C.13. </a><a href="#name-since-draft-ietf-quic-tls-13" class="section-name selfRef">Since draft-ietf-quic-tls-13</a>
         </h2>
 <ul class="normal">
-<li class="normal" id="section-b.12-1.1">Updated to TLS 1.3 final (#1660)<a href="#section-b.12-1.1" class="pilcrow">¶</a>
+<li class="normal" id="section-c.13-1.1">Updated to TLS 1.3 final (#1660)<a href="#section-c.13-1.1" class="pilcrow">¶</a>
 </li>
 </ul>
 </section>
 </div>
 <div id="since-draft-ietf-quic-tls-12">
-<section id="section-b.13">
+<section id="section-c.14">
         <h2 id="name-since-draft-ietf-quic-tls-12">
-<a href="#section-b.13" class="section-number selfRef">B.13. </a><a href="#name-since-draft-ietf-quic-tls-12" class="section-name selfRef">Since draft-ietf-quic-tls-12</a>
+<a href="#section-c.14" class="section-number selfRef">C.14. </a><a href="#name-since-draft-ietf-quic-tls-12" class="section-name selfRef">Since draft-ietf-quic-tls-12</a>
         </h2>
 <ul class="normal">
-<li class="normal" id="section-b.13-1.1">
-            <p id="section-b.13-1.1.1">Changes to integration of the TLS handshake (#829, #1018, #1094, #1165, #1190,
-#1233, #1242, #1252, #1450)<a href="#section-b.13-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-c.14-1.1">
+            <p id="section-c.14-1.1.1">Changes to integration of the TLS handshake (#829, #1018, #1094, #1165, #1190,
+#1233, #1242, #1252, #1450)<a href="#section-c.14-1.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-b.13-1.1.2.1">The cryptographic handshake uses CRYPTO frames, not stream 0<a href="#section-b.13-1.1.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-c.14-1.1.2.1">The cryptographic handshake uses CRYPTO frames, not stream 0<a href="#section-c.14-1.1.2.1" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.13-1.1.2.2">QUIC packet protection is used in place of TLS record protection<a href="#section-b.13-1.1.2.2" class="pilcrow">¶</a>
+<li class="normal" id="section-c.14-1.1.2.2">QUIC packet protection is used in place of TLS record protection<a href="#section-c.14-1.1.2.2" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.13-1.1.2.3">Separate QUIC packet number spaces are used for the handshake<a href="#section-b.13-1.1.2.3" class="pilcrow">¶</a>
+<li class="normal" id="section-c.14-1.1.2.3">Separate QUIC packet number spaces are used for the handshake<a href="#section-c.14-1.1.2.3" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.13-1.1.2.4">Changed Retry to be independent of the cryptographic handshake<a href="#section-b.13-1.1.2.4" class="pilcrow">¶</a>
+<li class="normal" id="section-c.14-1.1.2.4">Changed Retry to be independent of the cryptographic handshake<a href="#section-c.14-1.1.2.4" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.13-1.1.2.5">Limit the use of HelloRetryRequest to address TLS needs (like key shares)<a href="#section-b.13-1.1.2.5" class="pilcrow">¶</a>
+<li class="normal" id="section-c.14-1.1.2.5">Limit the use of HelloRetryRequest to address TLS needs (like key shares)<a href="#section-c.14-1.1.2.5" class="pilcrow">¶</a>
 </li>
 </ul>
 </li>
-<li class="normal" id="section-b.13-1.2">Changed codepoint of TLS extension (#1395, #1402)<a href="#section-b.13-1.2" class="pilcrow">¶</a>
+<li class="normal" id="section-c.14-1.2">Changed codepoint of TLS extension (#1395, #1402)<a href="#section-c.14-1.2" class="pilcrow">¶</a>
 </li>
 </ul>
 </section>
 </div>
 <div id="since-draft-ietf-quic-tls-11">
-<section id="section-b.14">
+<section id="section-c.15">
         <h2 id="name-since-draft-ietf-quic-tls-11">
-<a href="#section-b.14" class="section-number selfRef">B.14. </a><a href="#name-since-draft-ietf-quic-tls-11" class="section-name selfRef">Since draft-ietf-quic-tls-11</a>
+<a href="#section-c.15" class="section-number selfRef">C.15. </a><a href="#name-since-draft-ietf-quic-tls-11" class="section-name selfRef">Since draft-ietf-quic-tls-11</a>
         </h2>
 <ul class="normal">
-<li class="normal" id="section-b.14-1.1">Encrypted packet numbers.<a href="#section-b.14-1.1" class="pilcrow">¶</a>
+<li class="normal" id="section-c.15-1.1">Encrypted packet numbers.<a href="#section-c.15-1.1" class="pilcrow">¶</a>
 </li>
 </ul>
 </section>
 </div>
 <div id="since-draft-ietf-quic-tls-10">
-<section id="section-b.15">
+<section id="section-c.16">
         <h2 id="name-since-draft-ietf-quic-tls-10">
-<a href="#section-b.15" class="section-number selfRef">B.15. </a><a href="#name-since-draft-ietf-quic-tls-10" class="section-name selfRef">Since draft-ietf-quic-tls-10</a>
+<a href="#section-c.16" class="section-number selfRef">C.16. </a><a href="#name-since-draft-ietf-quic-tls-10" class="section-name selfRef">Since draft-ietf-quic-tls-10</a>
         </h2>
 <ul class="normal">
-<li class="normal" id="section-b.15-1.1">No significant changes.<a href="#section-b.15-1.1" class="pilcrow">¶</a>
+<li class="normal" id="section-c.16-1.1">No significant changes.<a href="#section-c.16-1.1" class="pilcrow">¶</a>
 </li>
 </ul>
 </section>
 </div>
 <div id="since-draft-ietf-quic-tls-09">
-<section id="section-b.16">
+<section id="section-c.17">
         <h2 id="name-since-draft-ietf-quic-tls-0">
-<a href="#section-b.16" class="section-number selfRef">B.16. </a><a href="#name-since-draft-ietf-quic-tls-0" class="section-name selfRef">Since draft-ietf-quic-tls-09</a>
+<a href="#section-c.17" class="section-number selfRef">C.17. </a><a href="#name-since-draft-ietf-quic-tls-0" class="section-name selfRef">Since draft-ietf-quic-tls-09</a>
         </h2>
 <ul class="normal">
-<li class="normal" id="section-b.16-1.1">Cleaned up key schedule and updated the salt used for handshake packet
-protection (#1077)<a href="#section-b.16-1.1" class="pilcrow">¶</a>
+<li class="normal" id="section-c.17-1.1">Cleaned up key schedule and updated the salt used for handshake packet
+protection (#1077)<a href="#section-c.17-1.1" class="pilcrow">¶</a>
 </li>
 </ul>
 </section>
 </div>
 <div id="since-draft-ietf-quic-tls-08">
-<section id="section-b.17">
+<section id="section-c.18">
         <h2 id="name-since-draft-ietf-quic-tls-08">
-<a href="#section-b.17" class="section-number selfRef">B.17. </a><a href="#name-since-draft-ietf-quic-tls-08" class="section-name selfRef">Since draft-ietf-quic-tls-08</a>
+<a href="#section-c.18" class="section-number selfRef">C.18. </a><a href="#name-since-draft-ietf-quic-tls-08" class="section-name selfRef">Since draft-ietf-quic-tls-08</a>
         </h2>
 <ul class="normal">
-<li class="normal" id="section-b.17-1.1">Specify value for max_early_data_size to enable 0-RTT (#942)<a href="#section-b.17-1.1" class="pilcrow">¶</a>
+<li class="normal" id="section-c.18-1.1">Specify value for max_early_data_size to enable 0-RTT (#942)<a href="#section-c.18-1.1" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.17-1.2">Update key derivation function (#1003, #1004)<a href="#section-b.17-1.2" class="pilcrow">¶</a>
+<li class="normal" id="section-c.18-1.2">Update key derivation function (#1003, #1004)<a href="#section-c.18-1.2" class="pilcrow">¶</a>
 </li>
 </ul>
 </section>
 </div>
 <div id="since-draft-ietf-quic-tls-07">
-<section id="section-b.18">
+<section id="section-c.19">
         <h2 id="name-since-draft-ietf-quic-tls-07">
-<a href="#section-b.18" class="section-number selfRef">B.18. </a><a href="#name-since-draft-ietf-quic-tls-07" class="section-name selfRef">Since draft-ietf-quic-tls-07</a>
+<a href="#section-c.19" class="section-number selfRef">C.19. </a><a href="#name-since-draft-ietf-quic-tls-07" class="section-name selfRef">Since draft-ietf-quic-tls-07</a>
         </h2>
 <ul class="normal">
-<li class="normal" id="section-b.18-1.1">Handshake errors can be reported with CONNECTION_CLOSE (#608, #891)<a href="#section-b.18-1.1" class="pilcrow">¶</a>
+<li class="normal" id="section-c.19-1.1">Handshake errors can be reported with CONNECTION_CLOSE (#608, #891)<a href="#section-c.19-1.1" class="pilcrow">¶</a>
 </li>
 </ul>
 </section>
 </div>
 <div id="since-draft-ietf-quic-tls-05">
-<section id="section-b.19">
+<section id="section-c.20">
         <h2 id="name-since-draft-ietf-quic-tls-05">
-<a href="#section-b.19" class="section-number selfRef">B.19. </a><a href="#name-since-draft-ietf-quic-tls-05" class="section-name selfRef">Since draft-ietf-quic-tls-05</a>
+<a href="#section-c.20" class="section-number selfRef">C.20. </a><a href="#name-since-draft-ietf-quic-tls-05" class="section-name selfRef">Since draft-ietf-quic-tls-05</a>
         </h2>
-<p id="section-b.19-1">No significant changes.<a href="#section-b.19-1" class="pilcrow">¶</a></p>
+<p id="section-c.20-1">No significant changes.<a href="#section-c.20-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="since-draft-ietf-quic-tls-04">
-<section id="section-b.20">
+<section id="section-c.21">
         <h2 id="name-since-draft-ietf-quic-tls-04">
-<a href="#section-b.20" class="section-number selfRef">B.20. </a><a href="#name-since-draft-ietf-quic-tls-04" class="section-name selfRef">Since draft-ietf-quic-tls-04</a>
+<a href="#section-c.21" class="section-number selfRef">C.21. </a><a href="#name-since-draft-ietf-quic-tls-04" class="section-name selfRef">Since draft-ietf-quic-tls-04</a>
         </h2>
 <ul class="normal">
-<li class="normal" id="section-b.20-1.1">Update labels used in HKDF-Expand-Label to match TLS 1.3 (#642)<a href="#section-b.20-1.1" class="pilcrow">¶</a>
+<li class="normal" id="section-c.21-1.1">Update labels used in HKDF-Expand-Label to match TLS 1.3 (#642)<a href="#section-c.21-1.1" class="pilcrow">¶</a>
 </li>
 </ul>
 </section>
 </div>
 <div id="since-draft-ietf-quic-tls-03">
-<section id="section-b.21">
+<section id="section-c.22">
         <h2 id="name-since-draft-ietf-quic-tls-03">
-<a href="#section-b.21" class="section-number selfRef">B.21. </a><a href="#name-since-draft-ietf-quic-tls-03" class="section-name selfRef">Since draft-ietf-quic-tls-03</a>
+<a href="#section-c.22" class="section-number selfRef">C.22. </a><a href="#name-since-draft-ietf-quic-tls-03" class="section-name selfRef">Since draft-ietf-quic-tls-03</a>
         </h2>
-<p id="section-b.21-1">No significant changes.<a href="#section-b.21-1" class="pilcrow">¶</a></p>
+<p id="section-c.22-1">No significant changes.<a href="#section-c.22-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="since-draft-ietf-quic-tls-02">
-<section id="section-b.22">
+<section id="section-c.23">
         <h2 id="name-since-draft-ietf-quic-tls-02">
-<a href="#section-b.22" class="section-number selfRef">B.22. </a><a href="#name-since-draft-ietf-quic-tls-02" class="section-name selfRef">Since draft-ietf-quic-tls-02</a>
+<a href="#section-c.23" class="section-number selfRef">C.23. </a><a href="#name-since-draft-ietf-quic-tls-02" class="section-name selfRef">Since draft-ietf-quic-tls-02</a>
         </h2>
 <ul class="normal">
-<li class="normal" id="section-b.22-1.1">Updates to match changes in transport draft<a href="#section-b.22-1.1" class="pilcrow">¶</a>
+<li class="normal" id="section-c.23-1.1">Updates to match changes in transport draft<a href="#section-c.23-1.1" class="pilcrow">¶</a>
 </li>
 </ul>
 </section>
 </div>
 <div id="since-draft-ietf-quic-tls-01">
-<section id="section-b.23">
+<section id="section-c.24">
         <h2 id="name-since-draft-ietf-quic-tls-01">
-<a href="#section-b.23" class="section-number selfRef">B.23. </a><a href="#name-since-draft-ietf-quic-tls-01" class="section-name selfRef">Since draft-ietf-quic-tls-01</a>
+<a href="#section-c.24" class="section-number selfRef">C.24. </a><a href="#name-since-draft-ietf-quic-tls-01" class="section-name selfRef">Since draft-ietf-quic-tls-01</a>
         </h2>
 <ul class="normal">
-<li class="normal" id="section-b.23-1.1">Use TLS alerts to signal TLS errors (#272, #374)<a href="#section-b.23-1.1" class="pilcrow">¶</a>
+<li class="normal" id="section-c.24-1.1">Use TLS alerts to signal TLS errors (#272, #374)<a href="#section-c.24-1.1" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.23-1.2">Require ClientHello to fit in a single packet (#338)<a href="#section-b.23-1.2" class="pilcrow">¶</a>
+<li class="normal" id="section-c.24-1.2">Require ClientHello to fit in a single packet (#338)<a href="#section-c.24-1.2" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.23-1.3">The second client handshake flight is now sent in the clear (#262, #337)<a href="#section-b.23-1.3" class="pilcrow">¶</a>
+<li class="normal" id="section-c.24-1.3">The second client handshake flight is now sent in the clear (#262, #337)<a href="#section-c.24-1.3" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.23-1.4">The QUIC header is included as AEAD Associated Data (#226, #243, #302)<a href="#section-b.23-1.4" class="pilcrow">¶</a>
+<li class="normal" id="section-c.24-1.4">The QUIC header is included as AEAD Associated Data (#226, #243, #302)<a href="#section-c.24-1.4" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.23-1.5">Add interface necessary for client address validation (#275)<a href="#section-b.23-1.5" class="pilcrow">¶</a>
+<li class="normal" id="section-c.24-1.5">Add interface necessary for client address validation (#275)<a href="#section-c.24-1.5" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.23-1.6">Define peer authentication (#140)<a href="#section-b.23-1.6" class="pilcrow">¶</a>
+<li class="normal" id="section-c.24-1.6">Define peer authentication (#140)<a href="#section-c.24-1.6" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.23-1.7">Require at least TLS 1.3 (#138)<a href="#section-b.23-1.7" class="pilcrow">¶</a>
+<li class="normal" id="section-c.24-1.7">Require at least TLS 1.3 (#138)<a href="#section-c.24-1.7" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.23-1.8">Define transport parameters as a TLS extension (#122)<a href="#section-b.23-1.8" class="pilcrow">¶</a>
+<li class="normal" id="section-c.24-1.8">Define transport parameters as a TLS extension (#122)<a href="#section-c.24-1.8" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.23-1.9">Define handling for protected packets before the handshake completes (#39)<a href="#section-b.23-1.9" class="pilcrow">¶</a>
+<li class="normal" id="section-c.24-1.9">Define handling for protected packets before the handshake completes (#39)<a href="#section-c.24-1.9" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.23-1.10">Decouple QUIC version and ALPN (#12)<a href="#section-b.23-1.10" class="pilcrow">¶</a>
+<li class="normal" id="section-c.24-1.10">Decouple QUIC version and ALPN (#12)<a href="#section-c.24-1.10" class="pilcrow">¶</a>
 </li>
 </ul>
 </section>
 </div>
 <div id="since-draft-ietf-quic-tls-00">
-<section id="section-b.24">
+<section id="section-c.25">
         <h2 id="name-since-draft-ietf-quic-tls-00">
-<a href="#section-b.24" class="section-number selfRef">B.24. </a><a href="#name-since-draft-ietf-quic-tls-00" class="section-name selfRef">Since draft-ietf-quic-tls-00</a>
+<a href="#section-c.25" class="section-number selfRef">C.25. </a><a href="#name-since-draft-ietf-quic-tls-00" class="section-name selfRef">Since draft-ietf-quic-tls-00</a>
         </h2>
 <ul class="normal">
-<li class="normal" id="section-b.24-1.1">Changed bit used to signal key phase<a href="#section-b.24-1.1" class="pilcrow">¶</a>
+<li class="normal" id="section-c.25-1.1">Changed bit used to signal key phase<a href="#section-c.25-1.1" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.24-1.2">Updated key phase markings during the handshake<a href="#section-b.24-1.2" class="pilcrow">¶</a>
+<li class="normal" id="section-c.25-1.2">Updated key phase markings during the handshake<a href="#section-c.25-1.2" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.24-1.3">Added TLS interface requirements section<a href="#section-b.24-1.3" class="pilcrow">¶</a>
+<li class="normal" id="section-c.25-1.3">Added TLS interface requirements section<a href="#section-c.25-1.3" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.24-1.4">Moved to use of TLS exporters for key derivation<a href="#section-b.24-1.4" class="pilcrow">¶</a>
+<li class="normal" id="section-c.25-1.4">Moved to use of TLS exporters for key derivation<a href="#section-c.25-1.4" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.24-1.5">Moved TLS error code definitions into this document<a href="#section-b.24-1.5" class="pilcrow">¶</a>
+<li class="normal" id="section-c.25-1.5">Moved TLS error code definitions into this document<a href="#section-c.25-1.5" class="pilcrow">¶</a>
 </li>
 </ul>
 </section>
 </div>
 <div id="since-draft-thomson-quic-tls-01">
-<section id="section-b.25">
+<section id="section-c.26">
         <h2 id="name-since-draft-thomson-quic-tl">
-<a href="#section-b.25" class="section-number selfRef">B.25. </a><a href="#name-since-draft-thomson-quic-tl" class="section-name selfRef">Since draft-thomson-quic-tls-01</a>
+<a href="#section-c.26" class="section-number selfRef">C.26. </a><a href="#name-since-draft-thomson-quic-tl" class="section-name selfRef">Since draft-thomson-quic-tls-01</a>
         </h2>
 <ul class="normal">
-<li class="normal" id="section-b.25-1.1">Adopted as base for draft-ietf-quic-tls<a href="#section-b.25-1.1" class="pilcrow">¶</a>
+<li class="normal" id="section-c.26-1.1">Adopted as base for draft-ietf-quic-tls<a href="#section-c.26-1.1" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.25-1.2">Updated authors/editors list<a href="#section-b.25-1.2" class="pilcrow">¶</a>
+<li class="normal" id="section-c.26-1.2">Updated authors/editors list<a href="#section-c.26-1.2" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-b.25-1.3">Added status note<a href="#section-b.25-1.3" class="pilcrow">¶</a>
+<li class="normal" id="section-c.26-1.3">Added status note<a href="#section-c.26-1.3" class="pilcrow">¶</a>
 </li>
 </ul>
 </section>
@@ -3900,61 +4126,63 @@ protection (#1077)<a href="#section-b.16-1.1" class="pilcrow">¶</a>
 </section>
 </div>
 <div id="contributors">
-<section id="section-appendix.c">
+<section id="section-appendix.d">
       <h2 id="name-contributors">
 <a href="#name-contributors" class="section-name selfRef">Contributors</a>
       </h2>
-<p id="section-appendix.c-1">The IETF QUIC Working Group received an enormous amount of support from many
+<p id="section-appendix.d-1">The IETF QUIC Working Group received an enormous amount of support from many
 people. The following people provided substantive contributions to this
-document:<a href="#section-appendix.c-1" class="pilcrow">¶</a></p>
+document:<a href="#section-appendix.d-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-appendix.c-2.1">Adam Langley<a href="#section-appendix.c-2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-appendix.d-2.1">Adam Langley<a href="#section-appendix.d-2.1" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-appendix.c-2.2">Alessandro Ghedini<a href="#section-appendix.c-2.2" class="pilcrow">¶</a>
+<li class="normal" id="section-appendix.d-2.2">Alessandro Ghedini<a href="#section-appendix.d-2.2" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-appendix.c-2.3">Christian Huitema<a href="#section-appendix.c-2.3" class="pilcrow">¶</a>
+<li class="normal" id="section-appendix.d-2.3">Christian Huitema<a href="#section-appendix.d-2.3" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-appendix.c-2.4">Christopher Wood<a href="#section-appendix.c-2.4" class="pilcrow">¶</a>
+<li class="normal" id="section-appendix.d-2.4">Christopher Wood<a href="#section-appendix.d-2.4" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-appendix.c-2.5">David Schinazi<a href="#section-appendix.c-2.5" class="pilcrow">¶</a>
+<li class="normal" id="section-appendix.d-2.5">David Schinazi<a href="#section-appendix.d-2.5" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-appendix.c-2.6">Dragana Damjanovic<a href="#section-appendix.c-2.6" class="pilcrow">¶</a>
+<li class="normal" id="section-appendix.d-2.6">Dragana Damjanovic<a href="#section-appendix.d-2.6" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-appendix.c-2.7">Eric Rescorla<a href="#section-appendix.c-2.7" class="pilcrow">¶</a>
+<li class="normal" id="section-appendix.d-2.7">Eric Rescorla<a href="#section-appendix.d-2.7" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-appendix.c-2.8">Ian Swett<a href="#section-appendix.c-2.8" class="pilcrow">¶</a>
+<li class="normal" id="section-appendix.d-2.8">Felix Guenther<a href="#section-appendix.d-2.8" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-appendix.c-2.9">Jana Iyengar<a href="#section-appendix.c-2.9" class="pilcrow">¶</a>
+<li class="normal" id="section-appendix.d-2.9">Ian Swett<a href="#section-appendix.d-2.9" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-appendix.c-2.10">
-          <p id="section-appendix.c-2.10.1">        <span class="contact-name"><span class="non-ascii">奥 一穂</span> (<span class="ascii">Kazuho Oku</span>)</span><a href="#section-appendix.c-2.10.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-appendix.d-2.10">Jana Iyengar<a href="#section-appendix.d-2.10" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-appendix.c-2.11">Marten Seemann<a href="#section-appendix.c-2.11" class="pilcrow">¶</a>
+<li class="normal" id="section-appendix.d-2.11">
+          <p id="section-appendix.d-2.11.1">        <span class="contact-name"><span class="non-ascii">奥 一穂</span> (<span class="ascii">Kazuho Oku</span>)</span><a href="#section-appendix.d-2.11.1" class="pilcrow">¶</a></p>
 </li>
-<li class="normal" id="section-appendix.c-2.12">Martin Duke<a href="#section-appendix.c-2.12" class="pilcrow">¶</a>
+<li class="normal" id="section-appendix.d-2.12">Marten Seemann<a href="#section-appendix.d-2.12" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-appendix.c-2.13">Mike Bishop<a href="#section-appendix.c-2.13" class="pilcrow">¶</a>
+<li class="normal" id="section-appendix.d-2.13">Martin Duke<a href="#section-appendix.d-2.13" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-appendix.c-2.14">
-          <p id="section-appendix.c-2.14.1">        <span class="contact-name">Mikkel Fahnøe Jørgensen</span><a href="#section-appendix.c-2.14.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-appendix.d-2.14">Mike Bishop<a href="#section-appendix.d-2.14" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-appendix.c-2.15">Nick Banks<a href="#section-appendix.c-2.15" class="pilcrow">¶</a>
+<li class="normal" id="section-appendix.d-2.15">
+          <p id="section-appendix.d-2.15.1">        <span class="contact-name">Mikkel Fahnøe Jørgensen</span><a href="#section-appendix.d-2.15.1" class="pilcrow">¶</a></p>
 </li>
-<li class="normal" id="section-appendix.c-2.16">Nick Harper<a href="#section-appendix.c-2.16" class="pilcrow">¶</a>
+<li class="normal" id="section-appendix.d-2.16">Nick Banks<a href="#section-appendix.d-2.16" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-appendix.c-2.17">Roberto Peon<a href="#section-appendix.c-2.17" class="pilcrow">¶</a>
+<li class="normal" id="section-appendix.d-2.17">Nick Harper<a href="#section-appendix.d-2.17" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-appendix.c-2.18">Rui Paulo<a href="#section-appendix.c-2.18" class="pilcrow">¶</a>
+<li class="normal" id="section-appendix.d-2.18">Roberto Peon<a href="#section-appendix.d-2.18" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-appendix.c-2.19">Ryan Hamilton<a href="#section-appendix.c-2.19" class="pilcrow">¶</a>
+<li class="normal" id="section-appendix.d-2.19">Rui Paulo<a href="#section-appendix.d-2.19" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-appendix.c-2.20">Victor Vasiliev<a href="#section-appendix.c-2.20" class="pilcrow">¶</a>
+<li class="normal" id="section-appendix.d-2.20">Ryan Hamilton<a href="#section-appendix.d-2.20" class="pilcrow">¶</a>
+</li>
+<li class="normal" id="section-appendix.d-2.21">Victor Vasiliev<a href="#section-appendix.d-2.21" class="pilcrow">¶</a>
 </li>
 </ul>
 </section>
 </div>
 <div id="authors-addresses">
-<section id="section-appendix.d">
+<section id="section-appendix.e">
       <h2 id="name-authors-addresses">
 <a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
