@@ -11,7 +11,7 @@
 expected to remain unchanged over time as new versions of the protocol are
 developed. 
     " name="description">
-<meta content="xml2rfc 2.45.2" name="generator">
+<meta content="xml2rfc 2.45.3" name="generator">
 <meta content="draft-ietf-quic-invariants-latest" name="ietf.draft">
 <link href="draft-ietf-quic-invariants.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -75,9 +75,6 @@ p {
   padding: 0;
   margin: 0.5em 0;
   text-align: left;
-}
-div, span {
-  position: relative;
 }
 div {
   margin: 0;
@@ -270,9 +267,19 @@ cite {
 
 /* tables */
 table {
-  width: 100%;
+  max-width: 100%;
   margin: 0 0 1em;
   border-collapse: collapse;
+}
+table.right {
+  margin-left: auto;
+}
+table.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+table.left {
+  margin-right: auto;
 }
 thead, tbody {
   border: 1px solid var(--line-color);
@@ -283,8 +290,7 @@ th, td {
   padding: 5px 10px;
 }
 th {
-  text-align: left;
-  background-color: #eee;
+  background-color: var(--line-color);
 }
 tr:nth-child(2n) > td {
   background-color: var(--background-color);
@@ -303,8 +309,6 @@ table caption {
   padding: 3px 1em;
 }
 table p {
-  /* XXX to avoid bottom margin on table row signifiers. If paragraphs should
-     be allowed within tables more generally, it would be far better to select on a class. */
   margin: 0;
 }
 
@@ -762,21 +766,6 @@ address div.right {
   text-align: right;
 }
 
-/* Provide table alignment support.  We can't use the alignX classes above
-   since they do unwanted things with caption and other styling. */
-table.right {
- margin-left: auto;
- margin-right: 0;
-}
-table.center {
- margin-left: auto;
- margin-right: auto;
-}
-table.left {
- margin-left: 0;
- margin-right: auto;
-}
-
 /* Give the table caption label the same styling as the figcaption */
 
 @media print {
@@ -812,11 +801,11 @@ table.left {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">QUIC Invariants</td>
-<td class="right">June 2020</td>
+<td class="right">July 2020</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Thomson</td>
-<td class="center">Expires 11 December 2020</td>
+<td class="center">Expires 10 January 2021</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -829,12 +818,12 @@ table.left {
 <dd class="internet-draft">draft-ietf-quic-invariants-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2020-06-09" class="published">9 June 2020</time>
+<time datetime="2020-07-09" class="published">9 July 2020</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2020-12-11">11 December 2020</time></dd>
+<dd class="expires"><time datetime="2021-01-10">10 January 2021</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -881,7 +870,7 @@ code and issues list for this draft can be found at
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 11 December 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 10 January 2021.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -909,21 +898,21 @@ code and issues list for this draft can be found at
         <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
 <a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
         </h2>
-<nav class="toc"><ul class="ulEmpty toc compact">
-<li class="ulEmpty toc compact" id="section-toc.1-1.1">
+<nav class="toc"><ul class="ulEmpty compact toc">
+<li class="ulEmpty compact toc" id="section-toc.1-1.1">
             <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="xref">1</a>.  <a href="#name-introduction" class="xref">Introduction</a><a href="#section-toc.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty toc compact" id="section-toc.1-1.2">
+<li class="ulEmpty compact toc" id="section-toc.1-1.2">
             <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="xref">2</a>.  <a href="#name-conventions-and-definitions" class="xref">Conventions and Definitions</a><a href="#section-toc.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty toc compact" id="section-toc.1-1.3">
+<li class="ulEmpty compact toc" id="section-toc.1-1.3">
             <p id="section-toc.1-1.3.1" class="keepWithNext"><a href="#section-3" class="xref">3</a>.  <a href="#name-an-extremely-abstract-descr" class="xref">An Extremely Abstract Description of QUIC</a><a href="#section-toc.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty toc compact" id="section-toc.1-1.4">
+<li class="ulEmpty compact toc" id="section-toc.1-1.4">
             <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-notational-conventions" class="xref">Notational Conventions</a><a href="#section-toc.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty toc compact" id="section-toc.1-1.5">
-            <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-quic-packet-headers" class="xref">QUIC Packet Headers</a><a href="#section-toc.1-1.5.1" class="pilcrow">¶</a></p>
+<li class="ulEmpty compact toc" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-quic-packets" class="xref">QUIC Packets</a><a href="#section-toc.1-1.5.1" class="pilcrow">¶</a></p>
 <ul class="ulEmpty toc compact">
 <li class="ulEmpty toc compact" id="section-toc.1-1.5.2.1">
                 <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="xref">5.1</a>.  <a href="#name-long-header" class="xref">Long Header</a><a href="#section-toc.1-1.5.2.1.1" class="pilcrow">¶</a></p>
@@ -939,16 +928,16 @@ code and issues list for this draft can be found at
 </li>
 </ul>
 </li>
-<li class="ulEmpty toc compact" id="section-toc.1-1.6">
+<li class="ulEmpty compact toc" id="section-toc.1-1.6">
             <p id="section-toc.1-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-version-negotiation" class="xref">Version Negotiation</a><a href="#section-toc.1-1.6.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty toc compact" id="section-toc.1-1.7">
+<li class="ulEmpty compact toc" id="section-toc.1-1.7">
             <p id="section-toc.1-1.7.1"><a href="#section-7" class="xref">7</a>.  <a href="#name-security-and-privacy-consid" class="xref">Security and Privacy Considerations</a><a href="#section-toc.1-1.7.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty toc compact" id="section-toc.1-1.8">
+<li class="ulEmpty compact toc" id="section-toc.1-1.8">
             <p id="section-toc.1-1.8.1"><a href="#section-8" class="xref">8</a>.  <a href="#name-iana-considerations" class="xref">IANA Considerations</a><a href="#section-toc.1-1.8.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty toc compact" id="section-toc.1-1.9">
+<li class="ulEmpty compact toc" id="section-toc.1-1.9">
             <p id="section-toc.1-1.9.1"><a href="#section-9" class="xref">9</a>.  <a href="#name-references" class="xref">References</a><a href="#section-toc.1-1.9.1" class="pilcrow">¶</a></p>
 <ul class="ulEmpty toc compact">
 <li class="ulEmpty toc compact" id="section-toc.1-1.9.2.1">
@@ -959,10 +948,10 @@ code and issues list for this draft can be found at
 </li>
 </ul>
 </li>
-<li class="ulEmpty toc compact" id="section-toc.1-1.10">
+<li class="ulEmpty compact toc" id="section-toc.1-1.10">
             <p id="section-toc.1-1.10.1"><a href="#section-appendix.a" class="xref">Appendix A</a>.  <a href="#name-incorrect-assumptions" class="xref">Incorrect Assumptions</a><a href="#section-toc.1-1.10.1" class="pilcrow">¶</a></p>
 </li>
-<li class="ulEmpty toc compact" id="section-toc.1-1.11">
+<li class="ulEmpty compact toc" id="section-toc.1-1.11">
             <p id="section-toc.1-1.11.1"><a href="#section-appendix.b" class="xref"></a><a href="#name-authors-address" class="xref">Author's Address</a><a href="#section-toc.1-1.11.1" class="pilcrow">¶</a></p>
 </li>
 </ul>
@@ -1052,10 +1041,12 @@ length E)<a href="#section-4-4.8" class="pilcrow">¶</a>
 </dd>
 <dd class="break"></dd>
 </dl>
-<p id="section-4-5"><a href="#fig-ex-format" class="xref">Figure 1</a> shows an example structure:<a href="#section-4-5" class="pilcrow">¶</a></p>
+<p id="section-4-5">This document uses network byte order (that is, big endian) values.  Fields
+are placed starting from the high-order bits of each byte.<a href="#section-4-5" class="pilcrow">¶</a></p>
+<p id="section-4-6"><a href="#fig-ex-format" class="xref">Figure 1</a> shows an example structure:<a href="#section-4-6" class="pilcrow">¶</a></p>
 <span id="name-example-format"></span><div id="fig-ex-format">
 <figure id="figure-1">
-        <div class="artwork art-text alignLeft" id="section-4-6.1">
+        <div class="artwork art-text alignLeft" id="section-4-7.1">
 <pre>
 Example Structure {
   One-bit Field (1),
@@ -1072,10 +1063,10 @@ Example Structure {
 </div>
 </section>
 </div>
-<div id="quic-packet-headers">
+<div id="quic-packets">
 <section id="section-5">
-      <h2 id="name-quic-packet-headers">
-<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-quic-packet-headers" class="section-name selfRef">QUIC Packet Headers</a>
+      <h2 id="name-quic-packets">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-quic-packets" class="section-name selfRef">QUIC Packets</a>
       </h2>
 <p id="section-5-1">QUIC endpoints exchange UDP datagrams that contain one or more QUIC packets.
 This section describes the invariant characteristics of a QUIC packet.  A
@@ -1084,8 +1075,10 @@ the invariant properties only describe the first packet in a datagram.<a href="#
 <p id="section-5-2">QUIC defines two types of packet header: long and short.  Packets with long
 headers are identified by the most significant bit of the first byte being set;
 packets with a short header have that bit cleared.<a href="#section-5-2" class="pilcrow">¶</a></p>
-<p id="section-5-3">Aside from the values described here, the payload of QUIC packets is
-version-specific and of arbitrary length.<a href="#section-5-3" class="pilcrow">¶</a></p>
+<p id="section-5-3">QUIC packets might be integrity protected, including the header.  However, QUIC
+Version Negotiation packets are not integrity protected; see <a href="#vn" class="xref">Section 6</a>.<a href="#section-5-3" class="pilcrow">¶</a></p>
+<p id="section-5-4">Aside from the values described here, the payload of QUIC packets is
+version-specific and of arbitrary length.<a href="#section-5-4" class="pilcrow">¶</a></p>
 <div id="long-header">
 <section id="section-5.1">
         <h3 id="name-long-header">
@@ -1100,9 +1093,9 @@ Long Header Packet {
   Header Form (1) = 1,
   Version-Specific Bits (7),
   Version (32),
-  DCID Length (8),
+  Destination Connection ID Length (8),
   Destination Connection ID (0..2040),
-  SCID Length (8),
+  Source Connection ID Length (8),
   Source Connection ID (0..2040),
   Version-Specific Data (..),
 }
@@ -1114,15 +1107,17 @@ Long Header Packet {
 </div>
 <p id="section-5.1-3">A QUIC packet with a long header has the high bit of the first byte set to 1.
 All other bits in that byte are version specific.<a href="#section-5.1-3" class="pilcrow">¶</a></p>
-<p id="section-5.1-4">The next four bytes include a 32-bit Version field (see <a href="#version" class="xref">Section 5.4</a>).<a href="#section-5.1-4" class="pilcrow">¶</a></p>
-<p id="section-5.1-5">The next byte contains the length in bytes of the Destination Connection ID (see
-<a href="#connection-id" class="xref">Section 5.3</a>) field that follows it.  This length is encoded as an 8-bit
-unsigned integer.  The Destination Connection ID field follows the DCID Length
-field and is between 0 and 255 bytes in length.<a href="#section-5.1-5" class="pilcrow">¶</a></p>
+<p id="section-5.1-4">The next four bytes include a 32-bit Version field.  Versions are described in
+<a href="#version" class="xref">Section 5.4</a>.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
+<p id="section-5.1-5">The next byte contains the length in bytes of the Destination Connection ID
+field that follows it.  This length is encoded as an 8-bit unsigned integer.
+The Destination Connection ID field follows the Destination Connection ID Length
+field and is between 0 and 255 bytes in length.  Connection IDs are described in
+<a href="#connection-id" class="xref">Section 5.3</a>.<a href="#section-5.1-5" class="pilcrow">¶</a></p>
 <p id="section-5.1-6">The next byte contains the length in bytes of the Source Connection ID field
-that follows it.  This length is encoded as a 8-bit unsigned integer.  The
-Source Connection ID field follows the SCID Length field and is between 0 and
-255 bytes in length.<a href="#section-5.1-6" class="pilcrow">¶</a></p>
+that follows it.  This length is encoded as an 8-bit unsigned integer.  The
+Source Connection ID field follows the Source Connection ID Length field and is
+between 0 and 255 bytes in length.<a href="#section-5.1-6" class="pilcrow">¶</a></p>
 <p id="section-5.1-7">The remainder of the packet contains version-specific content.<a href="#section-5.1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1152,7 +1147,7 @@ Short Header Packet {
 <p id="section-5.2-4">A QUIC packet with a short header includes a Destination Connection ID
 immediately following the first byte.  The short header does not include the
 Connection ID Lengths, Source Connection ID, or Version fields.  The length of
-the Destination Connection ID is not specified in packets with a short header
+the Destination Connection ID is not encoded in packets with a short header
 and is not constrained by this specification.<a href="#section-5.2-4" class="pilcrow">¶</a></p>
 <p id="section-5.2-5">The remainder of the packet has version-specific semantics.<a href="#section-5.2-5" class="pilcrow">¶</a></p>
 </section>
@@ -1165,11 +1160,11 @@ and is not constrained by this specification.<a href="#section-5.2-4" class="pil
 <p id="section-5.3-1">A connection ID is an opaque field of arbitrary length.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
 <p id="section-5.3-2">The primary function of a connection ID is to ensure that changes in addressing
 at lower protocol layers (UDP, IP, and below) don't cause packets for a QUIC
-connection to be delivered to the wrong endpoint.  The connection ID is used by
-endpoints and the intermediaries that support them to ensure that each QUIC
-packet can be delivered to the correct instance of an endpoint.  At the
-endpoint, the connection ID is used to identify which QUIC connection the packet
-is intended for.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
+connection to be delivered to the wrong QUIC endpoint.  The connection ID
+is used by endpoints and the intermediaries that support them to ensure that
+each QUIC packet can be delivered to the correct instance of an endpoint.  At
+the endpoint, the connection ID is used to identify which QUIC connection the
+packet is intended for.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
 <p id="section-5.3-3">The connection ID is chosen by each endpoint using version-specific methods.
 Packets for the same QUIC connection might use different connection ID values.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
 </section>
@@ -1180,8 +1175,8 @@ Packets for the same QUIC connection might use different connection ID values.<a
 <a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-version" class="section-name selfRef">Version</a>
         </h3>
 <p id="section-5.4-1">QUIC versions are identified with a 32-bit integer, encoded in network byte
-order.  Version 0 is reserved for version negotiation (see
-<a href="#version-negotiation" class="xref">Section 6</a>).  All other version numbers are potentially valid.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
+order.  Version 0 is reserved for version negotiation (see <a href="#vn" class="xref">Section 6</a>).  All other
+version numbers are potentially valid.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
 <p id="section-5.4-2">The properties described in this document apply to all versions of QUIC. A
 protocol that does not conform to the properties described in this document is
 not QUIC.  Future documents might describe additional properties which apply to
@@ -1190,7 +1185,7 @@ a specific QUIC version, or to a range of QUIC versions.<a href="#section-5.4-2"
 </div>
 </section>
 </div>
-<div id="version-negotiation">
+<div id="vn">
 <section id="section-6">
       <h2 id="name-version-negotiation">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-version-negotiation" class="section-name selfRef">Version Negotiation</a>
@@ -1211,9 +1206,9 @@ Version Negotiation Packet {
   Header Form (1) = 1,
   Unused (7),
   Version (32) = 0,
-  DCID Length (8),
+  Destination Connection ID Length (8),
   Destination Connection ID (0..2040),
-  SCID Length (8),
+  Source Connection ID Length (8),
   Source Connection ID (0..2040),
   Supported Version (32) ...,
 }
@@ -1229,8 +1224,8 @@ Supported Version fields follow the Version field.  A Version Negotiation packet
 contains no other fields.  An endpoint MUST ignore a packet that contains no
 Supported Version fields, or a truncated Supported Version.<a href="#section-6-4" class="pilcrow">¶</a></p>
 <p id="section-6-5">Version Negotiation packets do not use integrity or confidentiality protection.
-A specific QUIC version might authenticate the packet as part of its connection
-establishment process.<a href="#section-6-5" class="pilcrow">¶</a></p>
+Specific QUIC versions define mechanisms to authenticate the packet as part of
+the connection establishment process.<a href="#section-6-5" class="pilcrow">¶</a></p>
 <p id="section-6-6">An endpoint MUST include the value from the Source Connection ID field of the
 packet it receives in the Destination Connection ID field.  The value for Source
 Connection ID MUST be copied from the Destination Connection ID of the received
@@ -1301,11 +1296,11 @@ it contains.<a href="#section-7-3" class="pilcrow">¶</a></p>
 <dl class="references">
 <dt id="QUIC-TLS">[QUIC-TLS]</dt>
 <dd>
-<span class="refAuthor">Thomson, M., Ed.</span><span class="refAuthor"> and S. Turner, Ed.</span>, <span class="refTitle">"Using Transport Layer Security (TLS) to Secure QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-tls-latest</span>, <time datetime="2020-06-09">9 June 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-tls-latest">https://tools.ietf.org/html/draft-ietf-quic-tls-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Thomson, M., Ed.</span><span class="refAuthor"> and S. Turner, Ed.</span>, <span class="refTitle">"Using Transport Layer Security (TLS) to Secure QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-tls-latest</span>, <time datetime="2020-07-09">9 July 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-tls-latest">https://tools.ietf.org/html/draft-ietf-quic-tls-latest</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="QUIC-TRANSPORT">[QUIC-TRANSPORT]</dt>
 <dd>
-<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and M. Thomson, Ed.</span>, <span class="refTitle">"QUIC: A UDP-Based Multiplexed and Secure Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-transport-latest</span>, <time datetime="2020-06-09">9 June 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-transport-latest">https://tools.ietf.org/html/draft-ietf-quic-transport-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and M. Thomson, Ed.</span>, <span class="refTitle">"QUIC: A UDP-Based Multiplexed and Secure Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-transport-latest</span>, <time datetime="2020-07-09">9 July 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-transport-latest">https://tools.ietf.org/html/draft-ietf-quic-transport-latest</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC5116">[RFC5116]</dt>
 <dd>
@@ -1324,7 +1319,7 @@ protected from observation, but are nonetheless considered to be changeable when
 a new version is deployed.<a href="#section-appendix.a-1" class="pilcrow">¶</a></p>
 <p id="section-appendix.a-2">This section lists a sampling of incorrect assumptions that might be made based
 on knowledge of QUIC version 1.  Some of these statements are not even true for
-QUIC version 1.  This is not an exhaustive list, it is intended to be
+QUIC version 1.  This is not an exhaustive list; it is intended to be
 illustrative only.<a href="#section-appendix.a-2" class="pilcrow">¶</a></p>
 <p id="section-appendix.a-3">The following statements are NOT guaranteed to be true for every QUIC version:<a href="#section-appendix.a-3" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -1336,9 +1331,8 @@ illustrative only.<a href="#section-appendix.a-2" class="pilcrow">¶</a></p>
 </li>
 <li class="normal" id="section-appendix.a-4.4">The first packets exchanged on a flow use the long header<a href="#section-appendix.a-4.4" class="pilcrow">¶</a>
 </li>
-<li class="normal" id="section-appendix.a-4.5">QUIC forbids acknowledgments of packets that only contain ACK frames,
-therefore the last packet before a long period of quiescence might be assumed
-to contain an acknowledgment<a href="#section-appendix.a-4.5" class="pilcrow">¶</a>
+<li class="normal" id="section-appendix.a-4.5">The last packet before a long period of quiescence might be assumed
+to contain only an acknowledgment<a href="#section-appendix.a-4.5" class="pilcrow">¶</a>
 </li>
 <li class="normal" id="section-appendix.a-4.6">QUIC uses an AEAD (AEAD_AES_128_GCM <span>[<a href="#RFC5116" class="xref">RFC5116</a>]</span>) to protect the packets it
 exchanges during connection establishment<a href="#section-appendix.a-4.6" class="pilcrow">¶</a>
