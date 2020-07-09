@@ -136,7 +136,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
      9.1.  Probing a New Path  . . . . . . . . . . . . . . . . . . .  56
      9.2.  Initiating Connection Migration . . . . . . . . . . . . .  56
      9.3.  Responding to Connection Migration  . . . . . . . . . . .  57
-       9.3.1.  Peer Address Spoofing . . . . . . . . . . . . . . . .  58
+       9.3.1.  Peer Address Spoofing . . . . . . . . . . . . . . . .  57
        9.3.2.  On-Path Address Spoofing  . . . . . . . . . . . . . .  58
        9.3.3.  Off-Path Packet Forwarding  . . . . . . . . . . . . .  59
      9.4.  Loss Detection and Congestion Control . . . . . . . . . .  60
@@ -2993,11 +2993,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    a PATH_CHALLENGE frame is not adequate validation, since the
    acknowledgment can be spoofed by a malicious peer.
 
-   Note that receipt on a different local address does not result in
-   path validation failure, as it might be a result of a forwarded
-   packet (see Section 9.3.3) or misrouting.  It is possible that a
-   valid PATH_RESPONSE might be received in the future.
-
 8.6.  Failed Path Validation
 
    Path validation only fails when the endpoint attempting to validate
@@ -3016,6 +3011,11 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    on the new path, but a PATH_RESPONSE frame with appropriate data is
    required for path validation to succeed.
 
+   When an endpoint abandons path validation, it determines that the
+   path is unusable.  This does not necessarily imply a failure of the
+   connection - endpoints can continue sending packets over other paths
+   as appropriate.  If no paths are available, an endpoint can wait for
+   a new path to become available or close the connection.
 
 
 
@@ -3025,12 +3025,6 @@ Iyengar & Thomson        Expires 10 January 2021               [Page 54]
 
 Internet-Draft           QUIC Transport Protocol               July 2020
 
-
-   When an endpoint abandons path validation, it determines that the
-   path is unusable.  This does not necessarily imply a failure of the
-   connection - endpoints can continue sending packets over other paths
-   as appropriate.  If no paths are available, an endpoint can wait for
-   a new path to become available or close the connection.
 
    A path validation might be abandoned for other reasons besides
    failure.  Primarily, this happens if a connection migration to a new
@@ -3073,15 +3067,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    migration MAY wait for a new path to become available before
    discarding connection state.
 
-
-
-
-
-Iyengar & Thomson        Expires 10 January 2021               [Page 55]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
-
    This document limits migration of connections to new client
    addresses, except as described in Section 9.6.  Clients are
    responsible for initiating all migrations.  Servers do not send non-
@@ -3089,6 +3074,13 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    see a non-probing packet from that address.  If a client receives
    packets from an unknown server address, the client MUST discard these
    packets.
+
+
+
+Iyengar & Thomson        Expires 10 January 2021               [Page 55]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
 
 9.1.  Probing a New Path
 
@@ -3129,7 +3121,15 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    sending rate.  Therefore, the endpoint resets its congestion
    controller, as described in Section 9.4.
 
+   The new path might not have the same ECN capability.  Therefore, the
+   endpoint verifies ECN capability as described in Section 13.4.
 
+   Receiving acknowledgments for data sent on the new path serves as
+   proof of the peer's reachability from the new address.  Note that
+   since acknowledgments may be received on any path, return
+   reachability on the new path is not established.  No method is
+   provided to establish return reachability, as endpoints independently
+   determine reachability on each direction of a path.  To establish
 
 
 
@@ -3138,16 +3138,10 @@ Iyengar & Thomson        Expires 10 January 2021               [Page 56]
 Internet-Draft           QUIC Transport Protocol               July 2020
 
 
-   The new path might not have the same ECN capability.  Therefore, the
-   endpoint verifies ECN capability as described in Section 13.4.
-
-   Receiving acknowledgments for data sent on the new path serves as
-   proof of the peer's reachability from the new address.  Note that
-   since acknowledgments may be received on any path, return
-   reachability on the new path is not established.  To establish return
    reachability on the new path, an endpoint MAY concurrently initiate
-   path validation Section 8.2 on the new path or it MAY choose to wait
-   for the peer to send the next non-probing frame to its new address.
+   path validation Section 8.2 on the new path.  An endpoint MAY defer
+   path validation until after a peer sends the next non-probing frame
+   to its new address.
 
 9.3.  Responding to Connection Migration
 
@@ -3182,7 +3176,13 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    After verifying a new client address, the server SHOULD send new
    address validation tokens (Section 8) to the client.
 
+9.3.1.  Peer Address Spoofing
 
+   It is possible that a peer is spoofing its source address to cause an
+   endpoint to send excessive amounts of data to an unwilling host.  If
+   the endpoint sends significantly more data than the spoofing peer,
+   connection migration might be used to amplify the volume of data that
+   an attacker can generate toward a victim.
 
 
 
@@ -3193,14 +3193,6 @@ Iyengar & Thomson        Expires 10 January 2021               [Page 57]
 
 Internet-Draft           QUIC Transport Protocol               July 2020
 
-
-9.3.1.  Peer Address Spoofing
-
-   It is possible that a peer is spoofing its source address to cause an
-   endpoint to send excessive amounts of data to an unwilling host.  If
-   the endpoint sends significantly more data than the spoofing peer,
-   connection migration might be used to amplify the volume of data that
-   an attacker can generate toward a victim.
 
    As described in Section 9.3, an endpoint is required to validate a
    peer's new address to confirm the peer's possession of the new
@@ -3239,6 +3231,14 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    generically.  For instance, an endpoint MAY send a stateless reset in
    response to any further incoming packets.
 
+   Note that receipt of packets with higher packet numbers from the
+   legitimate peer address will trigger another connection migration.
+   This will cause the validation of the address of the spurious
+   migration to be abandoned.
+
+
+
+
 
 
 
@@ -3249,11 +3249,6 @@ Iyengar & Thomson        Expires 10 January 2021               [Page 58]
 
 Internet-Draft           QUIC Transport Protocol               July 2020
 
-
-   Note that receipt of packets with higher packet numbers from the
-   legitimate peer address will trigger another connection migration.
-   This will cause the validation of the address of the spurious
-   migration to be abandoned.
 
 9.3.3.  Off-Path Packet Forwarding
 
@@ -3297,6 +3292,11 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    original path despite multiple attempts to use that original path, it
    is not possible to distinguish between attack and an improvement in
    routing.
+
+
+
+
+
 
 
 
