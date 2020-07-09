@@ -6053,11 +6053,12 @@ Internet-Draft           QUIC Transport Protocol               July 2020
 17.2.3.  0-RTT
 
    A 0-RTT packet uses long headers with a type value of 0x1, followed
-   by the Length and Packet Number fields.  The first byte contains the
-   Reserved and Packet Number Length bits.  It is used to carry "early"
-   data from the client to the server as part of the first flight, prior
-   to handshake completion.  As part of the TLS handshake, the server
-   can accept or reject this early data.
+   by the Length and Packet Number fields; see Section 17.2.  The first
+   byte contains the Reserved and Packet Number Length bits; see
+   Section 17.2.  A 0-RTT packet is used to carry "early" data from the
+   client to the server as part of the first flight, prior to handshake
+   completion.  As part of the TLS handshake, the server can accept or
+   reject this early data.
 
    See Section 2.3 of [TLS13] for a discussion of 0-RTT data and its
    limitations.
@@ -6097,7 +6098,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    A client only receives acknowledgments for its 0-RTT packets once the
    handshake is complete.  Consequently, a server might expect 0-RTT
    packets to start with a packet number of 0.  Therefore, in
-   determining the length of the packet number encoding for 0-RTT
 
 
 
@@ -6106,6 +6106,7 @@ Iyengar & Thomson        Expires 10 January 2021              [Page 109]
 Internet-Draft           QUIC Transport Protocol               July 2020
 
 
+   determining the length of the packet number encoding for 0-RTT
    packets, a client MUST assume that all packets up to the current
    packet number are in flight, starting from a packet number of 0.
    Thus, 0-RTT packets could need to use a longer packet number
@@ -6125,10 +6126,10 @@ Internet-Draft           QUIC Transport Protocol               July 2020
 17.2.4.  Handshake Packet
 
    A Handshake packet uses long headers with a type value of 0x2,
-   followed by the Length and Packet Number fields.  The first byte
-   contains the Reserved and Packet Number Length bits.  It is used to
-   carry acknowledgments and cryptographic handshake messages from the
-   server and client.
+   followed by the Length and Packet Number fields; see Section 17.2.
+   The first byte contains the Reserved and Packet Number Length bits;
+   see Section 17.2.  It is used to carry cryptographic handshake
+   messages and acknowledgments from the server and client.
 
    Handshake Packet {
      Header Form (1) = 1,
@@ -6151,7 +6152,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    Once a client has received a Handshake packet from a server, it uses
    Handshake packets to send subsequent cryptographic handshake messages
    and acknowledgments to the server.
-
 
 
 
