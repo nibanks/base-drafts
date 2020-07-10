@@ -1755,8 +1755,9 @@ Internet-Draft           QUIC Transport Protocol               July 2020
 
    Invalid packets without packet protection, such as Initial, Retry, or
    Version Negotiation, MAY be discarded.  An endpoint MUST generate a
-   connection error if it commits changes to state before discovering an
-   error.
+   connection error if processing of the contents of these packets prior
+   to discovering an error resulted in changes to the state of a
+   connection that cannot be reverted.
 
 5.2.1.  Client Packet Handling
 
@@ -1783,9 +1784,8 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    packets that it responds to with a Version Negotiation packet.
    Servers MUST drop smaller packets that specify unsupported versions.
 
-   The first packet for an unsupported version can use different
-   semantics and encodings for any version-specific field.  In
-   particular, different packet protection keys might be used for
+
+
 
 
 
@@ -1794,6 +1794,9 @@ Iyengar & Thomson        Expires 11 January 2021               [Page 32]
 Internet-Draft           QUIC Transport Protocol               July 2020
 
 
+   The first packet for an unsupported version can use different
+   semantics and encodings for any version-specific field.  In
+   particular, different packet protection keys might be used for
    different versions.  Servers that do not support a particular version
    are unlikely to be able to decrypt the payload of the packet.
    Servers SHOULD NOT attempt to decode or decrypt a packet from an
@@ -1839,9 +1842,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
       the preferred_address transport parameter to request that clients
       move connections to that dedicated address.  Note that clients
       could choose not to use the preferred address.
-
-
-
 
 
 
