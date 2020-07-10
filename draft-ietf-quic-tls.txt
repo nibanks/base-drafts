@@ -82,7 +82,7 @@ Table of Contents
        4.1.5.  TLS Interface Summary . . . . . . . . . . . . . . . .  14
      4.2.  TLS Version . . . . . . . . . . . . . . . . . . . . . . .  15
      4.3.  ClientHello Size  . . . . . . . . . . . . . . . . . . . .  16
-     4.4.  Peer Authentication . . . . . . . . . . . . . . . . . . .  16
+     4.4.  Peer Authentication . . . . . . . . . . . . . . . . . . .  17
      4.5.  Session Resumption  . . . . . . . . . . . . . . . . . . .  17
      4.6.  Enabling 0-RTT  . . . . . . . . . . . . . . . . . . . . .  18
      4.7.  Accepting and Rejecting 0-RTT . . . . . . . . . . . . . .  18
@@ -842,9 +842,10 @@ Thomson & Turner         Expires 11 January 2021               [Page 15]
 Internet-Draft          Using TLS to Secure QUIC               July 2020
 
 
-   A badly configured TLS implementation could negotiate TLS 1.2 or
-   another older version of TLS.  An endpoint MUST terminate the
-   connection if a version of TLS older than 1.3 is negotiated.
+   Clients MUST NOT offer TLS versions older than 1.3.  A badly
+   configured TLS implementation could negotiate TLS 1.2 or another
+   older version of TLS.  An endpoint MUST terminate the connection if a
+   version of TLS older than 1.3 is negotiated.
 
 4.3.  ClientHello Size
 
@@ -885,11 +886,10 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
    is sufficiently large.  QUIC PADDING frames are added to increase the
    size of the packet as necessary.
 
-4.4.  Peer Authentication
 
-   The requirements for authentication depend on the application
-   protocol that is in use.  TLS provides server authentication and
-   permits the server to request client authentication.
+
+
+
 
 
 
@@ -897,6 +897,12 @@ Thomson & Turner         Expires 11 January 2021               [Page 16]
 
 Internet-Draft          Using TLS to Secure QUIC               July 2020
 
+
+4.4.  Peer Authentication
+
+   The requirements for authentication depend on the application
+   protocol that is in use.  TLS provides server authentication and
+   permits the server to request client authentication.
 
    A client MUST authenticate the identity of the server.  This
    typically involves verification that the identity of the server is
@@ -940,12 +946,6 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
    Session resumption allows servers to link activity on the original
    connection with the resumed connection, which might be a privacy
    issue for clients.  Clients can choose not to enable resumption to
-   avoid creating this correlation.  Client SHOULD NOT reuse tickets as
-   that allows entities other than the server to correlate connections;
-   see Section C.4 of [TLS13].
-
-
-
 
 
 
@@ -953,6 +953,10 @@ Thomson & Turner         Expires 11 January 2021               [Page 17]
 
 Internet-Draft          Using TLS to Secure QUIC               July 2020
 
+
+   avoid creating this correlation.  Client SHOULD NOT reuse tickets as
+   that allows entities other than the server to correlate connections;
+   see Section C.4 of [TLS13].
 
 4.6.  Enabling 0-RTT
 
@@ -994,10 +998,6 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
    A client MAY attempt to send 0-RTT again if it receives a Retry or
    Version Negotiation packet.  These packets do not signify rejection
    of 0-RTT.
-
-
-
-
 
 
 
