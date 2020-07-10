@@ -89,10 +89,10 @@ Table of Contents
      3.4.  Connection Reuse  . . . . . . . . . . . . . . . . . . . .  11
    4.  HTTP Request Lifecycle  . . . . . . . . . . . . . . . . . . .  11
      4.1.  HTTP Message Exchanges  . . . . . . . . . . . . . . . . .  12
-       4.1.1.  Field Formatting and Compression  . . . . . . . . . .  13
+       4.1.1.  Field Formatting and Compression  . . . . . . . . . .  14
        4.1.2.  Request Cancellation and Rejection  . . . . . . . . .  17
        4.1.3.  Malformed Requests and Responses  . . . . . . . . . .  18
-     4.2.  The CONNECT Method  . . . . . . . . . . . . . . . . . . .  18
+     4.2.  The CONNECT Method  . . . . . . . . . . . . . . . . . . .  19
      4.3.  HTTP Upgrade  . . . . . . . . . . . . . . . . . . . . . .  20
      4.4.  Server Push . . . . . . . . . . . . . . . . . . . . . . .  20
    5.  Connection Closure  . . . . . . . . . . . . . . . . . . . . .  22
@@ -698,9 +698,10 @@ Internet-Draft                   HTTP/3                        July 2020
    When a stream is closed, this indicates the end of an HTTP message.
    Because some messages are large or unbounded, endpoints SHOULD begin
    processing partial HTTP messages once enough of the message has been
-   received to make progress.  If a client stream terminates without
-   enough of the HTTP message to provide a complete response, the server
-   SHOULD abort its response with the error code H3_REQUEST_INCOMPLETE.
+   received to make progress.  If a client-initiated stream terminates
+   without enough of the HTTP message to provide a complete response,
+   the server SHOULD abort its response with the error code
+   H3_REQUEST_INCOMPLETE.
 
    A server can send a complete response prior to the client sending an
    entire request if the response does not depend on any portion of the
@@ -713,15 +714,14 @@ Internet-Draft                   HTTP/3                        July 2020
    result of having their request terminated abruptly, though clients
    can always discard responses at their discretion for other reasons.
    If the server sends a partial or complete response but does not abort
-   reading, clients SHOULD continue sending the body of the request and
-   close the stream normally.
+   reading the request, clients SHOULD continue sending the body of the
+   request and close the stream normally.
 
-4.1.1.  Field Formatting and Compression
 
-   HTTP messages carry metadata as a series of key-value pairs, called
-   HTTP fields.  For a listing of registered HTTP fields, see the
-   "Hypertext Transfer Protocol (HTTP) Field Name Registry" maintained
-   at https://www.iana.org/assignments/http-fields/.
+
+
+
+
 
 
 
@@ -729,6 +729,13 @@ Bishop                   Expires 11 January 2021               [Page 13]
 
 Internet-Draft                   HTTP/3                        July 2020
 
+
+4.1.1.  Field Formatting and Compression
+
+   HTTP messages carry metadata as a series of key-value pairs, called
+   HTTP fields.  For a listing of registered HTTP fields, see the
+   "Hypertext Transfer Protocol (HTTP) Field Name Registry" maintained
+   at https://www.iana.org/assignments/http-fields/.
 
    As in previous versions of HTTP, field names are strings containing a
    subset of ASCII characters that are compared in a case-insensitive
@@ -771,13 +778,6 @@ Internet-Draft                   HTTP/3                        July 2020
    defined.  Pseudo-header fields defined for requests MUST NOT appear
    in responses; pseudo-header fields defined for responses MUST NOT
    appear in requests.  Pseudo-header fields MUST NOT appear in
-   trailers.  Endpoints MUST treat a request or response that contains
-   undefined or invalid pseudo-header fields as malformed
-   (Section 4.1.3).
-
-
-
-
 
 
 
@@ -785,6 +785,10 @@ Bishop                   Expires 11 January 2021               [Page 14]
 
 Internet-Draft                   HTTP/3                        July 2020
 
+
+   trailers.  Endpoints MUST treat a request or response that contains
+   undefined or invalid pseudo-header fields as malformed
+   (Section 4.1.3).
 
    All pseudo-header fields MUST appear in the header field section
    before regular header fields.  Any request or response that contains
@@ -830,10 +834,6 @@ Internet-Draft                   HTTP/3                        July 2020
       a path component; these MUST include a ":path" pseudo-header field
       with a value of '*'; see Section 3.2.4 of [HTTP11].
 
-   All HTTP/3 requests MUST include exactly one value for the ":method",
-   ":scheme", and ":path" pseudo-header fields, unless it is a CONNECT
-   request; see Section 4.2.
-
 
 
 
@@ -841,6 +841,10 @@ Bishop                   Expires 11 January 2021               [Page 15]
 
 Internet-Draft                   HTTP/3                        July 2020
 
+
+   All HTTP/3 requests MUST include exactly one value for the ":method",
+   ":scheme", and ":path" pseudo-header fields, unless it is a CONNECT
+   request; see Section 4.2.
 
    If the ":scheme" pseudo-header field identifies a scheme which has a
    mandatory authority component (including "http" and "https"), the
@@ -882,14 +886,10 @@ Internet-Draft                   HTTP/3                        July 2020
    context other than HTTP/2 or HTTP/3, such as an HTTP/1.1 connection,
    or a generic HTTP server application.
 
-4.1.1.3.  Header Size Constraints
 
-   An HTTP/3 implementation MAY impose a limit on the maximum size of
-   the message header it will accept on an individual HTTP message.  A
-   server that receives a larger header section than it is willing to
-   handle can send an HTTP 431 (Request Header Fields Too Large) status
-   code ([RFC6585]).  A client can discard responses that it cannot
-   process.  The size of a field list is calculated based on the
+
+
+
 
 
 
@@ -898,6 +898,14 @@ Bishop                   Expires 11 January 2021               [Page 16]
 Internet-Draft                   HTTP/3                        July 2020
 
 
+4.1.1.3.  Header Size Constraints
+
+   An HTTP/3 implementation MAY impose a limit on the maximum size of
+   the message header it will accept on an individual HTTP message.  A
+   server that receives a larger header section than it is willing to
+   handle can send an HTTP 431 (Request Header Fields Too Large) status
+   code ([RFC6585]).  A client can discard responses that it cannot
+   process.  The size of a field list is calculated based on the
    uncompressed size of fields, including the length of the name and
    value in bytes plus an overhead of 32 bytes for each field.
 
@@ -937,14 +945,6 @@ Internet-Draft                   HTTP/3                        July 2020
    except when a server has requested closure of the request stream with
    this error code.
 
-   If a stream is cancelled after receiving a complete response, the
-   client MAY ignore the cancellation and use the response.  However, if
-   a stream is cancelled after receiving a partial response, the
-   response SHOULD NOT be used.  Automatically retrying such requests is
-   not possible, unless this is otherwise permitted (e.g., idempotent
-   actions like GET, PUT, or DELETE).
-
-
 
 
 
@@ -953,6 +953,13 @@ Bishop                   Expires 11 January 2021               [Page 17]
 
 Internet-Draft                   HTTP/3                        July 2020
 
+
+   If a stream is cancelled after receiving a complete response, the
+   client MAY ignore the cancellation and use the response.  However, if
+   a stream is cancelled after receiving a partial response, the
+   response SHOULD NOT be used.  Automatically retrying such requests is
+   not possible, unless this is otherwise permitted (e.g., idempotent
+   actions like GET, PUT, or DELETE).
 
 4.1.3.  Malformed Requests and Responses
 
@@ -994,13 +1001,6 @@ Internet-Draft                   HTTP/3                        July 2020
    deliberately strict because being permissive can expose
    implementations to these vulnerabilities.
 
-4.2.  The CONNECT Method
-
-   The CONNECT method requests that the recipient establish a tunnel to
-   the destination origin server identified by the request-target
-   (Section 3.2 of [HTTP11]).  It is primarily used with HTTP proxies to
-   establish a TLS session with an origin server for the purposes of
-   interacting with "https" resources.
 
 
 
@@ -1009,6 +1009,14 @@ Bishop                   Expires 11 January 2021               [Page 18]
 
 Internet-Draft                   HTTP/3                        July 2020
 
+
+4.2.  The CONNECT Method
+
+   The CONNECT method requests that the recipient establish a tunnel to
+   the destination origin server identified by the request-target
+   (Section 3.2 of [HTTP11]).  It is primarily used with HTTP proxies to
+   establish a TLS session with an origin server for the purposes of
+   interacting with "https" resources.
 
    In HTTP/1.x, CONNECT is used to convert an entire HTTP connection
    into a tunnel to a remote host.  In HTTP/2 and HTTP/3, the CONNECT
@@ -1050,14 +1058,6 @@ Internet-Draft                   HTTP/3                        July 2020
    The TCP connection can be closed by either peer.  When the client
    ends the request stream (that is, the receive stream at the proxy
    enters the "Data Recvd" state), the proxy will set the FIN bit on its
-   connection to the TCP server.  When the proxy receives a packet with
-   the FIN bit set, it will terminate the send stream that it sends to
-   the client.  TCP connections which remain half-closed in a single
-   direction are not invalid, but are often handled poorly by servers,
-   so clients SHOULD NOT close a stream for sending while they still
-   expect to receive data from the target of the CONNECT.
-
-
 
 
 
@@ -1065,6 +1065,13 @@ Bishop                   Expires 11 January 2021               [Page 19]
 
 Internet-Draft                   HTTP/3                        July 2020
 
+
+   connection to the TCP server.  When the proxy receives a packet with
+   the FIN bit set, it will terminate the send stream that it sends to
+   the client.  TCP connections which remain half-closed in a single
+   direction are not invalid, but are often handled poorly by servers,
+   so clients SHOULD NOT close a stream for sending while they still
+   expect to receive data from the target of the CONNECT.
 
    A TCP connection error is signaled by abruptly terminating the
    stream.  A proxy treats any error in the TCP connection, which
@@ -1105,6 +1112,16 @@ Internet-Draft                   HTTP/3                        July 2020
    Push ID that is greater than the maximum Push ID as a connection
    error of type H3_ID_ERROR.
 
+
+
+
+
+
+Bishop                   Expires 11 January 2021               [Page 20]
+
+Internet-Draft                   HTTP/3                        July 2020
+
+
    The header section of the request message is carried by a
    PUSH_PROMISE frame (see Section 7.2.5) on the request stream which
    generated the push.  This allows the server push to be associated
@@ -1114,13 +1131,6 @@ Internet-Draft                   HTTP/3                        July 2020
    have the following properties:
 
    *  cacheable; see Section 7.2.3 of [SEMANTICS]
-
-
-
-Bishop                   Expires 11 January 2021               [Page 20]
-
-Internet-Draft                   HTTP/3                        July 2020
-
 
    *  safe; see Section 7.2.1 of [SEMANTICS]
 
@@ -1154,6 +1164,20 @@ Internet-Draft                   HTTP/3                        July 2020
    a response to the promised request using the same format described
    for responses in Section 4.1.
 
+
+
+
+
+
+
+
+
+
+Bishop                   Expires 11 January 2021               [Page 21]
+
+Internet-Draft                   HTTP/3                        July 2020
+
+
    Due to reordering, push stream data can arrive before the
    corresponding PUSH_PROMISE frame.  When a client receives a new push
    stream with an as-yet-unknown Push ID, both the associated client
@@ -1169,14 +1193,6 @@ Internet-Draft                   HTTP/3                        July 2020
    reading the stream with an error code of H3_REQUEST_CANCELLED.  This
    asks the server not to transfer additional data and indicates that it
    will be discarded upon receipt.
-
-
-
-
-Bishop                   Expires 11 January 2021               [Page 21]
-
-Internet-Draft                   HTTP/3                        July 2020
-
 
    Pushed responses that are cacheable (see Section 3 of [CACHING]) can
    be stored by the client, if it implements an HTTP cache.  Pushed
@@ -1210,22 +1226,6 @@ Internet-Draft                   HTTP/3                        July 2020
    or server pushes, as described in Section 10.2.2 of [QUIC-TRANSPORT].
    If the client is not expecting a response from the server, allowing
    an idle connection to time out is preferred over expending effort
-   maintaining a connection that might not be needed.  A gateway MAY
-   maintain connections in anticipation of need rather than incur the
-   latency cost of connection establishment to servers.  Servers SHOULD
-   NOT actively keep connections open.
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1233,6 +1233,11 @@ Bishop                   Expires 11 January 2021               [Page 22]
 
 Internet-Draft                   HTTP/3                        July 2020
 
+
+   maintaining a connection that might not be needed.  A gateway MAY
+   maintain connections in anticipation of need rather than incur the
+   latency cost of connection establishment to servers.  Servers SHOULD
+   NOT actively keep connections open.
 
 5.2.  Connection Shutdown
 
@@ -1277,11 +1282,6 @@ Internet-Draft                   HTTP/3                        July 2020
       Servers MAY reject individual requests on streams below the
       indicated ID if these requests were not processed.
 
-   *  If a server receives a GOAWAY frame after having promised pushes
-      with a Push ID greater than or equal to the identifier received in
-      a GOAWAY frame, those pushes will not be accepted.
-
-
 
 
 
@@ -1289,6 +1289,10 @@ Bishop                   Expires 11 January 2021               [Page 23]
 
 Internet-Draft                   HTTP/3                        July 2020
 
+
+   *  If a server receives a GOAWAY frame after having promised pushes
+      with a Push ID greater than or equal to the identifier received in
+      a GOAWAY frame, those pushes will not be accepted.
 
    Servers SHOULD send a GOAWAY frame when the closing of a connection
    is known in advance, even if the advance notice is small, so that the
@@ -1331,11 +1335,7 @@ Internet-Draft                   HTTP/3                        July 2020
    resources still exist.  The endpoint that initiated these requests
    can cancel them to clean up transport state.
 
-   Once all accepted requests and pushes have been processed, the
-   endpoint can permit the connection to become idle, or MAY initiate an
-   immediate closure of the connection.  An endpoint that completes a
-   graceful shutdown SHOULD use the H3_NO_ERROR code when closing the
-   connection.
+
 
 
 
@@ -1345,6 +1345,12 @@ Bishop                   Expires 11 January 2021               [Page 24]
 
 Internet-Draft                   HTTP/3                        July 2020
 
+
+   Once all accepted requests and pushes have been processed, the
+   endpoint can permit the connection to become idle, or MAY initiate an
+   immediate closure of the connection.  An endpoint that completes a
+   graceful shutdown SHOULD use the H3_NO_ERROR code when closing the
+   connection.
 
    If a client has consumed all available bidirectional stream IDs with
    requests, the server need not send a GOAWAY frame, since the client
@@ -1386,12 +1392,6 @@ Internet-Draft                   HTTP/3                        July 2020
    Although QUIC permits out-of-order delivery within a stream, HTTP/3
    does not make use of this feature.
 
-   QUIC streams can be either unidirectional, carrying data only from
-   initiator to receiver, or bidirectional.  Streams can be initiated by
-   either the client or the server.  For more detail on QUIC streams,
-   see Section 2 of [QUIC-TRANSPORT].
-
-
 
 
 
@@ -1401,6 +1401,11 @@ Bishop                   Expires 11 January 2021               [Page 25]
 
 Internet-Draft                   HTTP/3                        July 2020
 
+
+   QUIC streams can be either unidirectional, carrying data only from
+   initiator to receiver, or bidirectional.  Streams can be initiated by
+   either the client or the server.  For more detail on QUIC streams,
+   see Section 2 of [QUIC-TRANSPORT].
 
    When HTTP fields and data are sent over QUIC, the QUIC layer handles
    most of the stream management.  HTTP does not need to do any separate
@@ -1445,11 +1450,6 @@ Internet-Draft                   HTTP/3                        July 2020
    types.  Other stream types can be defined by extensions to HTTP/3;
    see Section 9 for more details.
 
-   The performance of HTTP/3 connections in the early phase of their
-   lifetime is sensitive to the creation and exchange of data on
-   unidirectional streams.  Endpoints that excessively restrict the
-   number of streams or the flow control window of these streams will
-   increase the chance that the remote peer reaches the limit early and
 
 
 
@@ -1458,6 +1458,11 @@ Bishop                   Expires 11 January 2021               [Page 26]
 Internet-Draft                   HTTP/3                        July 2020
 
 
+   The performance of HTTP/3 connections in the early phase of their
+   lifetime is sensitive to the creation and exchange of data on
+   unidirectional streams.  Endpoints that excessively restrict the
+   number of streams or the flow control window of these streams will
+   increase the chance that the remote peer reaches the limit early and
    becomes blocked.  In particular, implementations should consider that
    remote peers may wish to exercise reserved stream behavior
    (Section 6.2.3) with some of the unidirectional streams they are
@@ -1499,13 +1504,8 @@ Internet-Draft                   HTTP/3                        July 2020
    A control stream is indicated by a stream type of 0x00.  Data on this
    stream consists of HTTP/3 frames, as defined in Section 7.2.
 
-   Each side MUST initiate a single control stream at the beginning of
-   the connection and send its SETTINGS frame as the first frame on this
-   stream.  If the first frame of the control stream is any other frame
-   type, this MUST be treated as a connection error of type
-   H3_MISSING_SETTINGS.  Only one control stream per peer is permitted;
-   receipt of a second stream which claims to be a control stream MUST
-   be treated as a connection error of type H3_STREAM_CREATION_ERROR.
+
+
 
 
 
@@ -1514,6 +1514,13 @@ Bishop                   Expires 11 January 2021               [Page 27]
 Internet-Draft                   HTTP/3                        July 2020
 
 
+   Each side MUST initiate a single control stream at the beginning of
+   the connection and send its SETTINGS frame as the first frame on this
+   stream.  If the first frame of the control stream is any other frame
+   type, this MUST be treated as a connection error of type
+   H3_MISSING_SETTINGS.  Only one control stream per peer is permitted;
+   receipt of a second stream which claims to be a control stream MUST
+   be treated as a connection error of type H3_STREAM_CREATION_ERROR.
    The sender MUST NOT close the control stream, and the receiver MUST
    NOT request that the sender close the control stream.  If either
    control stream is closed at any point, this MUST be treated as a
@@ -1554,13 +1561,6 @@ Internet-Draft                   HTTP/3                        July 2020
    push stream header includes a Push ID that was used in another push
    stream header, the client MUST treat this as a connection error of
    type H3_ID_ERROR.
-
-
-
-
-
-
-
 
 
 
@@ -1626,7 +1626,7 @@ Bishop                   Expires 11 January 2021               [Page 29]
 Internet-Draft                   HTTP/3                        July 2020
 
 
-   +--------------+----------------+----------------+--------+---------+
+   +==============+================+================+========+=========+
    | Frame        | Control Stream | Request        | Push   | Section |
    |              |                | Stream         | Stream |         |
    +==============+================+================+========+=========+
@@ -2690,7 +2690,7 @@ Bishop                   Expires 11 January 2021               [Page 48]
 Internet-Draft                   HTTP/3                        July 2020
 
 
-                 +--------------+-------+---------------+
+                 +==============+=======+===============+
                  | Frame Type   | Value | Specification |
                  +==============+=======+===============+
                  | DATA         |  0x0  | Section 7.2.1 |
@@ -2757,7 +2757,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
    The entries in Table 3 are registered by this document.
 
-     +------------------------+-------+-----------------+-----------+
+     +========================+=======+=================+===========+
      | Setting Name           | Value | Specification   | Default   |
      +========================+=======+=================+===========+
      | Reserved               |  0x2  | N/A             | N/A       |
@@ -2812,7 +2812,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
    The entries in the Table 4 are registered by this document.
 
-   +---------------------------+--------+--------------+---------------+
+   +===========================+========+==============+===============+
    | Name                      | Value  | Description  | Specification |
    +===========================+========+==============+===============+
    | H3_NO_ERROR               | 0x0100 | No error     | Section 8.1   |
@@ -2939,7 +2939,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
    The entries in the following table are registered by this document.
 
-            +----------------+-------+---------------+--------+
+            +================+=======+===============+========+
             | Stream Type    | Value | Specification | Sender |
             +================+=======+===============+========+
             | Control Stream |  0x00 | Section 6.2.1 | Both   |

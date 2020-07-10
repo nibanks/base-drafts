@@ -1178,7 +1178,7 @@ Iyengar & Swett          Expires 11 January 2021               [Page 21]
 Internet-Draft             QUIC Loss Detection                 July 2020
 
 
-                     +------+------------------------+
+                     +======+========================+
                      | Time | Action                 |
                      +======+========================+
                      | t=0  | Send Pkt #1 (App Data) |

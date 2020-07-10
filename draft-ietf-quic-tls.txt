@@ -506,7 +506,7 @@ Thomson & Turner         Expires 11 January 2021                [Page 9]
 Internet-Draft          Using TLS to Secure QUIC               July 2020
 
 
-       +---------------------+-----------------+------------------+
+       +=====================+=================+==================+
        | Packet Type         | Encryption Keys | PN Space         |
        +=====================+=================+==================+
        | Initial             | Initial secrets | Initial          |

@@ -618,7 +618,7 @@ Iyengar & Thomson        Expires 11 January 2021               [Page 11]
 Internet-Draft           QUIC Transport Protocol               July 2020
 
 
-                +------+----------------------------------+
+                +======+==================================+
                 | Bits | Stream Type                      |
                 +======+==================================+
                 | 0x0  | Client-Initiated, Bidirectional  |
@@ -1122,7 +1122,7 @@ Iyengar & Thomson        Expires 11 January 2021               [Page 20]
 Internet-Draft           QUIC Transport Protocol               July 2020
 
 
-     +----------------------+----------------------+-----------------+
+     +======================+======================+=================+
      | Sending Part         | Receiving Part       | Composite State |
      +======================+======================+=================+
      | No Stream/Ready      | No Stream/Recv *1    | idle            |
@@ -4538,7 +4538,7 @@ Iyengar & Thomson        Expires 11 January 2021               [Page 81]
 Internet-Draft           QUIC Transport Protocol               July 2020
 
 
-   +-------------+----------------------+---------------+------+------+
+   +=============+======================+===============+======+======+
    | Type Value  | Frame Type Name      | Definition    | Pkts | Spec |
    +=============+======================+===============+======+======+
    | 0x00        | PADDING              | Section 19.1  | IH01 | NP   |
@@ -5621,7 +5621,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    encode 6, 14, 30, or 62 bit values respectively.  Table 4 summarizes
    the encoding properties.
 
-          +------+--------+-------------+-----------------------+
+          +======+========+=============+=======================+
           | 2Bit | Length | Usable Bits | Range                 |
           +======+========+=============+=======================+
           | 00   | 1      | 6           | 0-63                  |
@@ -5800,7 +5800,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    In this version of QUIC, the following packet types with the long
    header are defined:
 
-                   +------+-----------+----------------+
+                   +======+===========+================+
                    | Type | Name      | Section        |
                    +======+===========+================+
                    |  0x0 | Initial   | Section 17.2.2 |
@@ -8794,7 +8794,7 @@ Iyengar & Thomson        Expires 11 January 2021              [Page 157]
 Internet-Draft           QUIC Transport Protocol               July 2020
 
 
-      +-------+-------------------------------------+---------------+
+      +=======+=====================================+===============+
       | Value | Parameter Name                      | Specification |
       +=======+=====================================+===============+
       | 0x00  | original_destination_connection_id  | Section 18.2  |
@@ -8906,7 +8906,7 @@ Iyengar & Thomson        Expires 11 January 2021              [Page 159]
 Internet-Draft           QUIC Transport Protocol               July 2020
 
 
-   +------+---------------------------+----------------+---------------+
+   +======+===========================+================+===============+
    |Value | Error                     | Description    | Specification |
    +======+===========================+================+===============+
    | 0x0  | NO_ERROR                  | No error       | Section 20    |
