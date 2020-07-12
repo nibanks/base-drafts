@@ -2094,12 +2094,10 @@ Internet-Draft           QUIC Transport Protocol               July 2020
 
       -  a client is optionally authenticated,
 
-      -  every connection produces distinct and unrelated keys,
+      -  every connection produces distinct and unrelated keys, and
 
       -  keying material is usable for packet protection for both 0-RTT
-         and 1-RTT packets, and
-
-      -  1-RTT keys have forward secrecy
+         and 1-RTT packets
 
    *  authenticated values for transport parameters of both endpoints,
       and confidentiality protection for server transport parameters
@@ -2119,6 +2117,8 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    Endpoints MUST explicitly negotiate an application protocol.  This
    avoids situations where there is a disagreement about the protocol
    that is in use.
+
+
 
 
 
