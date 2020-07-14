@@ -1225,7 +1225,7 @@ contains no other fields.  An endpoint MUST ignore a packet that contains no
 Supported Version fields, or a truncated Supported Version.<a href="#section-6-4" class="pilcrow">¶</a></p>
 <p id="section-6-5">Version Negotiation packets do not use integrity or confidentiality protection.
 Specific QUIC versions might include protocol elements that allow endpoints to
-detect when the set of supported versions is modified or corrupted.<a href="#section-6-5" class="pilcrow">¶</a></p>
+detect modification or corruption in the set of supported versions.<a href="#section-6-5" class="pilcrow">¶</a></p>
 <p id="section-6-6">An endpoint MUST include the value from the Source Connection ID field of the
 packet it receives in the Destination Connection ID field.  The value for Source
 Connection ID MUST be copied from the Destination Connection ID of the received
@@ -1258,8 +1258,8 @@ reliably extracting information from a flow based on version-specific traits
 requires that middleboxes retain state for every connection ID they see.<a href="#section-7-2" class="pilcrow">¶</a></p>
 <p id="section-7-3">The Version Negotiation packet described in this document is not
 integrity-protected; it only has modest protection against insertion by off-path
-attackers.  A QUIC version that uses a Version Negotiation packet MUST define a
-mechanism to authenticate the values the packet contains.<a href="#section-7-3" class="pilcrow">¶</a></p>
+attackers.  An endpoint MUST authenticate the contents of a Version Negotiation
+packet if it attempts a different QUIC version as a result.<a href="#section-7-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana-considerations">

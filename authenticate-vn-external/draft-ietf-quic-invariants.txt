@@ -365,8 +365,8 @@ Internet-Draft               QUIC Invariants                   July 2020
 
    Version Negotiation packets do not use integrity or confidentiality
    protection.  Specific QUIC versions might include protocol elements
-   that allow endpoints to detect when the set of supported versions is
-   modified or corrupted.
+   that allow endpoints to detect modification or corruption in the set
+   of supported versions.
 
    An endpoint MUST include the value from the Source Connection ID
    field of the packet it receives in the Destination Connection ID
@@ -412,9 +412,9 @@ Internet-Draft               QUIC Invariants                   July 2020
 
    The Version Negotiation packet described in this document is not
    integrity-protected; it only has modest protection against insertion
-   by off-path attackers.  A QUIC version that uses a Version
-   Negotiation packet MUST define a mechanism to authenticate the values
-   the packet contains.
+   by off-path attackers.  An endpoint MUST authenticate the contents of
+   a Version Negotiation packet if it attempts a different QUIC version
+   as a result.
 
 8.  IANA Considerations
 
