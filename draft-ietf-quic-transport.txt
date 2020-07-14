@@ -2227,12 +2227,12 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    value.  This Destination Connection ID MUST be at least 8 bytes in
    length.  Until a packet is received from the server, the client MUST
    use the same Destination Connection ID value on all packets in this
-   connection.  This Destination Connection ID is used to determine
-   packet protection keys for Initial packets.
+   connection.
 
-   The client populates the Source Connection ID field with a value of
-   its choosing and sets the Source Connection ID Length field to
-   indicate the length.
+   The Destination Connection ID field from the first Initial packet
+   sent by a client is used to determine packet protection keys for
+   Initial packets.  These keys change after receiving a Retry packet;
+   see Section 5.2 of [QUIC-TLS].
 
 
 
@@ -2241,6 +2241,10 @@ Iyengar & Thomson        Expires 15 January 2021               [Page 40]
 
 Internet-Draft           QUIC Transport Protocol               July 2020
 
+
+   The client populates the Source Connection ID field with a value of
+   its choosing and sets the Source Connection ID Length field to
+   indicate the length.
 
    The first flight of 0-RTT packets use the same Destination Connection
    ID and Source Connection ID values as the client's first Initial
@@ -2286,10 +2290,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    A server includes the Destination Connection ID field from the first
    Initial packet it received from the client in the
    original_destination_connection_id transport parameter; if the server
-   sent a Retry packet this refers to the first Initial packet received
-   before sending the Retry packet.  If it sends a Retry packet, a
-   server also includes the Source Connection ID field from the Retry
-   packet in the retry_source_connection_id transport parameter.
 
 
 
@@ -2297,6 +2297,11 @@ Iyengar & Thomson        Expires 15 January 2021               [Page 41]
 
 Internet-Draft           QUIC Transport Protocol               July 2020
 
+
+   sent a Retry packet this refers to the first Initial packet received
+   before sending the Retry packet.  If it sends a Retry packet, a
+   server also includes the Source Connection ID field from the Retry
+   packet in the retry_source_connection_id transport parameter.
 
    The values provided by a peer for these transport parameters MUST
    match the values that an endpoint used in the Destination and Source
@@ -2341,11 +2346,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    1-RTT: DCID=S3 ->
                                                 <- 1-RTT: DCID=C1
 
-               Figure 6: Use of Connection IDs in a Handshake
-
-   Figure 7 shows a similar handshake that includes a Retry packet.
-
-
 
 
 
@@ -2353,6 +2353,10 @@ Iyengar & Thomson        Expires 15 January 2021               [Page 42]
 
 Internet-Draft           QUIC Transport Protocol               July 2020
 
+
+               Figure 6: Use of Connection IDs in a Handshake
+
+   Figure 7 shows a similar handshake that includes a Retry packet.
 
    Client                                                  Server
 
@@ -2396,10 +2400,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
 
    The encoding of the transport parameters is detailed in Section 18.
 
-   QUIC includes the encoded transport parameters in the cryptographic
-   handshake.  Once the handshake completes, the transport parameters
-   declared by the peer are available.  Each endpoint validates the
-   value provided by its peer.
 
 
 
@@ -2409,6 +2409,11 @@ Iyengar & Thomson        Expires 15 January 2021               [Page 43]
 
 Internet-Draft           QUIC Transport Protocol               July 2020
 
+
+   QUIC includes the encoded transport parameters in the cryptographic
+   handshake.  Once the handshake completes, the transport parameters
+   declared by the peer are available.  Each endpoint validates the
+   value provided by its peer.
 
    Definitions for each of the defined transport parameters are included
    in Section 18.2.
@@ -2453,11 +2458,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    the values in the ticket and recover the information when accepting
    0-RTT data.  A server uses the transport parameters in determining
    whether to accept 0-RTT data.
-
-
-
-
-
 
 
 
