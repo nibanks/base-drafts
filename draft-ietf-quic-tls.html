@@ -850,7 +850,7 @@ QUIC.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 <a href="#name-note-to-readers" class="section-name selfRef">Note to Readers</a>
       </h2>
 <p id="section-note.1-1">Discussion of this draft takes place on the QUIC working group mailing list
-(<a href="mailto:quic@ietf.org">quic@ietf.org</a>), which is archived at
+(quic@ietf.org), which is archived at
 <span><a href="https://mailarchive.ietf.org/arch/search/?email_list=quic">https://mailarchive.ietf.org/arch/search/?email_list=quic</a></span>.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
 <p id="section-note.1-2">Working Group information can be found at <span><a href="https://github.com/quicwg">https://github.com/quicwg</a></span>; source
 code and issues list for this draft can be found at
@@ -1266,7 +1266,7 @@ described in BCP 14 <span>[<a href="#RFC2119" class="xref">RFC2119</a>]</span> 
 appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
 <p id="section-2-2">This document uses the terminology established in <span>[<a href="#QUIC-TRANSPORT" class="xref">QUIC-TRANSPORT</a>]</span>.<a href="#section-2-2" class="pilcrow">¶</a></p>
 <p id="section-2-3">For brevity, the acronym TLS is used to refer to TLS 1.3, though a newer version
-could be used (see <a href="#tls-version" class="xref">Section 4.2</a>).<a href="#section-2-3" class="pilcrow">¶</a></p>
+could be used; see <a href="#tls-version" class="xref">Section 4.2</a>.<a href="#section-2-3" class="pilcrow">¶</a></p>
 <div id="tls-overview">
 <section id="section-2.1">
         <h3 id="name-tls-overview">
@@ -1304,9 +1304,9 @@ transport (typically TCP) which provides sequencing and guaranteed delivery.<a h
 server.  The client initiates the exchange and the server responds.  If the key
 exchange completes successfully, both client and server will agree on a secret.
 TLS supports both pre-shared key (PSK) and Diffie-Hellman over either finite
-fields or elliptic curves ((EC)DHE) key exchanges.  PSK is the basis for 0-RTT;
-the latter provides perfect forward secrecy (PFS) when the (EC)DHE keys are
-destroyed.<a href="#section-2.1-5" class="pilcrow">¶</a></p>
+fields or elliptic curves ((EC)DHE) key exchanges.  PSK is the basis for Early
+Data (0-RTT); the latter provides perfect forward secrecy (PFS) when the (EC)DHE
+keys are destroyed.<a href="#section-2.1-5" class="pilcrow">¶</a></p>
 <p id="section-2.1-6">After completing the TLS handshake, the client will have learned and
 authenticated an identity for the server and the server is optionally able to
 learn and authenticate an identity for the client.  TLS supports X.509
@@ -1640,7 +1640,7 @@ protection.<a href="#section-4.1.3-7" class="pilcrow">¶</a></p>
 <p id="section-4.1.3-8">QUIC is only capable of conveying TLS handshake records in CRYPTO frames.  TLS
 alerts are turned into QUIC CONNECTION_CLOSE error codes; see <a href="#tls-errors" class="xref">Section 4.8</a>.
 TLS application data and other message types cannot be carried by QUIC at any
-encryption level and is an error if they are received from the TLS stack.<a href="#section-4.1.3-8" class="pilcrow">¶</a></p>
+encryption level; it is an error if they are received from the TLS stack.<a href="#section-4.1.3-8" class="pilcrow">¶</a></p>
 <p id="section-4.1.3-9">When an endpoint receives a QUIC packet containing a CRYPTO frame from the
 network, it proceeds as follows:<a href="#section-4.1.3-9" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -1824,7 +1824,7 @@ partial ClientHello messages from clients with a validated address.<a href="#sec
 message.  That overhead increases if the client chooses a connection ID without
 zero length.  Overheads also do not include the token or a connection ID longer
 than 8 bytes, both of which might be required if a server sends a Retry packet.<a href="#section-4.3-2" class="pilcrow">¶</a></p>
-<p id="section-4.3-3">A typical TLS ClientHello can easily fit into a 1200 byte packet.  However, in
+<p id="section-4.3-3">A typical TLS ClientHello can easily fit into a 1200-byte packet.  However, in
 addition to the overheads added by QUIC, there are several variables that could
 cause this limit to be exceeded.  Large session tickets, multiple or large key
 shares, and long lists of supported ciphers, signature algorithms, versions,
@@ -1931,15 +1931,15 @@ notably those caused by the potential exposure to replay attack; see <a href="#r
 <a href="#section-4.6.1" class="section-number selfRef">4.6.1. </a><a href="#name-enabling-0-rtt" class="section-name selfRef">Enabling 0-RTT</a>
           </h4>
 <p id="section-4.6.1-1">To communicate their willingness to process 0-RTT data, servers send a
-NewSessionTicket message that contains the "early_data" extension with a
+NewSessionTicket message that contains the early_data extension with a
 max_early_data_size of 0xffffffff.  The TLS max_early_data_size parameter is not
-used in QUIC.  The amount of data which the client can send in 0-RTT is
-controlled by the "initial_max_data" transport parameter supplied by the server.<a href="#section-4.6.1-1" class="pilcrow">¶</a></p>
-<p id="section-4.6.1-2">Servers MUST NOT send the "early_data" extension with a max_early_data_size set
-to any value other than 0xffffffff.  A client MUST treat receipt of a
-NewSessionTicket that contains an "early_data" extension with any other value as
+used in QUIC.  The amount of data that the client can send in 0-RTT is
+controlled by the initial_max_data transport parameter supplied by the server.<a href="#section-4.6.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.6.1-2">Servers MUST NOT send the early_data extension with a max_early_data_size field
+set to any value other than 0xffffffff.  A client MUST treat receipt of a
+NewSessionTicket that contains an early_data extension with any other value as
 a connection error of type PROTOCOL_VIOLATION.<a href="#section-4.6.1-2" class="pilcrow">¶</a></p>
-<p id="section-4.6.1-3">A client that wishes to send 0-RTT packets uses the "early_data" extension in
+<p id="section-4.6.1-3">A client that wishes to send 0-RTT packets uses the early_data extension in
 the ClientHello message of a subsequent handshake; see Section 4.2.10 of
 <span>[<a href="#TLS13" class="xref">TLS13</a>]</span>. It then sends application data in 0-RTT packets.<a href="#section-4.6.1-3" class="pilcrow">¶</a></p>
 <p id="section-4.6.1-4">A client that attempts 0-RTT might also provide an address validation token if
@@ -1973,7 +1973,7 @@ packet.  These packets do not signify rejection of 0-RTT.<a href="#section-4.6.2
           <h4 id="name-validating-0-rtt-configurat">
 <a href="#section-4.6.3" class="section-number selfRef">4.6.3. </a><a href="#name-validating-0-rtt-configurat" class="section-name selfRef">Validating 0-RTT Configuration</a>
           </h4>
-<p id="section-4.6.3-1">When a server receives a ClientHello with the "early_data" extension, it has to
+<p id="section-4.6.3-1">When a server receives a ClientHello with the early_data extension, it has to
 decide whether to accept or reject early data from the client. Some of this
 decision is made by the TLS stack (e.g., checking that the cipher suite being
 resumed was included in the ClientHello; see Section 4.2.10 of <span>[<a href="#TLS13" class="xref">TLS13</a>]</span>). Even
@@ -2166,7 +2166,7 @@ server_initial_secret = HKDF-Expand-Label(initial_secret,
 in the Initial packet sent by the client.  This will be a randomly-selected
 value unless the client creates the Initial packet after receiving a Retry
 packet, where the Destination Connection ID is selected by the server.<a href="#section-5.2-4" class="pilcrow">¶</a></p>
-<p id="section-5.2-5">The value of initial_salt is a 20 byte sequence shown in the figure in
+<p id="section-5.2-5">The value of initial_salt is a 20-byte sequence shown in the figure in
 hexadecimal notation. Future versions of QUIC SHOULD generate a new salt value,
 thus ensuring that the keys are different for each version of QUIC. This
 prevents a middlebox that only recognizes one version of QUIC from seeing or
@@ -2196,31 +2196,33 @@ that included the Retry packet for that property.<a href="#section-5.2-8.2" clas
         <h3 id="name-aead-usage">
 <a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-aead-usage" class="section-name selfRef">AEAD Usage</a>
         </h3>
-<p id="section-5.3-1">The Authentication Encryption with Associated Data (AEAD) <span>[<a href="#AEAD" class="xref">AEAD</a>]</span> function
+<p id="section-5.3-1">The Authenticated Encryption with Associated Data (AEAD; see <span>[<a href="#AEAD" class="xref">AEAD</a>]</span>) function
 used for QUIC packet protection is the AEAD that is negotiated for use with the
-TLS connection.  For example, if TLS is using the TLS_AES_128_GCM_SHA256, the
-AEAD_AES_128_GCM function is used.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
+TLS connection.  For example, if TLS is using the TLS_AES_128_GCM_SHA256 cipher
+suite, the AEAD_AES_128_GCM function is used.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
 <p id="section-5.3-2">Packets are protected prior to applying header protection (<a href="#header-protect" class="xref">Section 5.4</a>).
 The unprotected packet header is part of the associated data (A).  When removing
 packet protection, an endpoint first removes the header protection.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
-<p id="section-5.3-3">All QUIC packets other than Version Negotiation and Retry packets are protected
-with an AEAD algorithm <span>[<a href="#AEAD" class="xref">AEAD</a>]</span>. Prior to establishing a shared secret, packets
-are protected with AEAD_AES_128_GCM and a key derived from the Destination
-Connection ID in the client's first Initial packet (see <a href="#initial-secrets" class="xref">Section 5.2</a>).
-This provides protection against off-path attackers and robustness against QUIC
-version unaware middleboxes, but not against on-path attackers.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
-<p id="section-5.3-4">QUIC can use any of the ciphersuites defined in <span>[<a href="#TLS13" class="xref">TLS13</a>]</span> with the exception of
-TLS_AES_128_CCM_8_SHA256.  A ciphersuite MUST NOT be negotiated unless a header
-protection scheme is defined for the ciphersuite.  This document defines a
-header protection scheme for all ciphersuites defined in <span>[<a href="#TLS13" class="xref">TLS13</a>]</span> aside from
-TLS_AES_128_CCM_8_SHA256.  These ciphersuites have a 16-byte authentication tag
-and produce an output 16 bytes larger than their input.<a href="#section-5.3-4" class="pilcrow">¶</a></p>
+<p id="section-5.3-3">All QUIC packets other than Version Negotiation are protected with an AEAD
+algorithm (<span>[<a href="#AEAD" class="xref">AEAD</a>]</span>). Prior to establishing a shared secret, packets are
+protected with AEAD_AES_128_GCM.  Retry packets use the AEAD for integrity
+protection only, as described in <a href="#retry-integrity" class="xref">Section 5.8</a>.  Initial packets use a key
+derived from the Destination Connection ID in the client's first Initial packet;
+see <a href="#initial-secrets" class="xref">Section 5.2</a>. This provides protection against off-path attackers
+and robustness against QUIC-version-unaware middleboxes, but not against on-path
+attackers.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
+<p id="section-5.3-4">QUIC can use any of the cipher suites defined in <span>[<a href="#TLS13" class="xref">TLS13</a>]</span> with the exception
+of TLS_AES_128_CCM_8_SHA256.  A cipher suite MUST NOT be negotiated unless a
+header protection scheme is defined for the cipher suite.  This document defines
+a header protection scheme for all cipher suites defined in <span>[<a href="#TLS13" class="xref">TLS13</a>]</span> aside
+from TLS_AES_128_CCM_8_SHA256.  These cipher suites have a 16-byte
+authentication tag and produce an output 16 bytes larger than their input.<a href="#section-5.3-4" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-5.3-5">
           <dt id="section-5.3-5.1">Note:</dt>
           <dd id="section-5.3-5.2">
-  An endpoint MUST NOT reject a ClientHello that offers a ciphersuite that it
-does not support, or it would be impossible to deploy a new ciphersuite.  This
-also applies to TLS_AES_128_CCM_8_SHA256.<a href="#section-5.3-5.2" class="pilcrow">¶</a>
+  An endpoint MUST NOT reject a ClientHello that offers a cipher suite that it
+does not support, or it would be impossible to deploy a new cipher suite.
+This also applies to TLS_AES_128_CCM_8_SHA256.<a href="#section-5.3-5.2" class="pilcrow">¶</a>
 </dd>
         <dd class="break"></dd>
 </dl>
@@ -2230,7 +2232,7 @@ number.  The 62 bits of the reconstructed QUIC packet number in network byte
 order are left-padded with zeros to the size of the IV.  The exclusive OR of the
 padded packet number and the IV forms the AEAD nonce.<a href="#section-5.3-6" class="pilcrow">¶</a></p>
 <p id="section-5.3-7">The associated data, A, for the AEAD is the contents of the QUIC header,
-starting from the flags byte in either the short or long header, up to and
+starting from the first byte of either the short or long header, up to and
 including the unprotected packet number.<a href="#section-5.3-7" class="pilcrow">¶</a></p>
 <p id="section-5.3-8">The input plaintext, P, for the AEAD is the payload of the QUIC packet, as
 described in <span>[<a href="#QUIC-TRANSPORT" class="xref">QUIC-TRANSPORT</a>]</span>.<a href="#section-5.3-8" class="pilcrow">¶</a></p>
@@ -2271,7 +2273,7 @@ process.<a href="#section-5.4-4" class="pilcrow">¶</a></p>
 <p id="section-5.4.1-1">Header protection is applied after packet protection is applied (see <a href="#aead" class="xref">Section 5.3</a>).
 The ciphertext of the packet is sampled and used as input to an encryption
 algorithm.  The algorithm used depends on the negotiated AEAD.<a href="#section-5.4.1-1" class="pilcrow">¶</a></p>
-<p id="section-5.4.1-2">The output of this algorithm is a 5 byte mask which is applied to the protected
+<p id="section-5.4.1-2">The output of this algorithm is a 5-byte mask which is applied to the protected
 header fields using exclusive OR.  The least significant bits of the first byte
 of the packet are masked by the least significant bits of the first mask byte,
 and the packet number is masked with the remaining bytes.  Any unused bytes of
@@ -2348,13 +2350,13 @@ Short Header Packet {
 <a href="#name-header-protection-and-ciphe" class="selfRef">Header Protection and Ciphertext Sample</a>
             </figcaption></figure>
 </div>
-<p id="section-5.4.1-7">Before a TLS ciphersuite can be used with QUIC, a header protection algorithm
-MUST be specified for the AEAD used with that ciphersuite.  This document
-defines algorithms for AEAD_AES_128_GCM, AEAD_AES_128_CCM, AEAD_AES_256_GCM
-(all AES AEADs are defined in <span>[<a href="#AEAD" class="xref">AEAD</a>]</span>), and
-AEAD_CHACHA20_POLY1305 <span>[<a href="#CHACHA" class="xref">CHACHA</a>]</span>.  Prior to TLS selecting a
-ciphersuite, AES header protection is used (<a href="#hp-aes" class="xref">Section 5.4.3</a>), matching the
-AEAD_AES_128_GCM packet protection.<a href="#section-5.4.1-7" class="pilcrow">¶</a></p>
+<p id="section-5.4.1-7">Before a TLS cipher suite can be used with QUIC, a header protection algorithm
+MUST be specified for the AEAD used with that cipher suite.  This document
+defines algorithms for AEAD_AES_128_GCM, AEAD_AES_128_CCM, AEAD_AES_256_GCM (all
+these AES AEADs are defined in <span>[<a href="#AEAD" class="xref">AEAD</a>]</span>), and AEAD_CHACHA20_POLY1305
+(defined in <span>[<a href="#CHACHA" class="xref">CHACHA</a>]</span>).  Prior to TLS selecting a cipher suite, AES
+header protection is used (<a href="#hp-aes" class="xref">Section 5.4.3</a>), matching the AEAD_AES_128_GCM packet
+protection.<a href="#section-5.4.1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="hp-sample">
@@ -2373,7 +2375,7 @@ sample.<a href="#section-5.4.2-3" class="pilcrow">¶</a></p>
 <p id="section-5.4.2-4">To ensure that sufficient data is available for sampling, packets are padded so
 that the combined lengths of the encoded packet number and protected payload is
 at least 4 bytes longer than the sample required for header protection.  The
-ciphersuites defined in <span>[<a href="#TLS13" class="xref">TLS13</a>]</span> - other than TLS_AES_128_CCM_8_SHA256, for
+cipher suites defined in <span>[<a href="#TLS13" class="xref">TLS13</a>]</span> - other than TLS_AES_128_CCM_8_SHA256, for
 which a header protection scheme is not defined in this document - have 16-byte
 expansions and 16-byte header protection samples.  This results in needing at
 least 3 bytes of frames in the unprotected payload if the packet number is
@@ -2388,7 +2390,7 @@ sample_offset = 1 + len(connection_id) + 4
 sample = packet[sample_offset..sample_offset+sample_length]
 </pre><a href="#section-5.4.2-6" class="pilcrow">¶</a>
 </div>
-<p id="section-5.4.2-7">For example, for a packet with a short header, an 8 byte connection ID, and
+<p id="section-5.4.2-7">For example, for a packet with a short header, an 8-byte connection ID, and
 protected with AEAD_AES_128_GCM, the sample takes bytes 13 to 28 inclusive
 (using zero-based indexing).<a href="#section-5.4.2-7" class="pilcrow">¶</a></p>
 <p id="section-5.4.2-8">A packet with a long header is sampled in the same way, noting that multiple
@@ -2414,10 +2416,9 @@ sample = packet[sample_offset..sample_offset+sample_length]
 <a href="#section-5.4.3" class="section-number selfRef">5.4.3. </a><a href="#name-aes-based-header-protection" class="section-name selfRef">AES-Based Header Protection</a>
           </h4>
 <p id="section-5.4.3-1">This section defines the packet protection algorithm for AEAD_AES_128_GCM,
-AEAD_AES_128_CCM, and AEAD_AES_256_GCM. AEAD_AES_128_GCM and
-AEAD_AES_128_CCM use 128-bit AES <span>[<a href="#AES" class="xref">AES</a>]</span> in
-electronic code-book (ECB) mode. AEAD_AES_256_GCM uses
-256-bit AES in ECB mode.<a href="#section-5.4.3-1" class="pilcrow">¶</a></p>
+AEAD_AES_128_CCM, and AEAD_AES_256_GCM. AEAD_AES_128_GCM and AEAD_AES_128_CCM
+use 128-bit AES in electronic code-book (ECB) mode. AEAD_AES_256_GCM uses
+256-bit AES in ECB mode.  AES is defined in <span>[<a href="#AES" class="xref">AES</a>]</span>.<a href="#section-5.4.3-1" class="pilcrow">¶</a></p>
 <p id="section-5.4.3-2">This algorithm samples 16 bytes from the packet ciphertext. This value is used
 as the input to AES-ECB.  In pseudocode:<a href="#section-5.4.3-2" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-5.4.3-3">
@@ -2548,8 +2549,8 @@ cannot be used prior to completing the handshake.<a href="#section-5.7-5.2" clas
 <p id="section-5.7-6">The requirement for the server to wait for the client Finished message creates
 a dependency on that message being delivered.  A client can avoid the
 potential for head-of-line blocking that this implies by sending its 1-RTT
-packets coalesced with a handshake packet containing a copy of the CRYPTO frame
-that carries the Finished message, until one of the handshake packets is
+packets coalesced with a Handshake packet containing a copy of the CRYPTO frame
+that carries the Finished message, until one of the Handshake packets is
 acknowledged.  This enables immediate server processing for those packets.<a href="#section-5.7-6" class="pilcrow">¶</a></p>
 <p id="section-5.7-7">A server could receive packets protected with 0-RTT keys prior to receiving a
 TLS ClientHello.  The server MAY retain these packets for later decryption in
@@ -2566,7 +2567,7 @@ Retry Integrity Tag that provides two properties: it allows discarding
 packets that have accidentally been corrupted by the network, and it diminishes
 off-path attackers' ability to send valid Retry packets.<a href="#section-5.8-1" class="pilcrow">¶</a></p>
 <p id="section-5.8-2">The Retry Integrity Tag is a 128-bit field that is computed as the output of
-AEAD_AES_128_GCM <span>[<a href="#AEAD" class="xref">AEAD</a>]</span> used with the following inputs:<a href="#section-5.8-2" class="pilcrow">¶</a></p>
+AEAD_AES_128_GCM (<span>[<a href="#AEAD" class="xref">AEAD</a>]</span>) used with the following inputs:<a href="#section-5.8-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.8-3.1">The secret key, K, is 128 bits equal to 0xccce187ed09a09d05728155a6cb96be1.<a href="#section-5.8-3.1" class="pilcrow">¶</a>
 </li>
@@ -2610,15 +2611,16 @@ the two following fields:<a href="#section-5.8-6" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-5.8-7">
           <dt id="section-5.8-7.1">ODCID Length:</dt>
           <dd id="section-5.8-7.2">
-  The ODCID Len contains the length in bytes of the Original Destination
-Connection ID field that follows it, encoded as an 8-bit unsigned integer.<a href="#section-5.8-7.2" class="pilcrow">¶</a>
+  The ODCID Length field contains the length in bytes of the Original
+Destination Connection ID field that follows it, encoded as an 8-bit unsigned
+integer.<a href="#section-5.8-7.2" class="pilcrow">¶</a>
 </dd>
           <dd class="break"></dd>
 <dt id="section-5.8-7.3">Original Destination Connection ID:</dt>
           <dd id="section-5.8-7.4">
   The Original Destination Connection ID contains the value of the Destination
 Connection ID from the Initial packet that this Retry is in response to. The
-length of this field is given in ODCID Len. The presence of this field
+length of this field is given in ODCID Length. The presence of this field
 mitigates an off-path attacker's ability to inject a Retry packet.<a href="#section-5.8-7.4" class="pilcrow">¶</a>
 </dd>
         <dd class="break"></dd>
@@ -2700,8 +2702,8 @@ secret_&lt;n+1&gt; = HKDF-Expand-Label(secret_&lt;n&gt;, "quic ku",
 IV to protect all subsequent packets.<a href="#section-6.1-4" class="pilcrow">¶</a></p>
 <p id="section-6.1-5">An endpoint MUST NOT initiate a key update prior to having confirmed the
 handshake (<a href="#handshake-confirmed" class="xref">Section 4.1.2</a>).  An endpoint MUST NOT initiate a subsequent
-key update prior unless it has received an acknowledgment for a packet that was
-sent protected with keys from the current key phase.  This ensures that keys are
+key update unless it has received an acknowledgment for a packet that was sent
+protected with keys from the current key phase.  This ensures that keys are
 available to both peers before another key update can be initiated.  This can be
 implemented by tracking the lowest packet number sent with each key phase, and
 the highest acknowledged packet number in the 1-RTT space: once the latter is
@@ -2730,10 +2732,10 @@ as packet loss by the peer and could adversely affect performance.<a href="#sect
         </h3>
 <p id="section-6.2-1">A peer is permitted to initiate a key update after receiving an acknowledgement
 of a packet in the current key phase.  An endpoint detects a key update when
-processing a packet with a key phase that differs from the value last used to
-protect the last packet it sent.  To process this packet, the endpoint uses the
-next packet protection key and IV.  See <a href="#receive-key-generation" class="xref">Section 6.3</a> for
-considerations about generating these keys.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+processing a packet with a key phase that differs from the value used to protect
+the last packet it sent.  To process this packet, the endpoint uses the next
+packet protection key and IV.  See <a href="#receive-key-generation" class="xref">Section 6.3</a> for considerations
+about generating these keys.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
 <p id="section-6.2-2">If a packet is successfully processed using the next key and IV, then the peer
 has initiated a key update.  The endpoint MUST update its send keys to the
 corresponding key phase in response, as described in <a href="#key-update-initiate" class="xref">Section 6.1</a>.
@@ -2900,7 +2902,7 @@ be needed.<a href="#section-6.6-6.2" class="pilcrow">¶</a>
 <p id="section-6.6-7">Any TLS cipher suite that is specified for use with QUIC MUST define limits on
 the use of the associated AEAD function that preserves margins for
 confidentiality and integrity. That is, limits MUST be specified for the number
-of packets that can be authenticated and for the number packets that can fail
+of packets that can be authenticated and for the number of packets that can fail
 authentication.  Providing a reference to any analysis upon which values are
 based - and any assumptions used in that analysis - allows limits to be adapted
 to varying usage conditions.<a href="#section-6.6-7" class="pilcrow">¶</a></p>
@@ -2944,17 +2946,18 @@ messages, that tampering will cause the TLS handshake to fail.<a href="#section-
       <h2 id="name-quic-specific-adjustments-t">
 <a href="#section-8" class="section-number selfRef">8. </a><a href="#name-quic-specific-adjustments-t" class="section-name selfRef">QUIC-Specific Adjustments to the TLS Handshake</a>
       </h2>
-<p id="section-8-1">QUIC uses the TLS handshake for more than just negotiation of cryptographic
-parameters.  The TLS handshake provides preliminary values for QUIC transport
-parameters and allows a server to perform return routability checks on clients.<a href="#section-8-1" class="pilcrow">¶</a></p>
+<p id="section-8-1">Certain aspects of the TLS handshake are different when used with QUIC.<a href="#section-8-1" class="pilcrow">¶</a></p>
+<p id="section-8-2">QUIC also requires additional features from TLS.  In addition to negotiation of
+cryptographic parameters, the TLS handshake carries and authenticates values for
+QUIC transport parameters.<a href="#section-8-2" class="pilcrow">¶</a></p>
 <div id="protocol-negotiation">
 <section id="section-8.1">
         <h3 id="name-protocol-negotiation">
 <a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-protocol-negotiation" class="section-name selfRef">Protocol Negotiation</a>
         </h3>
 <p id="section-8.1-1">QUIC requires that the cryptographic handshake provide authenticated protocol
-negotiation.  TLS uses Application Layer Protocol Negotiation (ALPN)
-<span>[<a href="#ALPN" class="xref">ALPN</a>]</span> to select an application protocol.  Unless another mechanism
+negotiation.  TLS uses Application Layer Protocol Negotiation
+(<span>[<a href="#ALPN" class="xref">ALPN</a>]</span>) to select an application protocol.  Unless another mechanism
 is used for agreeing on an application protocol, endpoints MUST use ALPN for
 this purpose.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
 <p id="section-8.1-2">When using ALPN, endpoints MUST immediately close a connection (see Section
@@ -3115,11 +3118,11 @@ server can be used in packet reflection attacks to amplify the traffic generated
 by an attacker.<a href="#section-9.3-1" class="pilcrow">¶</a></p>
 <p id="section-9.3-2">QUIC includes three defenses against this attack. First, the packet containing a
 ClientHello MUST be padded to a minimum size. Second, if responding to an
-unverified source address, the server is forbidden to send more than three UDP
-datagrams in its first flight (see Section 8.1 of <span>[<a href="#QUIC-TRANSPORT" class="xref">QUIC-TRANSPORT</a>]</span>). Finally,
-because acknowledgements of Handshake packets are authenticated, a blind
-attacker cannot forge them.  Put together, these defenses limit the level of
-amplification.<a href="#section-9.3-2" class="pilcrow">¶</a></p>
+unverified source address, the server is forbidden to send more than three times
+as many bytes as the number of bytes it has received (see Section 8.1 of
+<span>[<a href="#QUIC-TRANSPORT" class="xref">QUIC-TRANSPORT</a>]</span>). Finally, because acknowledgements of Handshake packets are
+authenticated, a blind attacker cannot forge them.  Put together, these defenses
+limit the level of amplification.<a href="#section-9.3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="header-protect-analysis">
@@ -3446,7 +3449,7 @@ a500320408ffffffffffffffff050480 00ffff07048000ffff08011001048000
 75300901100f088394c8f03e51570806 048000ffff
 </pre><a href="#section-a.2-2" class="pilcrow">¶</a>
 </div>
-<p id="section-a.2-3">The unprotected header includes the connection ID and a 4 byte packet number
+<p id="section-a.2-3">The unprotected header includes the connection ID and a 4-byte packet number
 encoding for a packet number of 2:<a href="#section-a.2-3" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-a.2-4">
 <pre>
@@ -3454,7 +3457,7 @@ c3ff00001d088394c8f03e5157080000449e00000002
 </pre><a href="#section-a.2-4" class="pilcrow">¶</a>
 </div>
 <p id="section-a.2-5">Protecting the payload produces output that is sampled for header protection.
-Because the header uses a 4 byte packet number encoding, the first 16 bytes of
+Because the header uses a 4-byte packet number encoding, the first 16 bytes of
 the protected payload is sampled, then applied to the header:<a href="#section-a.2-5" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-a.2-6">
 <pre>
@@ -3647,7 +3650,7 @@ packet = 4cfe4189655e5cd55c41f69080575d7999c25a5bfb
       <h2 id="name-analysis-of-limits-on-aead_">
 <a href="#section-appendix.b" class="section-number selfRef">Appendix B. </a><a href="#name-analysis-of-limits-on-aead_" class="section-name selfRef">Analysis of Limits on AEAD_AES_128_CCM Usage</a>
       </h2>
-<p id="section-appendix.b-1">TLS <span>[<a href="#TLS13" class="xref">TLS13</a>]</span> and <span>[<a href="#AEBounds" class="xref">AEBounds</a>]</span> do not specify limits on usage for
+<p id="section-appendix.b-1"><span>[<a href="#TLS13" class="xref">TLS13</a>]</span> and <span>[<a href="#AEBounds" class="xref">AEBounds</a>]</span> do not specify limits on usage for
 AEAD_AES_128_CCM. However, any AEAD that is used with QUIC requires limits on
 use that ensure that both confidentiality and integrity are preserved. This
 section documents that analysis.<a href="#section-appendix.b-1" class="pilcrow">¶</a></p>
@@ -3720,7 +3723,7 @@ q &lt;= 2^23
 </pre><a href="#section-b.1-4" class="pilcrow">¶</a>
 </div>
 <p id="section-b.1-5">That is, endpoints cannot protect more than 2^23 packets with the same set of
-keys without causing an attacker to gain an larger advantage than the target of
+keys without causing an attacker to gain a larger advantage than the target of
 2^-60.<a href="#section-b.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -3736,10 +3739,10 @@ gains an advantage over an ideal PRP of no more than:<a href="#section-b.2-1" cl
 v / 2^t + (2l * (v + q))^2 / 2^n
 </pre><a href="#section-b.2-2" class="pilcrow">¶</a>
 </div>
-<p id="section-b.2-3">The goal is to limit this advantage to 2^-57, to match the target in
-<span>[<a href="#TLS13" class="xref">TLS13</a>]</span>. As <code>t</code> and <code>n</code> are both 128, the first term is negligible relative
-to the second, so that term can be removed without a significant effect on the
-result. This produces the relation:<a href="#section-b.2-3" class="pilcrow">¶</a></p>
+<p id="section-b.2-3">The goal is to limit this advantage to 2^-57, to match the target in <span>[<a href="#TLS13" class="xref">TLS13</a>]</span>.
+As <code>t</code> and <code>n</code> are both 128, the first term is negligible relative to the
+second, so that term can be removed without a significant effect on the result.
+This produces the relation:<a href="#section-b.2-3" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-b.2-4">
 <pre>
 v + q &lt;= 2^24.5
@@ -3748,7 +3751,7 @@ v + q &lt;= 2^24.5
 <p id="section-b.2-5">Using the previously-established value of 2^23 for <code>q</code> and rounding, this leads
 to an upper limit on <code>v</code> of 2^23.5. That is, endpoints cannot attempt to
 authenticate more than 2^23.5 packets with the same set of keys without causing
-an attacker to gain an larger advantage than the target of 2^-57.<a href="#section-b.2-5" class="pilcrow">¶</a></p>
+an attacker to gain a larger advantage than the target of 2^-57.<a href="#section-b.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
