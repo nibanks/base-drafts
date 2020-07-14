@@ -99,12 +99,12 @@ Table of Contents
    stable as new versions are developed and deployed.  All of these
    invariants are IP-version-independent.
 
-   The primary goal of this document is to ensure that it is possible to
-   deploy new versions of QUIC.  By documenting the properties that
-   can't change, this document aims to preserve the ability to change
-   any other aspect of the protocol.  Thus, unless specifically
-   described in this document, any aspect of the protocol can change
-   between different versions.
+
+
+
+
+
+
 
 
 
@@ -113,6 +113,15 @@ Thomson                  Expires 15 January 2021                [Page 2]
 
 Internet-Draft               QUIC Invariants                   July 2020
 
+
+   The primary goal of this document is to ensure that it is possible to
+   deploy new versions of QUIC.  By documenting the properties that
+   can't change, this document aims to preserve the ability for QUIC
+   endpoints to negotiate changes to any other aspect of the protocol.
+   As a consequence, this also guarantees a minimal amount of
+   information that is made available to entities other than endpoints.
+   Unless specifically prohibited in this document, any aspect of the
+   protocol can change between different versions.
 
    Appendix A is a non-exhaustive list of some incorrect assumptions
    that might be made based on knowledge of QUIC version 1; these do not
@@ -152,15 +161,6 @@ Internet-Draft               QUIC Invariants                   July 2020
    x (A):  Indicates that x is A bits long
 
    x (A..B):  Indicates that x can be any length from A to B; A can be
-      omitted to indicate a minimum of zero bits and B can be omitted to
-      indicate no set upper limit; values in this format always end on
-      an octet boundary
-
-   x (?) = C:  Indicates that x has a fixed value of C
-
-   x (E) ...:  Indicates that x is repeated zero or more times (and that
-      each instance is length E)
-
 
 
 
@@ -169,6 +169,15 @@ Thomson                  Expires 15 January 2021                [Page 3]
 
 Internet-Draft               QUIC Invariants                   July 2020
 
+
+      omitted to indicate a minimum of zero bits and B can be omitted to
+      indicate no set upper limit; values in this format always end on
+      an octet boundary
+
+   x (?) = C:  Indicates that x has a fixed value of C
+
+   x (E) ...:  Indicates that x is repeated zero or more times (and that
+      each instance is length E)
 
    This document uses network byte order (that is, big endian) values.
    Fields are placed starting from the high-order bits of each byte.
@@ -208,15 +217,6 @@ Internet-Draft               QUIC Invariants                   July 2020
 5.1.  Long Header
 
    Long headers take the form described in Figure 2.
-
-
-
-
-
-
-
-
-
 
 
 
