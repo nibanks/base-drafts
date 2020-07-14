@@ -90,15 +90,15 @@ Table of Contents
      4.3.  Handling Stream Cancellation  . . . . . . . . . . . . . .  25
      4.4.  Stream Final Size . . . . . . . . . . . . . . . . . . . .  26
      4.5.  Controlling Concurrency . . . . . . . . . . . . . . . . .  27
-     4.6.  Flow Control Performance  . . . . . . . . . . . . . . . .  28
+     4.6.  Flow Control Performance  . . . . . . . . . . . . . . . .  27
    5.  Connections . . . . . . . . . . . . . . . . . . . . . . . . .  28
      5.1.  Connection ID . . . . . . . . . . . . . . . . . . . . . .  28
        5.1.1.  Issuing Connection IDs  . . . . . . . . . . . . . . .  29
-       5.1.2.  Consuming and Retiring Connection IDs . . . . . . . .  31
-     5.2.  Matching Packets to Connections . . . . . . . . . . . . .  32
+       5.1.2.  Consuming and Retiring Connection IDs . . . . . . . .  30
+     5.2.  Matching Packets to Connections . . . . . . . . . . . . .  31
        5.2.1.  Client Packet Handling  . . . . . . . . . . . . . . .  32
        5.2.2.  Server Packet Handling  . . . . . . . . . . . . . . .  33
-       5.2.3.  Considerations for Simple Load Balancers  . . . . . .  34
+       5.2.3.  Considerations for Simple Load Balancers  . . . . . .  33
      5.3.  Life of a QUIC Connection . . . . . . . . . . . . . . . .  34
      5.4.  Required Operations on Connections  . . . . . . . . . . .  35
    6.  Version Negotiation . . . . . . . . . . . . . . . . . . . . .  36
@@ -1498,13 +1498,13 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    entire round trip, and potentially for longer if the peer chooses to
    not send STREAMS_BLOCKED frames.
 
+4.6.  Flow Control Performance
 
-
-
-
-
-
-
+   An endpoint that is unable to ensure that a peer has flow control
+   credit on the order of the current BDP will have receive throughput
+   limited by flow control.  Lost packets can cause gaps in the receive
+   buffer, delaying the application from consuming data and freeing up
+   flow control window.
 
 
 
@@ -1514,18 +1514,11 @@ Iyengar & Thomson        Expires 15 January 2021               [Page 27]
 Internet-Draft           QUIC Transport Protocol               July 2020
 
 
-4.6.  Flow Control Performance
-
-   An endpoint that is unable to ensure that a peer has flow control
-   credit on the order of the current BDP will have receive throughput
-   limited by flow control.  Lost packets can cause gaps in the receive
-   buffer, delaying the application from consuming data and freeing up
-   flow control window.  Timely sending of updates to flow control
-   limits can improve performance.  However, an excessive rate of
-   updates can also adversely affect performance.
-
-   This document does not specify techniques for tuning flow control
-   performance where resources allocated to receiving data are limited.
+   Timely sending of updates to flow control limits can improve
+   performance.  Sending of packets just to provide flow control updates
+   can increase network load and adversely affect performance.  Sending
+   flow control updates along with other frames, such as ACK frames, can
+   reduce the cost of those updates.
 
 5.  Connections
 
@@ -1561,15 +1554,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    Destination Connection ID fields.  These fields are used to set the
    connection IDs for new connections; see Section 7.2 for details.
 
-
-
-
-
-Iyengar & Thomson        Expires 15 January 2021               [Page 28]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
-
    Packets with short headers (Section 17.3) only include the
    Destination Connection ID and omit the explicit length.  The length
    of the Destination Connection ID field is expected to be known to
@@ -1578,6 +1562,13 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    for connection IDs, or agree on an encoding scheme.  A fixed portion
    could encode an explicit length, which allows the entire connection
    ID to vary in length and still be used by the load balancer.
+
+
+
+Iyengar & Thomson        Expires 15 January 2021               [Page 28]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
 
    A Version Negotiation (Section 17.2.1) packet echoes the connection
    IDs selected by the client, both to ensure correct routing toward the
@@ -1617,15 +1608,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    numbers unless a server opts to retain them as its initial connection
    ID.
 
-
-
-
-
-Iyengar & Thomson        Expires 15 January 2021               [Page 29]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
-
    When an endpoint issues a connection ID, it MUST accept packets that
    carry this connection ID for the duration of the connection or until
    its peer invalidates the connection ID via a RETIRE_CONNECTION_ID
@@ -1634,6 +1616,15 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    use with the current connection at any time, in any packet type.
    This includes the connection ID issued by the server via the
    preferred_address transport parameter.
+
+
+
+
+
+Iyengar & Thomson        Expires 15 January 2021               [Page 29]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
 
    An endpoint SHOULD ensure that its peer has a sufficient number of
    available and unused connection IDs.  Endpoints advertise the number
@@ -1669,19 +1660,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    migration, as the peer will close the connection if the pool is
    exhausted.
 
-
-
-
-
-
-
-
-
-Iyengar & Thomson        Expires 15 January 2021               [Page 30]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
-
 5.1.2.  Consuming and Retiring Connection IDs
 
    An endpoint can change the connection ID it uses for a peer to
@@ -1696,6 +1674,13 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    RETIRE_CONNECTION_ID frame indicates that the connection ID will not
    be used again and requests that the peer replace it with a new
    connection ID using a NEW_CONNECTION_ID frame.
+
+
+
+Iyengar & Thomson        Expires 15 January 2021               [Page 30]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
 
    As discussed in Section 9.5, endpoints limit the use of a connection
    ID to packets sent from a single local address to a single
@@ -1731,13 +1716,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    treat having connection IDs in need of retirement that exceed this
    limit as a connection error of type CONNECTION_ID_LIMIT_ERROR.
 
-
-
-Iyengar & Thomson        Expires 15 January 2021               [Page 31]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
-
    Endpoints SHOULD NOT issue updates of the Retire Prior To field
    before receiving RETIRE_CONNECTION_ID frames that retire all
    connection IDs indicated by the previous Retire Prior To value.
@@ -1747,6 +1725,18 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    Incoming packets are classified on receipt.  Packets can either be
    associated with an existing connection, or - for servers -
    potentially create a new connection.
+
+
+
+
+
+
+
+
+Iyengar & Thomson        Expires 15 January 2021               [Page 31]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
 
    Endpoints try to associate a packet with an existing connection.  If
    the packet has a non-zero-length Destination Connection ID
@@ -1786,14 +1776,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    to identify a connection.  Packets that don't match an existing
    connection are discarded.
 
-
-
-
-Iyengar & Thomson        Expires 15 January 2021               [Page 32]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
-
    Due to packet reordering or loss, a client might receive packets for
    a connection that are encrypted with a key it has not yet computed.
    The client MAY drop these packets, or MAY buffer them in anticipation
@@ -1801,6 +1783,16 @@ Internet-Draft           QUIC Transport Protocol               July 2020
 
    If a client receives a packet that has an unsupported version, it
    MUST discard that packet.
+
+
+
+
+
+
+Iyengar & Thomson        Expires 15 January 2021               [Page 32]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
 
 5.2.2.  Server Packet Handling
 
@@ -1841,15 +1833,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
 
    Servers MUST drop incoming packets under all other circumstances.
 
-
-
-
-
-Iyengar & Thomson        Expires 15 January 2021               [Page 33]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
-
 5.2.3.  Considerations for Simple Load Balancers
 
    A server deployment could load balance among servers using only
@@ -1858,6 +1841,14 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    to the wrong server.  Such a server deployment could use one of the
    following methods for connection continuity when a client's address
    changes.
+
+
+
+
+Iyengar & Thomson        Expires 15 January 2021               [Page 33]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
 
    *  Servers could use an out-of-band mechanism to forward packets to
       the correct server based on Connection ID.
@@ -1898,6 +1889,15 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    client before receiving any response from the server.  However, 0-RTT
    lacks certain key security guarantees.  In particular, there is no
    protection against replay attacks in 0-RTT; see [QUIC-TLS].
+   Separately, a server can also send application data to a client
+   before it receives the final cryptographic handshake messages that
+   allow it to confirm the identity and liveness of the client.  These
+   capabilities allow an application protocol to offer the option to
+   trade some security guarantees for reduced latency.
+
+
+
+
 
 
 
@@ -1905,12 +1905,6 @@ Iyengar & Thomson        Expires 15 January 2021               [Page 34]
 
 Internet-Draft           QUIC Transport Protocol               July 2020
 
-
-   Separately, a server can also send application data to a client
-   before it receives the final cryptographic handshake messages that
-   allow it to confirm the identity and liveness of the client.  These
-   capabilities allow an application protocol to offer the option to
-   trade some security guarantees for reduced latency.
 
    The use of connection IDs (Section 5.1) allows connections to migrate
    to a new network path, both as a direct choice of an endpoint and
@@ -1953,6 +1947,12 @@ Internet-Draft           QUIC Transport Protocol               July 2020
 
    In either role, applications need to be able to:
 
+   *  configure minimum values for the initial number of permitted
+      streams of each type, as communicated in the transport parameters
+      (Section 7.4);
+
+   *  control resource allocation of various types, including flow
+      control and the number of permitted streams of each type;
 
 
 
@@ -1961,13 +1961,6 @@ Iyengar & Thomson        Expires 15 January 2021               [Page 35]
 
 Internet-Draft           QUIC Transport Protocol               July 2020
 
-
-   *  configure minimum values for the initial number of permitted
-      streams of each type, as communicated in the transport parameters
-      (Section 7.4);
-
-   *  control resource allocation of various types, including flow
-      control and the number of permitted streams of each type;
 
    *  identify whether the handshake has completed successfully or is
       still ongoing;
@@ -2009,6 +2002,13 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    client discards all state for the connection and does not send any
    more packets on the connection.
 
+   A server MAY limit the number of Version Negotiation packets it
+   sends.  For instance, a server that is able to recognize packets as
+   0-RTT might choose not to send Version Negotiation packets in
+   response to 0-RTT packets with the expectation that it will
+   eventually receive an Initial packet.
+
+
 
 
 
@@ -2017,12 +2017,6 @@ Iyengar & Thomson        Expires 15 January 2021               [Page 36]
 
 Internet-Draft           QUIC Transport Protocol               July 2020
 
-
-   A server MAY limit the number of Version Negotiation packets it
-   sends.  For instance, a server that is able to recognize packets as
-   0-RTT might choose not to send Version Negotiation packets in
-   response to 0-RTT packets with the expectation that it will
-   eventually receive an Initial packet.
 
 6.2.  Handling Version Negotiation Packets
 
@@ -2065,6 +2059,12 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    random Destination Connection ID different from the one it had
    previously sent.
 
+   Note that this mechanism does not protect against downgrade attacks
+   and MUST NOT be used outside of draft implementations.
+
+
+
+
 
 
 
@@ -2073,9 +2073,6 @@ Iyengar & Thomson        Expires 15 January 2021               [Page 37]
 
 Internet-Draft           QUIC Transport Protocol               July 2020
 
-
-   Note that this mechanism does not protect against downgrade attacks
-   and MUST NOT be used outside of draft implementations.
 
 6.3.  Using Reserved Versions
 
@@ -2122,6 +2119,9 @@ Internet-Draft           QUIC Transport Protocol               July 2020
       and confidentiality protection for server transport parameters
       (see Section 7.4)
 
+   *  authenticated negotiation of an application protocol (TLS uses
+      ALPN [RFC7301] for this purpose)
+
 
 
 
@@ -2129,9 +2129,6 @@ Iyengar & Thomson        Expires 15 January 2021               [Page 38]
 
 Internet-Draft           QUIC Transport Protocol               July 2020
 
-
-   *  authenticated negotiation of an application protocol (TLS uses
-      ALPN [RFC7301] for this purpose)
 
    An endpoint verifies support for Explicit Congestion Notification
    (ECN) in the first packets it sends, as described in Section 13.4.2.
@@ -2171,6 +2168,9 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    congestion control or anti-amplification).  For instance, the
    server's first flight contains Initial packets, Handshake packets,
    and "0.5-RTT data" in 1-RTT packets with a short header.
+
+
+
 
 
 
