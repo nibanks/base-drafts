@@ -750,26 +750,26 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    opening of either the send or receive side causes the stream to open
    in both directions.
 
-   Note:  These states are largely informative.  This document uses
-      stream states to describe rules for when and how different types
-      of frames can be sent and the reactions that are expected when
-      different types of frames are received.  Though these state
-      machines are intended to be useful in implementing QUIC, these
-      states aren't intended to constrain implementations.  An
-      implementation can define a different state machine as long as its
-      behavior is consistent with an implementation that implements
-      these states.
+   These state machines shown in this section are largely informative.
+   This document uses stream states to describe rules for when and how
+   different types of frames can be sent and the reactions that are
+   expected when different types of frames are received.  Though these
+   state machines are intended to be useful in implementing QUIC, these
+   states aren't intended to constrain implementations.  An
+   implementation can define a different state machine as long as its
+   behavior is consistent with an implementation that implements these
+   states.
+
+   Note:  In some cases, a single event or action can cause a transition
+      through multiple states.  For instance, sending STREAM with a FIN
+      bit set can cause two state transitions for a sending stream: from
+      the Ready state to the Send state, and from the Send state to the
+      Data Sent state.
 
 3.1.  Sending Stream States
 
    Figure 2 shows the states for the part of a stream that sends data to
    a peer.
-
-
-
-
-
-
 
 
 
@@ -1313,10 +1313,11 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    STREAM_DATA_BLOCKED or DATA_BLOCKED frame to indicate it has data to
    write but is blocked by flow control limits.  If a sender is blocked
    for a period longer than the idle timeout (Section 10.2), the
-   connection might be closed even when data is available for
-   transmission.  To keep the connection from closing, a sender that is
-   flow control limited SHOULD periodically send a STREAM_DATA_BLOCKED
-   or DATA_BLOCKED frame when it has no ack-eliciting packets in flight.
+   receiver might close the connection even when the sender has data
+   that is available for transmission.  To keep the connection from
+   closing, a sender that is flow control limited SHOULD periodically
+   send a STREAM_DATA_BLOCKED or DATA_BLOCKED frame when it has no ack-
+   eliciting packets in flight.
 
 4.2.  Increasing Flow Control Limits
 
@@ -1335,7 +1336,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    a sender, requiring larger resource commitments at the receiver.
    There is a trade-off between resource commitment and overhead when
    determining how large a limit is advertised.
-
 
 
 
@@ -2432,14 +2432,20 @@ Internet-Draft           QUIC Transport Protocol               July 2020
 
 7.4.1.  Values of Transport Parameters for 0-RTT
 
-   Both endpoints store the value of the server transport parameters
-   from a connection and apply them to any 0-RTT packets that are sent
-   in subsequent connections to that peer, except for transport
-   parameters that are explicitly excluded.  Remembered transport
-   parameters apply to the new connection until the handshake completes
-   and the client starts sending 1-RTT packets.  Once the handshake
-   completes, the client uses the transport parameters established in
-   the handshake.
+   Using 0-RTT depends on both client and server using protocol
+   parameters that were negotiated from a previous connection.  To
+   enable 0-RTT, endpoints store the value of the server transport
+   parameters from a connection and apply them to any 0-RTT packets that
+   are sent in subsequent connections to that peer.  This information is
+   stored with any information required by the application protocol or
+   cryptographic handshake; see Section 4.6 of [QUIC-TLS].
+
+   Remembered transport parameters apply to the new connection until the
+   handshake completes and the client starts sending 1-RTT packets.
+   Once the handshake completes, the client uses the transport
+   parameters established in the handshake.  Not all transport
+   parameters are remembered, as some do not apply to future connections
+   or they have no effect on use of 0-RTT.
 
    The definition of new transport parameters (Section 7.4.2) MUST
    specify whether they MUST, MAY, or MUST NOT be stored for 0-RTT.  A
@@ -2452,12 +2458,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    MUST use the server's new values in the handshake instead, and absent
    new values from the server, the default value.
 
-   A client that attempts to send 0-RTT data MUST remember all other
-   transport parameters used by the server.  The server can remember
-   these transport parameters, or store an integrity-protected copy of
-   the values in the ticket and recover the information when accepting
-   0-RTT data.  A server uses the transport parameters in determining
-   whether to accept 0-RTT data.
 
 
 
@@ -2465,6 +2465,13 @@ Iyengar & Thomson        Expires 15 January 2021               [Page 44]
 
 Internet-Draft           QUIC Transport Protocol               July 2020
 
+
+   A client that attempts to send 0-RTT data MUST remember all other
+   transport parameters used by the server.  The server can remember
+   these transport parameters, or store an integrity-protected copy of
+   the values in the ticket and recover the information when accepting
+   0-RTT data.  A server uses the transport parameters in determining
+   whether to accept 0-RTT data.
 
    If 0-RTT data is accepted by the server, the server MUST NOT reduce
    any limits or alter any values that might be violated by the client
@@ -2504,13 +2511,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
 
    A server MUST either reject 0-RTT data or abort a handshake if the
    implied values for transport parameters cannot be supported.
-
-
-
-
-
-
-
 
 
 
@@ -2932,9 +2932,9 @@ Internet-Draft           QUIC Transport Protocol               July 2020
 
    An endpoint MAY include PATH_CHALLENGE and PATH_RESPONSE frames that
    are used for path validation with other frames.  In particular, an
-   endpoint may pad a packet carrying a PATH_CHALLENGE for PMTU
-   discovery, or an endpoint may include a PATH_RESPONSE with its own
-   PATH_CHALLENGE.
+   endpoint can pad a packet carrying a PATH_CHALLENGE for Path Maximum
+   Transfer Unit (PMTU) discovery (see Section 14.2.1), or an endpoint
+   can include a PATH_RESPONSE with its own PATH_CHALLENGE.
 
    When probing a new path, an endpoint might want to ensure that its
    peer has an unused connection ID available for responses.  The
@@ -3124,12 +3124,12 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    The new path might not have the same ECN capability.  Therefore, the
    endpoint verifies ECN capability as described in Section 13.4.
 
-   Receiving acknowledgments for data sent on the new path serves as
-   proof of the peer's reachability from the new address.  Note that
-   since acknowledgments may be received on any path, return
-   reachability on the new path is not established.  No method is
-   provided to establish return reachability, as endpoints independently
-   determine reachability on each direction of a path.  To establish
+   To establish reachability on the new path, an endpoint initiates path
+   validation (Section 8.2) on the new path.  An endpoint MAY defer path
+   validation until after a peer sends the next non-probing frame to its
+   new address.
+
+
 
 
 
@@ -3138,10 +3138,11 @@ Iyengar & Thomson        Expires 15 January 2021               [Page 56]
 Internet-Draft           QUIC Transport Protocol               July 2020
 
 
-   reachability on the new path, an endpoint MAY concurrently initiate
-   path validation (Section 8.2) on the new path.  An endpoint MAY defer
-   path validation until after a peer sends the next non-probing frame
-   to its new address.
+   Path validation is necessary to verify reachability of a peer on a
+   new network path.  Acknowledgments cannot be used for path validation
+   as they contain insufficient entropy and might be spoofed.  No method
+   is provided to establish return reachability, as endpoints
+   independently determine reachability on each direction of a path.
 
 9.3.  Responding to Connection Migration
 
@@ -3183,7 +3184,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    the endpoint sends significantly more data than the spoofing peer,
    connection migration might be used to amplify the volume of data that
    an attacker can generate toward a victim.
-
 
 
 
@@ -3534,12 +3534,13 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    original address succeeds, the client MAY migrate to its new address
    and continue sending to the server's original address.
 
-   If the connection to the server's preferred address is not from the
-   same client address, the server MUST protect against potential
-   attacks as described in Section 9.3.1 and Section 9.3.2.  In addition
-   to intentional simultaneous migration, this might also occur because
-   the client's access network used a different NAT binding for the
-   server's preferred address.
+   If packets received at the server's preferred address have a
+   different source address than observed from the client during the
+   handshake, the server MUST protect against potential attacks as
+   described in Section 9.3.1 and Section 9.3.2.  In addition to
+   intentional simultaneous migration, this might also occur because the
+   client's access network used a different NAT binding for the server's
+   preferred address.
 
    Servers SHOULD initiate path validation to the client's new address
    upon receiving a probe packet from a different address.  Servers MUST
@@ -3577,7 +3578,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
 
    An established QUIC connection can be terminated in one of three
    ways:
-
 
 
 
@@ -4463,7 +4463,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    contain frames.
 
    Packet Payload {
-     Frame (..) ...,
+     Frame (8..) ...,
    }
 
                           Figure 10: QUIC Payload
@@ -5970,10 +5970,10 @@ Internet-Draft           QUIC Transport Protocol               July 2020
                          Figure 14: Initial Packet
 
    The Initial packet contains a long header as well as the Length and
-   Packet Number fields.  The first byte contains the Reserved and
-   Packet Number Length bits.  Between the Source Connection ID and
-   Length fields, there are two additional fields specific to the
-   Initial packet.
+   Packet Number fields; see Section 17.2.  The first byte contains the
+   Reserved and Packet Number Length bits; see also Section 17.2.
+   Between the Source Connection ID and Length fields, there are two
+   additional fields specific to the Initial packet.
 
    Token Length:  A variable-length integer specifying the length of the
       Token field, in bytes.  This value is zero if no token is present.
@@ -6053,11 +6053,12 @@ Internet-Draft           QUIC Transport Protocol               July 2020
 17.2.3.  0-RTT
 
    A 0-RTT packet uses long headers with a type value of 0x1, followed
-   by the Length and Packet Number fields.  The first byte contains the
-   Reserved and Packet Number Length bits.  It is used to carry "early"
-   data from the client to the server as part of the first flight, prior
-   to handshake completion.  As part of the TLS handshake, the server
-   can accept or reject this early data.
+   by the Length and Packet Number fields; see Section 17.2.  The first
+   byte contains the Reserved and Packet Number Length bits; see
+   Section 17.2.  A 0-RTT packet is used to carry "early" data from the
+   client to the server as part of the first flight, prior to handshake
+   completion.  As part of the TLS handshake, the server can accept or
+   reject this early data.
 
    See Section 2.3 of [TLS13] for a discussion of 0-RTT data and its
    limitations.
@@ -6097,7 +6098,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    A client only receives acknowledgments for its 0-RTT packets once the
    handshake is complete.  Consequently, a server might expect 0-RTT
    packets to start with a packet number of 0.  Therefore, in
-   determining the length of the packet number encoding for 0-RTT
 
 
 
@@ -6106,6 +6106,7 @@ Iyengar & Thomson        Expires 15 January 2021              [Page 109]
 Internet-Draft           QUIC Transport Protocol               July 2020
 
 
+   determining the length of the packet number encoding for 0-RTT
    packets, a client MUST assume that all packets up to the current
    packet number are in flight, starting from a packet number of 0.
    Thus, 0-RTT packets could need to use a longer packet number
@@ -6125,10 +6126,10 @@ Internet-Draft           QUIC Transport Protocol               July 2020
 17.2.4.  Handshake Packet
 
    A Handshake packet uses long headers with a type value of 0x2,
-   followed by the Length and Packet Number fields.  The first byte
-   contains the Reserved and Packet Number Length bits.  It is used to
-   carry acknowledgments and cryptographic handshake messages from the
-   server and client.
+   followed by the Length and Packet Number fields; see Section 17.2.
+   The first byte contains the Reserved and Packet Number Length bits;
+   see Section 17.2.  It is used to carry cryptographic handshake
+   messages and acknowledgments from the server and client.
 
    Handshake Packet {
      Header Form (1) = 1,
@@ -6151,7 +6152,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    Once a client has received a Handshake packet from a server, it uses
    Handshake packets to send subsequent cryptographic handshake messages
    and acknowledgments to the server.
-
 
 
 
@@ -6203,9 +6203,9 @@ Internet-Draft           QUIC Transport Protocol               July 2020
                           Figure 17: Retry Packet
 
    A Retry packet (shown in Figure 17) does not contain any protected
-   fields.  The value in the Unused field is selected randomly by the
-   server.  In addition to the fields from the long header, it contains
-   these additional fields:
+   fields.  The value in the Unused field is set to an arbitrary value
+   by the server; a client MUST ignore these bits.  In addition to the
+   fields from the long header, it contains these additional fields:
 
    Retry Token:  An opaque token that the server can use to validate the
       client's address.
@@ -8779,13 +8779,13 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    permanent.
 
    All registrations in this document are assigned a permanent status
-   and list as contact both the IESG (ietf@ietf.org) and the QUIC
-   working group (quic@ietf.org).
+   and list as contact the IETF (quic@ietf.org).
 
 22.2.  QUIC Transport Parameter Registry
 
    IANA [SHALL add/has added] a registry for "QUIC Transport Parameters"
    under a "QUIC" heading.
+
 
 
 
