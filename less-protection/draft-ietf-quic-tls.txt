@@ -1239,8 +1239,8 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
       Section 5.8.
 
    *  Initial packets use AEAD_AES_128_GCM with keys derived from the
-      Destination Connection ID field of the client Initial packet; see
-      Section 5.2.
+      Destination Connection ID field of the first Initial packet sent
+      by the client; see Section 5.2.
 
    *  All other packets have strong cryptographic protections for
       confidentiality and integrity, using keys and algorithms
