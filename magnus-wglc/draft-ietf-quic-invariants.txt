@@ -99,12 +99,12 @@ Table of Contents
    stable as new versions are developed and deployed.  All of these
    invariants are IP-version-independent.
 
-   The primary goal of this document is to ensure that it is possible to
-   deploy new versions of QUIC.  By documenting the properties that
-   can't change, this document aims to preserve the ability to change
-   any other aspect of the protocol.  Thus, unless specifically
-   described in this document, any aspect of the protocol can change
-   between different versions.
+
+
+
+
+
+
 
 
 
@@ -113,6 +113,15 @@ Thomson                  Expires 15 January 2021                [Page 2]
 
 Internet-Draft               QUIC Invariants                   July 2020
 
+
+   The primary goal of this document is to ensure that it is possible to
+   deploy new versions of QUIC.  By documenting the properties that
+   can't change, this document aims to preserve the ability for QUIC
+   endpoints to negotiate changes to any other aspect of the protocol.
+   As a consequence, this also guarantees a minimal amount of
+   information that is made available to entities other than endpoints.
+   Unless specifically prohibited in this document, any aspect of the
+   protocol can change between different versions.
 
    Appendix A is a non-exhaustive list of some incorrect assumptions
    that might be made based on knowledge of QUIC version 1; these do not
@@ -152,15 +161,6 @@ Internet-Draft               QUIC Invariants                   July 2020
    x (A):  Indicates that x is A bits long
 
    x (A..B):  Indicates that x can be any length from A to B; A can be
-      omitted to indicate a minimum of zero bits and B can be omitted to
-      indicate no set upper limit; values in this format always end on
-      an octet boundary
-
-   x (?) = C:  Indicates that x has a fixed value of C
-
-   x (E) ...:  Indicates that x is repeated zero or more times (and that
-      each instance is length E)
-
 
 
 
@@ -169,6 +169,15 @@ Thomson                  Expires 15 January 2021                [Page 3]
 
 Internet-Draft               QUIC Invariants                   July 2020
 
+
+      omitted to indicate a minimum of zero bits and B can be omitted to
+      indicate no set upper limit; values in this format always end on
+      an octet boundary
+
+   x (?) = C:  Indicates that x has a fixed value of C
+
+   x (E) ...:  Indicates that x is repeated zero or more times (and that
+      each instance is length E)
 
    This document uses network byte order (that is, big endian) values.
    Fields are placed starting from the high-order bits of each byte.
@@ -208,15 +217,6 @@ Internet-Draft               QUIC Invariants                   July 2020
 5.1.  Long Header
 
    Long headers take the form described in Figure 2.
-
-
-
-
-
-
-
-
-
 
 
 
@@ -356,12 +356,17 @@ Internet-Draft               QUIC Invariants                   July 2020
 
                     Figure 4: Version Negotiation Packet
 
-   The Version Negotiation packet contains a list of Supported Version
-   fields, each identifying a version that the endpoint sending the
-   packet supports.  The Supported Version fields follow the Version
-   field.  A Version Negotiation packet contains no other fields.  An
-   endpoint MUST ignore a packet that contains no Supported Version
-   fields, or a truncated Supported Version.
+   Only the most significant bit of the first byte of a Version
+   Negotiation packet has any defined value.  The remaining 7 bits,
+   labeled Unused, can be set to any value when sending and MUST be
+   ignored on receipt.
+
+   After the Source Connection ID field, the Version Negotiation packet
+   contains a list of Supported Version fields, each identifying a
+   version that the endpoint sending the packet supports.  A Version
+   Negotiation packet contains no other fields.  An endpoint MUST ignore
+   a packet that contains no Supported Version fields, or a truncated
+   Supported Version.
 
    Version Negotiation packets do not use integrity or confidentiality
    protection.  Specific QUIC versions define mechanisms to authenticate
@@ -381,11 +386,6 @@ Internet-Draft               QUIC Invariants                   July 2020
    conditions under which an endpoint changes QUIC version will depend
    on the version of QUIC that it chooses.
 
-   See [QUIC-TRANSPORT] for a more thorough description of how an
-   endpoint that supports QUIC version 1 generates and consumes a
-   Version Negotiation packet.
-
-
 
 
 
@@ -393,6 +393,10 @@ Thomson                  Expires 15 January 2021                [Page 7]
 
 Internet-Draft               QUIC Invariants                   July 2020
 
+
+   See [QUIC-TRANSPORT] for a more thorough description of how an
+   endpoint that supports QUIC version 1 generates and consumes a
+   Version Negotiation packet.
 
 7.  Security and Privacy Considerations
 
@@ -439,10 +443,6 @@ Internet-Draft               QUIC Invariants                   July 2020
               Internet-Draft, draft-ietf-quic-tls-latest, 14 July 2020,
               <https://tools.ietf.org/html/draft-ietf-quic-tls-latest>.
 
-   [QUIC-TRANSPORT]
-              Iyengar, J., Ed. and M. Thomson, Ed., "QUIC: A UDP-Based
-              Multiplexed and Secure Transport", Work in Progress,
-
 
 
 Thomson                  Expires 15 January 2021                [Page 8]
@@ -450,6 +450,9 @@ Thomson                  Expires 15 January 2021                [Page 8]
 Internet-Draft               QUIC Invariants                   July 2020
 
 
+   [QUIC-TRANSPORT]
+              Iyengar, J., Ed. and M. Thomson, Ed., "QUIC: A UDP-Based
+              Multiplexed and Secure Transport", Work in Progress,
               Internet-Draft, draft-ietf-quic-transport-latest, 14 July
               2020, <https://tools.ietf.org/html/draft-ietf-quic-
               transport-latest>.
@@ -494,10 +497,7 @@ Appendix A.  Incorrect Assumptions
 
    *  QUIC packet numbers increase by one for every packet sent
 
-   *  QUIC has a minimum size for the first handshake packet sent by a
-      client
 
-   *  QUIC stipulates that a client speaks first
 
 
 
@@ -505,6 +505,11 @@ Thomson                  Expires 15 January 2021                [Page 9]
 
 Internet-Draft               QUIC Invariants                   July 2020
 
+
+   *  QUIC has a minimum size for the first handshake packet sent by a
+      client
+
+   *  QUIC stipulates that a client speaks first
 
    *  QUIC packets always have the second bit of the first byte (0x40)
       set
@@ -528,11 +533,6 @@ Author's Address
    Mozilla
 
    Email: mt@lowentropy.net
-
-
-
-
-
 
 
 
