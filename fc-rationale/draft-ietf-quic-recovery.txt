@@ -1385,11 +1385,11 @@ Internet-Draft             QUIC Loss Detection                 July 2020
               Refining TCP Congestion Control", ACM SIGCOMM , August
               1996.
 
-   [RACK]     Cheng, Y., Cardwell, N., Dukkipati, N., and P. Jha, "RACK:
-              a time-based fast loss detection algorithm for TCP", Work
-              in Progress, Internet-Draft, draft-ietf-tcpm-rack-08, 9
-              March 2020, <http://www.ietf.org/internet-drafts/draft-
-              ietf-tcpm-rack-08.txt>.
+   [RACK]     Cheng, Y., Cardwell, N., Dukkipati, N., and P. Jha, "RACK-
+              TLP: a time-based efficient loss detection for TCP", Work
+              in Progress, Internet-Draft, draft-ietf-tcpm-rack-09, 13
+              July 2020, <http://www.ietf.org/internet-drafts/draft-
+              ietf-tcpm-rack-09.txt>.
 
 
 
