@@ -1294,7 +1294,7 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
 
    Initial packets apply the packet protection process, but use a secret
    derived from the Destination Connection ID field from the client's
-   Initial packet.
+   first Initial packet.
 
    This secret is determined by using HKDF-Extract (see Section 2.2 of
    [HKDF]) with a salt of 0xafbfec289993d24c9e9786f19c6111e04390a899 and
