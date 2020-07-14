@@ -3670,8 +3670,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    If a max_idle_timeout is specified by either peer in its transport
    parameters (Section 18.2), the connection is silently closed and its
    state is discarded when it remains idle for longer than the minimum
-   of both peers max_idle_timeout values and three times the current
-   Probe Timeout (PTO).
+   of both peers max_idle_timeout values.
 
    Each endpoint advertises a max_idle_timeout, but the effective value
    at an endpoint is computed as the minimum of the two advertised
@@ -3686,8 +3685,9 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    a packet.  Restarting this timer when sending a packet ensures that
    connections are not closed after new activity is initiated.
 
-
-
+   To avoid excessively small idle timeout periods, endpoints MUST
+   increase the idle timeout period to be at least three times the
+   current Probe Timeout (PTO).
 
 
 
