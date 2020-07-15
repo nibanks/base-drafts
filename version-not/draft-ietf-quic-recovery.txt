@@ -1536,7 +1536,7 @@ A.2.  Constants of Interest
       and Section 6.1.2 recommends a value of 1ms.
 
    kInitialRtt:  The RTT used before an RTT sample is taken.  The value
-      recommended in Section 6.2.2 is 500ms.
+      recommended in Section 6.2.2 is 333ms.
 
    kPacketNumberSpace:  An enum to enumerate the three packet number
       spaces.
@@ -1603,8 +1603,8 @@ A.4.  Initialization
       loss_detection_timer.reset()
       pto_count = 0
       latest_rtt = 0
-      smoothed_rtt = initial_rtt
-      rttvar = initial_rtt / 2
+      smoothed_rtt = kInitialRtt
+      rttvar = kInitialRtt / 2
       min_rtt = 0
       max_ack_delay = 0
       for pn_space in [ Initial, Handshake, ApplicationData ]:
@@ -1854,7 +1854,7 @@ Internet-Draft             QUIC Loss Detection                 July 2020
      earliest_loss_time, pn_space = GetLossTimeAndSpace()
      if (earliest_loss_time != 0):
        // Time threshold loss Detection
-       lost_packets = DetectLostPackets(pn_space)
+       lost_packets = DetectAndRemoveLostPackets(pn_space)
        assert(!lost_packets.empty())
        OnPacketsLost(lost_packets)
        SetLossDetectionTimer()
@@ -2099,7 +2099,7 @@ B.7.  Process ECN Information
 
 B.8.  On Packets Lost
 
-   Invoked from DetectLostPackets when packets are deemed lost.
+   Invoked when DetectAndRemoveLostPackets deems packets lost.
 
       InPersistentCongestion(lost_packets):
         pto = smoothed_rtt + max(4 * rttvar, kGranularity) +

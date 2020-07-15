@@ -2462,7 +2462,7 @@ recommends a value of 1ms.<a href="#section-a.2-2.6" class="pilcrow">¶</a>
 <dt id="section-a.2-2.7">kInitialRtt:</dt>
           <dd id="section-a.2-2.8">
   The RTT used before an RTT sample is taken. The value recommended in
-<a href="#pto-handshake" class="xref">Section 6.2.2</a> is 500ms.<a href="#section-a.2-2.8" class="pilcrow">¶</a>
+<a href="#pto-handshake" class="xref">Section 6.2.2</a> is 333ms.<a href="#section-a.2-2.8" class="pilcrow">¶</a>
 </dd>
           <dd class="break"></dd>
 <dt id="section-a.2-2.9">kPacketNumberSpace:</dt>
@@ -2568,8 +2568,8 @@ follows:<a href="#section-a.4-1" class="pilcrow">¶</a></p>
    loss_detection_timer.reset()
    pto_count = 0
    latest_rtt = 0
-   smoothed_rtt = initial_rtt
-   rttvar = initial_rtt / 2
+   smoothed_rtt = kInitialRtt
+   rttvar = kInitialRtt / 2
    min_rtt = 0
    max_ack_delay = 0
    for pn_space in [ Initial, Handshake, ApplicationData ]:
@@ -2805,7 +2805,7 @@ OnLossDetectionTimeout():
   earliest_loss_time, pn_space = GetLossTimeAndSpace()
   if (earliest_loss_time != 0):
     // Time threshold loss Detection
-    lost_packets = DetectLostPackets(pn_space)
+    lost_packets = DetectAndRemoveLostPackets(pn_space)
     assert(!lost_packets.empty())
     OnPacketsLost(lost_packets)
     SetLossDetectionTimer()
@@ -3092,7 +3092,7 @@ window.<a href="#section-b.6-1" class="pilcrow">¶</a></p>
         <h2 id="name-on-packets-lost">
 <a href="#section-b.8" class="section-number selfRef">B.8. </a><a href="#name-on-packets-lost" class="section-name selfRef">On Packets Lost</a>
         </h2>
-<p id="section-b.8-1">Invoked from DetectLostPackets when packets are deemed lost.<a href="#section-b.8-1" class="pilcrow">¶</a></p>
+<p id="section-b.8-1">Invoked when DetectAndRemoveLostPackets deems packets lost.<a href="#section-b.8-1" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-b.8-2">
 <pre>
    InPersistentCongestion(lost_packets):
@@ -3150,8 +3150,8 @@ OnPacketNumberSpaceDiscarded(pn_space):
       <h2 id="name-change-log">
 <a href="#section-appendix.c" class="section-number selfRef">Appendix C. </a><a href="#name-change-log" class="section-name selfRef">Change Log</a>
       </h2>
-<ul class="ulEmpty normal">
-<li class="ulEmpty normal" id="section-appendix.c-1.1">
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-appendix.c-1.1">
           <strong>RFC Editor's Note:</strong>  Please remove this section prior to
 publication of a final version of this document.<a href="#section-appendix.c-1.1" class="pilcrow">¶</a>
 </li>
