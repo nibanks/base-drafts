@@ -4,8 +4,8 @@
 
 QUIC                                                          M. Thomson
 Internet-Draft                                                   Mozilla
-Intended status: Standards Track                            14 July 2020
-Expires: 15 January 2021
+Intended status: Standards Track                            15 July 2020
+Expires: 16 January 2021
 
 
                  Version-Independent Properties of QUIC
@@ -43,7 +43,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 January 2021.
+   This Internet-Draft will expire on 16 January 2021.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Thomson                  Expires 15 January 2021                [Page 1]
+Thomson                  Expires 16 January 2021                [Page 1]
 
 Internet-Draft               QUIC Invariants                   July 2020
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Thomson                  Expires 15 January 2021                [Page 2]
+Thomson                  Expires 16 January 2021                [Page 2]
 
 Internet-Draft               QUIC Invariants                   July 2020
 
@@ -165,7 +165,7 @@ Internet-Draft               QUIC Invariants                   July 2020
 
 
 
-Thomson                  Expires 15 January 2021                [Page 3]
+Thomson                  Expires 16 January 2021                [Page 3]
 
 Internet-Draft               QUIC Invariants                   July 2020
 
@@ -221,7 +221,7 @@ Internet-Draft               QUIC Invariants                   July 2020
 
 
 
-Thomson                  Expires 15 January 2021                [Page 4]
+Thomson                  Expires 16 January 2021                [Page 4]
 
 Internet-Draft               QUIC Invariants                   July 2020
 
@@ -277,7 +277,7 @@ Internet-Draft               QUIC Invariants                   July 2020
 
 
 
-Thomson                  Expires 15 January 2021                [Page 5]
+Thomson                  Expires 16 January 2021                [Page 5]
 
 Internet-Draft               QUIC Invariants                   July 2020
 
@@ -333,7 +333,7 @@ Internet-Draft               QUIC Invariants                   July 2020
 
 
 
-Thomson                  Expires 15 January 2021                [Page 6]
+Thomson                  Expires 16 January 2021                [Page 6]
 
 Internet-Draft               QUIC Invariants                   July 2020
 
@@ -369,8 +369,9 @@ Internet-Draft               QUIC Invariants                   July 2020
    Supported Version.
 
    Version Negotiation packets do not use integrity or confidentiality
-   protection.  Specific QUIC versions define mechanisms to authenticate
-   the packet as part of the connection establishment process.
+   protection.  Specific QUIC versions might include protocol elements
+   that allow endpoints to detect modification or corruption in the set
+   of supported versions.
 
    An endpoint MUST include the value from the Source Connection ID
    field of the packet it receives in the Destination Connection ID
@@ -388,8 +389,7 @@ Internet-Draft               QUIC Invariants                   July 2020
 
 
 
-
-Thomson                  Expires 15 January 2021                [Page 7]
+Thomson                  Expires 16 January 2021                [Page 7]
 
 Internet-Draft               QUIC Invariants                   July 2020
 
@@ -416,8 +416,9 @@ Internet-Draft               QUIC Invariants                   July 2020
 
    The Version Negotiation packet described in this document is not
    integrity-protected; it only has modest protection against insertion
-   by off-path attackers.  QUIC versions MUST define a mechanism that
-   authenticates the values it contains.
+   by off-path attackers.  An endpoint MUST authenticate the contents of
+   a Version Negotiation packet if it attempts a different QUIC version
+   as a result.
 
 8.  IANA Considerations
 
@@ -438,22 +439,26 @@ Internet-Draft               QUIC Invariants                   July 2020
 
 9.2.  Informative References
 
-   [QUIC-TLS] Thomson, M., Ed. and S. Turner, Ed., "Using Transport
-              Layer Security (TLS) to Secure QUIC", Work in Progress,
-              Internet-Draft, draft-ietf-quic-tls-latest, 14 July 2020,
-              <https://tools.ietf.org/html/draft-ietf-quic-tls-latest>.
 
 
 
-Thomson                  Expires 15 January 2021                [Page 8]
+
+
+
+Thomson                  Expires 16 January 2021                [Page 8]
 
 Internet-Draft               QUIC Invariants                   July 2020
 
 
+   [QUIC-TLS] Thomson, M., Ed. and S. Turner, Ed., "Using Transport
+              Layer Security (TLS) to Secure QUIC", Work in Progress,
+              Internet-Draft, draft-ietf-quic-tls-latest, 15 July 2020,
+              <https://tools.ietf.org/html/draft-ietf-quic-tls-latest>.
+
    [QUIC-TRANSPORT]
               Iyengar, J., Ed. and M. Thomson, Ed., "QUIC: A UDP-Based
               Multiplexed and Secure Transport", Work in Progress,
-              Internet-Draft, draft-ietf-quic-transport-latest, 14 July
+              Internet-Draft, draft-ietf-quic-transport-latest, 15 July
               2020, <https://tools.ietf.org/html/draft-ietf-quic-
               transport-latest>.
 
@@ -492,19 +497,19 @@ Appendix A.  Incorrect Assumptions
    *  QUIC uses an AEAD (AEAD_AES_128_GCM [RFC5116]) to protect the
       packets it exchanges during connection establishment
 
+
+
+
+
+Thomson                  Expires 16 January 2021                [Page 9]
+
+Internet-Draft               QUIC Invariants                   July 2020
+
+
    *  QUIC packet numbers are encrypted and appear as the first
       encrypted bytes
 
    *  QUIC packet numbers increase by one for every packet sent
-
-
-
-
-
-Thomson                  Expires 15 January 2021                [Page 9]
-
-Internet-Draft               QUIC Invariants                   July 2020
-
 
    *  QUIC has a minimum size for the first handshake packet sent by a
       client
@@ -552,9 +557,4 @@ Author's Address
 
 
 
-
-
-
-
-
-Thomson                  Expires 15 January 2021               [Page 10]
+Thomson                  Expires 16 January 2021               [Page 10]
