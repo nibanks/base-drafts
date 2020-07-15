@@ -4,8 +4,8 @@
 
 QUIC                                                          M. Thomson
 Internet-Draft                                                   Mozilla
-Intended status: Standards Track                            30 June 2020
-Expires: 1 January 2021
+Intended status: Standards Track                            15 July 2020
+Expires: 16 January 2021
 
 
                  Version-Independent Properties of QUIC
@@ -43,7 +43,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 January 2021.
+   This Internet-Draft will expire on 16 January 2021.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Thomson                  Expires 1 January 2021                 [Page 1]
+Thomson                  Expires 16 January 2021                [Page 1]
 
-Internet-Draft               QUIC Invariants                   June 2020
+Internet-Draft               QUIC Invariants                   July 2020
 
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -79,12 +79,12 @@ Table of Contents
      5.3.  Connection ID . . . . . . . . . . . . . . . . . . . . . .   5
      5.4.  Version . . . . . . . . . . . . . . . . . . . . . . . . .   6
    6.  Version Negotiation . . . . . . . . . . . . . . . . . . . . .   6
-   7.  Security and Privacy Considerations . . . . . . . . . . . . .   8
+   7.  Security and Privacy Considerations . . . . . . . . . . . . .   7
    8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   8
    9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   8
      9.1.  Normative References  . . . . . . . . . . . . . . . . . .   8
      9.2.  Informative References  . . . . . . . . . . . . . . . . .   8
-   Appendix A.  Incorrect Assumptions  . . . . . . . . . . . . . . .   9
+   Appendix A.  Incorrect Assumptions  . . . . . . . . . . . . . . .   8
    Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  10
 
 1.  Introduction
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Thomson                  Expires 1 January 2021                 [Page 2]
+Thomson                  Expires 16 January 2021                [Page 2]
 
-Internet-Draft               QUIC Invariants                   June 2020
+Internet-Draft               QUIC Invariants                   July 2020
 
 
    Appendix A is a non-exhaustive list of some incorrect assumptions
@@ -165,9 +165,9 @@ Internet-Draft               QUIC Invariants                   June 2020
 
 
 
-Thomson                  Expires 1 January 2021                 [Page 3]
+Thomson                  Expires 16 January 2021                [Page 3]
 
-Internet-Draft               QUIC Invariants                   June 2020
+Internet-Draft               QUIC Invariants                   July 2020
 
 
    This document uses network byte order (that is, big endian) values.
@@ -221,9 +221,9 @@ Internet-Draft               QUIC Invariants                   June 2020
 
 
 
-Thomson                  Expires 1 January 2021                 [Page 4]
+Thomson                  Expires 16 January 2021                [Page 4]
 
-Internet-Draft               QUIC Invariants                   June 2020
+Internet-Draft               QUIC Invariants                   July 2020
 
 
    A QUIC packet with a long header has the high bit of the first byte
@@ -277,9 +277,9 @@ Internet-Draft               QUIC Invariants                   June 2020
 
 
 
-Thomson                  Expires 1 January 2021                 [Page 5]
+Thomson                  Expires 16 January 2021                [Page 5]
 
-Internet-Draft               QUIC Invariants                   June 2020
+Internet-Draft               QUIC Invariants                   July 2020
 
 
    The primary function of a connection ID is to ensure that changes in
@@ -297,11 +297,10 @@ Internet-Draft               QUIC Invariants                   June 2020
 
 5.4.  Version
 
-   The Version field contains a 32-bit integer, encoded in network byte
-   order.  This value can be used by endpoints to identify a QUIC
-   Version.  A Version field with a value of 0 is reserved for version
-   negotiation (see Section 6).  All other version numbers are
-   potentially valid.
+   The Version field contains a 4-byte identifier.  This value can be
+   used by endpoints to identify a QUIC Version.  A Version field with a
+   value of 0 is reserved for version negotiation (see Section 6).  All
+   other version numbers are potentially valid.
 
    The properties described in this document apply to all versions of
    QUIC.  A protocol that does not conform to the properties described
@@ -321,23 +320,6 @@ Internet-Draft               QUIC Invariants                   June 2020
    defined in Section 5.1.  A Version Negotiation packet is identifiable
    as such by the Version field, which is set to 0x00000000.
 
-
-
-
-
-
-
-
-
-
-
-
-
-Thomson                  Expires 1 January 2021                 [Page 6]
-
-Internet-Draft               QUIC Invariants                   June 2020
-
-
    Version Negotiation Packet {
      Header Form (1) = 1,
      Unused (7),
@@ -348,6 +330,13 @@ Internet-Draft               QUIC Invariants                   June 2020
      Source Connection ID (0..2040),
      Supported Version (32) ...,
    }
+
+
+
+Thomson                  Expires 16 January 2021                [Page 6]
+
+Internet-Draft               QUIC Invariants                   July 2020
+
 
                     Figure 4: Version Negotiation Packet
 
@@ -380,20 +369,6 @@ Internet-Draft               QUIC Invariants                   June 2020
    endpoint that supports QUIC version 1 generates and consumes a
    Version Negotiation packet.
 
-
-
-
-
-
-
-
-
-
-Thomson                  Expires 1 January 2021                 [Page 7]
-
-Internet-Draft               QUIC Invariants                   June 2020
-
-
 7.  Security and Privacy Considerations
 
    It is possible that middleboxes could use traits of a specific
@@ -409,6 +384,15 @@ Internet-Draft               QUIC Invariants                   June 2020
    means that reliably extracting information from a flow based on
    version-specific traits requires that middleboxes retain state for
    every connection ID they see.
+
+
+
+
+
+Thomson                  Expires 16 January 2021                [Page 7]
+
+Internet-Draft               QUIC Invariants                   July 2020
+
 
    The Version Negotiation packet described in this document is not
    integrity-protected; it only has modest protection against insertion
@@ -436,21 +420,13 @@ Internet-Draft               QUIC Invariants                   June 2020
 
    [QUIC-TLS] Thomson, M., Ed. and S. Turner, Ed., "Using Transport
               Layer Security (TLS) to Secure QUIC", Work in Progress,
-              Internet-Draft, draft-ietf-quic-tls-latest, 30 June 2020,
+              Internet-Draft, draft-ietf-quic-tls-latest, 15 July 2020,
               <https://tools.ietf.org/html/draft-ietf-quic-tls-latest>.
 
    [QUIC-TRANSPORT]
               Iyengar, J., Ed. and M. Thomson, Ed., "QUIC: A UDP-Based
               Multiplexed and Secure Transport", Work in Progress,
-
-
-
-Thomson                  Expires 1 January 2021                 [Page 8]
-
-Internet-Draft               QUIC Invariants                   June 2020
-
-
-              Internet-Draft, draft-ietf-quic-transport-latest, 30 June
+              Internet-Draft, draft-ietf-quic-transport-latest, 15 July
               2020, <https://tools.ietf.org/html/draft-ietf-quic-
               transport-latest>.
 
@@ -463,6 +439,16 @@ Appendix A.  Incorrect Assumptions
    There are several traits of QUIC version 1 [QUIC-TRANSPORT] that are
    not protected from observation, but are nonetheless considered to be
    changeable when a new version is deployed.
+
+
+
+
+
+
+Thomson                  Expires 16 January 2021                [Page 8]
+
+Internet-Draft               QUIC Invariants                   July 2020
+
 
    This section lists a sampling of incorrect assumptions that might be
    made based on knowledge of QUIC version 1.  Some of these statements
@@ -499,13 +485,6 @@ Appendix A.  Incorrect Assumptions
 
    *  QUIC stipulates that a client speaks first
 
-
-
-Thomson                  Expires 1 January 2021                 [Page 9]
-
-Internet-Draft               QUIC Invariants                   June 2020
-
-
    *  QUIC packets always have the second bit of the first byte (0x40)
       set
 
@@ -518,6 +497,14 @@ Internet-Draft               QUIC Invariants                   June 2020
 
    *  The Version field in a QUIC long header is the same in both
       directions
+
+
+
+
+Thomson                  Expires 16 January 2021                [Page 9]
+
+Internet-Draft               QUIC Invariants                   July 2020
+
 
    *  A QUIC packet with a particular value in the Version field means
       that the corresponding version of QUIC is in use
@@ -557,4 +544,17 @@ Author's Address
 
 
 
-Thomson                  Expires 1 January 2021                [Page 10]
+
+
+
+
+
+
+
+
+
+
+
+
+
+Thomson                  Expires 16 January 2021               [Page 10]
