@@ -818,7 +818,7 @@ Internet-Draft             QUIC Loss Detection                 July 2020
    A client could have received and acknowledged a Handshake packet,
    causing it to discard state for the Initial packet number space, but
    not sent any ack-eliciting Handshake packets.  In this case, the PTO
-   timer starts at the time that the Initial packet number space is
+   timer is armed from the time that the Initial packet number space is
    discarded.
 
 6.2.3.  Speeding Up Handshake Completion
