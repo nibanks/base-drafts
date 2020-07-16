@@ -149,16 +149,16 @@ Internet-Draft           QUIC Transport Protocol               July 2020
                Address . . . . . . . . . . . . . . . . . . . . . . .  63
      9.7.  Use of IPv6 Flow-Label and Migration  . . . . . . . . . .  64
    10. Connection Termination  . . . . . . . . . . . . . . . . . . .  64
-     10.1.  Closing and Draining Connection States . . . . . . . . .  65
-     10.2.  Idle Timeout . . . . . . . . . . . . . . . . . . . . . .  66
-       10.2.1.  Liveness Testing . . . . . . . . . . . . . . . . . .  67
-       10.2.2.  Deferring Idle Timeout . . . . . . . . . . . . . . .  67
-     10.3.  Immediate Close  . . . . . . . . . . . . . . . . . . . .  67
-       10.3.1.  Immediate Close During the Handshake . . . . . . . .  69
-     10.4.  Stateless Reset  . . . . . . . . . . . . . . . . . . . .  70
-       10.4.1.  Detecting a Stateless Reset  . . . . . . . . . . . .  73
-       10.4.2.  Calculating a Stateless Reset Token  . . . . . . . .  74
-       10.4.3.  Looping  . . . . . . . . . . . . . . . . . . . . . .  75
+     10.1.  Idle Timeout . . . . . . . . . . . . . . . . . . . . . .  65
+       10.1.1.  Liveness Testing . . . . . . . . . . . . . . . . . .  65
+       10.1.2.  Deferring Idle Timeout . . . . . . . . . . . . . . .  66
+     10.2.  Immediate Close  . . . . . . . . . . . . . . . . . . . .  66
+       10.2.1.  Immediate Close During the Handshake . . . . . . . .  67
+     10.3.  Stateless Reset  . . . . . . . . . . . . . . . . . . . .  69
+       10.3.1.  Detecting a Stateless Reset  . . . . . . . . . . . .  71
+       10.3.2.  Calculating a Stateless Reset Token  . . . . . . . .  72
+       10.3.3.  Looping  . . . . . . . . . . . . . . . . . . . . . .  73
+     10.4.  Closing and Draining Connection States . . . . . . . . .  74
    11. Error Handling  . . . . . . . . . . . . . . . . . . . . . . .  75
      11.1.  Connection Errors  . . . . . . . . . . . . . . . . . . .  76
      11.2.  Stream Errors  . . . . . . . . . . . . . . . . . . . . .  76
@@ -1312,7 +1312,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    new data and is considered blocked.  A sender SHOULD send a
    STREAM_DATA_BLOCKED or DATA_BLOCKED frame to indicate it has data to
    write but is blocked by flow control limits.  If a sender is blocked
-   for a period longer than the idle timeout (Section 10.2), the
+   for a period longer than the idle timeout (Section 10.1), the
    receiver might close the connection even when the sender has data
    that is available for transmission.  To keep the connection from
    closing, a sender that is flow control limited SHOULD periodically
@@ -1446,7 +1446,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    that cannot be expressed as a variable-length integer; see
    Section 16.  If either is received, the connection MUST be closed
    immediately with a connection error of type STREAM_LIMIT_ERROR; see
-   Section 10.3.
+   Section 10.2.
 
 
 
@@ -1640,7 +1640,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    when it receives a packet with a previously unused connection ID.  An
    endpoint MAY limit the frequency or the total number of connection
    IDs issued for each connection to avoid the risk of running out of
-   connection IDs; see Section 10.4.2.  An endpoint MAY also limit the
+   connection IDs; see Section 10.3.2.  An endpoint MAY also limit the
    issuance of connection IDs to reduce the amount of per-path state it
    maintains, such as path validation status, as its peer might interact
    with it over as many paths as there are issued connection IDs.
@@ -1742,7 +1742,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    destination addresses for identification, though this makes
    connections fragile as described in Section 5.1.
 
-   Endpoints can send a Stateless Reset (Section 10.4) for any packets
+   Endpoints can send a Stateless Reset (Section 10.3) for any packets
    that cannot be attributed to an existing connection.  A stateless
    reset allows a peer to more quickly identify when a connection
    becomes unusable.
@@ -1950,10 +1950,10 @@ Internet-Draft           QUIC Transport Protocol               July 2020
 
    *  keep a connection from silently closing, either by generating PING
       frames (Section 19.2) or by requesting that the transport send
-      additional frames before the idle timeout expires (Section 10.2);
+      additional frames before the idle timeout expires (Section 10.1);
       and
 
-   *  immediately close (Section 10.3) the connection.
+   *  immediately close (Section 10.2) the connection.
 
 
 
@@ -2705,7 +2705,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    another Retry token.  The server can discard such a packet and allow
    the client to time out to detect handshake failure, but that could
    impose a significant latency penalty on the client.  Instead, the
-   server SHOULD immediately close (Section 10.3) the connection with an
+   server SHOULD immediately close (Section 10.2) the connection with an
    INVALID_TOKEN error.  Note that a server has not established any
    state for the connection at this point and so does not enter the
    closing period.
@@ -3586,86 +3586,16 @@ Iyengar & Thomson        Expires 17 January 2021               [Page 64]
 Internet-Draft           QUIC Transport Protocol               July 2020
 
 
-   *  idle timeout (Section 10.2)
+   *  idle timeout (Section 10.1)
 
-   *  immediate close (Section 10.3)
+   *  immediate close (Section 10.2)
 
-   *  stateless reset (Section 10.4)
+   *  stateless reset (Section 10.3)
 
    An endpoint MAY discard connection state if it does not have a
    validated path on which it can send packets; see Section 8.2.
 
-10.1.  Closing and Draining Connection States
-
-   The closing and draining connection states exist to ensure that
-   connections close cleanly and that delayed or reordered packets are
-   properly discarded.  These states SHOULD persist for at least three
-   times the current Probe Timeout (PTO) interval as defined in
-   [QUIC-RECOVERY].
-
-   An endpoint enters a closing period after initiating an immediate
-   close; Section 10.3.  While closing, an endpoint MUST NOT send
-   packets unless they contain a CONNECTION_CLOSE frame; see
-   Section 10.3 for details.  An endpoint retains only enough
-   information to generate a packet containing a CONNECTION_CLOSE frame
-   and to identify packets as belonging to the connection.  The
-   endpoint's selected connection ID and the QUIC version are sufficient
-   information to identify packets for a closing connection; an endpoint
-   can discard all other connection state.  An endpoint MAY retain
-   packet protection keys for incoming packets to allow it to read and
-   process a CONNECTION_CLOSE frame.
-
-   The draining state is entered once an endpoint receives a signal that
-   its peer is closing or draining.  While otherwise identical to the
-   closing state, an endpoint in the draining state MUST NOT send any
-   packets.  Retaining packet protection keys is unnecessary once a
-   connection is in the draining state.
-
-   An endpoint MAY transition from the closing period to the draining
-   period if it receives a CONNECTION_CLOSE frame or stateless reset,
-   both of which indicate that the peer is also closing or draining.
-   The draining period SHOULD end when the closing period would have
-   ended.  In other words, the endpoint can use the same end time, but
-   cease retransmission of the closing packet.
-
-   Disposing of connection state prior to the end of the closing or
-   draining period could cause delayed or reordered packets to generate
-   an unnecessary stateless reset.  Endpoints that have some alternative
-   means to ensure that late-arriving packets on the connection do not
-   induce a response, such as those that are able to close the UDP
-   socket, MAY use an abbreviated draining period which can allow for
-
-
-
-Iyengar & Thomson        Expires 17 January 2021               [Page 65]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
-
-   faster resource recovery.  Servers that retain an open socket for
-   accepting new connections SHOULD NOT exit the closing or draining
-   period early.
-
-   Once the closing or draining period has ended, an endpoint SHOULD
-   discard all connection state.  This results in new packets on the
-   connection being handled generically.  For instance, an endpoint MAY
-   send a stateless reset in response to any further incoming packets.
-
-   The draining and closing periods do not apply when a stateless reset
-   (Section 10.4) is sent.
-
-   An endpoint is not expected to handle key updates when it is closing
-   or draining.  A key update might prevent the endpoint from moving
-   from the closing state to draining, but it otherwise has no impact.
-
-   While in the closing period, an endpoint could receive packets from a
-   new source address, indicating a connection migration; Section 9.  An
-   endpoint in the closing state MUST strictly limit the number of
-   packets it sends to this new address until the address is validated;
-   see Section 8.2.  A server in the closing state MAY instead choose to
-   discard packets received from a new source address.
-
-10.2.  Idle Timeout
+10.1.  Idle Timeout
 
    If a max_idle_timeout is specified by either peer in its transport
    parameters (Section 18.2), the connection is silently closed and its
@@ -3675,7 +3605,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    Each endpoint advertises a max_idle_timeout, but the effective value
    at an endpoint is computed as the minimum of the two advertised
    values.  By announcing a max_idle_timeout, an endpoint commits to
-   initiating an immediate close (Section 10.3) if it abandons the
+   initiating an immediate close (Section 10.2) if it abandons the
    connection prior to the effective value.
 
    An endpoint restarts its idle timer when a packet from its peer is
@@ -3689,16 +3619,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    increase the idle timeout period to be at least three times the
    current Probe Timeout (PTO).
 
-
-
-
-
-Iyengar & Thomson        Expires 17 January 2021               [Page 66]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
-
-10.2.1.  Liveness Testing
+10.1.1.  Liveness Testing
 
    An endpoint that sends packets close to the effective timeout risks
    having them be discarded at the peer, since the peer might enter its
@@ -3710,7 +3631,18 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    useful if any available application data cannot be safely retried.
    Note that the application determines what data is safe to retry.
 
-10.2.2.  Deferring Idle Timeout
+
+
+
+
+
+
+Iyengar & Thomson        Expires 17 January 2021               [Page 65]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
+
+10.1.2.  Deferring Idle Timeout
 
    An endpoint might need to send ack-eliciting packets to avoid an idle
    timeout if it is expecting response data, but does not have or is
@@ -3735,7 +3667,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    packets every 30 seconds is necessary to prevent the majority of
    middleboxes from losing state for UDP flows [GATEWAY].
 
-10.3.  Immediate Close
+10.2.  Immediate Close
 
    An endpoint sends a CONNECTION_CLOSE frame (Section 19.19) to
    terminate the connection immediately.  A CONNECTION_CLOSE frame
@@ -3744,15 +3676,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
 
    After sending a CONNECTION_CLOSE frame, an endpoint immediately
    enters the closing state.
-
-
-
-
-
-Iyengar & Thomson        Expires 17 January 2021               [Page 67]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
 
    During the closing period, an endpoint that sends a CONNECTION_CLOSE
    frame SHOULD respond to any incoming packet that can be decrypted
@@ -3763,10 +3686,18 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    before responding to a received packet.
 
    An endpoint is allowed to drop the packet protection keys when
-   entering the closing period (Section 10.1) and send a packet
+   entering the closing period (Section 10.4) and send a packet
    containing a CONNECTION_CLOSE in response to any UDP datagram that is
    received.  However, an endpoint without the packet protection keys
    cannot identify and discard invalid packets.  To avoid creating an
+
+
+
+Iyengar & Thomson        Expires 17 January 2021               [Page 66]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
+
    unwitting amplification attack, such endpoints MUST reduce the
    frequency with which it sends packets containing a CONNECTION_CLOSE
    frame.  To minimize the state that an endpoint maintains for a
@@ -3803,14 +3734,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    the connection, a CONNECTION_CLOSE frame with an appropriate error
    code will be used to signal closure.
 
-
-
-Iyengar & Thomson        Expires 17 January 2021               [Page 68]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
-
-10.3.1.  Immediate Close During the Handshake
+10.2.1.  Immediate Close During the Handshake
 
    When sending CONNECTION_CLOSE, the goal is to ensure that the peer
    will process the frame.  Generally, this means sending the frame in a
@@ -3822,6 +3746,13 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    protection keys are not available to the peer, so another
    CONNECTION_CLOSE frame MAY be sent in a packet that uses a lower
    packet protection level.  More specifically:
+
+
+
+Iyengar & Thomson        Expires 17 January 2021               [Page 67]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
 
    *  A client will always know whether the server has Handshake keys
       (see Section 17.2.2.1), but it is possible that a server does not
@@ -3858,14 +3789,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    Handshake packets.  Such an immediate close might expose legitimate
    connections to a denial of service.  QUIC does not include defensive
    measures for on-path attacks during the handshake; see Section 21.1.
-
-
-
-Iyengar & Thomson        Expires 17 January 2021               [Page 69]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
-
    However, at the cost of reducing feedback about errors for legitimate
    peers, some forms of denial of service can be made more difficult for
    an attacker if endpoints discard illegal packets rather than
@@ -3879,7 +3802,15 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    enter a closing or draining period on sending a CONNECTION_CLOSE
    frame.
 
-10.4.  Stateless Reset
+
+
+
+Iyengar & Thomson        Expires 17 January 2021               [Page 68]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
+
+10.3.  Stateless Reset
 
    A stateless reset is provided as an option of last resort for an
    endpoint that does not have access to the state of a connection.  A
@@ -3914,14 +3845,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
 
                       Figure 9: Stateless Reset Packet
 
-
-
-
-Iyengar & Thomson        Expires 17 January 2021               [Page 70]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
-
    This design ensures that a stateless reset packet is - to the extent
    possible - indistinguishable from a regular packet with a short
    header.
@@ -3931,6 +3854,17 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    and an arbitrary number of bytes following it are set to values that
    SHOULD be indistinguishable from random.  The last 16 bytes of the
    datagram contain a Stateless Reset Token.
+
+
+
+
+
+
+
+Iyengar & Thomson        Expires 17 January 2021               [Page 69]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
 
    To entities other than its intended recipient, a stateless reset will
    appear to be a packet with a short header.  For the stateless reset
@@ -3956,7 +3890,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
 
    An endpoint MUST NOT send a stateless reset that is three times or
    more larger than the packet it receives to avoid being used for
-   amplification.  Section 10.4.3 describes additional limits on
+   amplification.  Section 10.3.3 describes additional limits on
    stateless reset size.
 
    Endpoints MUST discard packets that are too small to be valid QUIC
@@ -3967,16 +3901,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    with a short header.  However, endpoints MUST treat any packet ending
    in a valid stateless reset token as a stateless reset, as other QUIC
    versions might allow the use of a long header.
-
-
-
-
-
-
-Iyengar & Thomson        Expires 17 January 2021               [Page 71]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
 
    An endpoint MAY send a stateless reset in response to a packet with a
    long header.  Sending a stateless reset is not effective prior to the
@@ -3990,6 +3914,14 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    An endpoint cannot determine the Source Connection ID from a packet
    with a short header, therefore it cannot set the Destination
    Connection ID in the stateless reset packet.  The Destination
+
+
+
+Iyengar & Thomson        Expires 17 January 2021               [Page 70]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
+
    Connection ID will therefore differ from the value used in previous
    packets.  A random Destination Connection ID makes the connection ID
    appear to be the result of moving to a new connection ID that was
@@ -4000,7 +3932,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    *  The packet might not reach the peer.  If the Destination
       Connection ID is critical for routing toward the peer, then this
       packet could be incorrectly routed.  This might also trigger
-      another Stateless Reset in response; see Section 10.4.3.  A
+      another Stateless Reset in response; see Section 10.3.3.  A
       Stateless Reset that is not correctly routed is an ineffective
       error detection and recovery mechanism.  In this case, endpoints
       will need to rely on other methods - such as timers - to detect
@@ -4019,22 +3951,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    aware of this and either reuse this design, or use a portion of the
    packet other than the last 16 bytes for carrying data.
 
-
-
-
-
-
-
-
-
-
-
-Iyengar & Thomson        Expires 17 January 2021               [Page 72]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
-
-10.4.1.  Detecting a Stateless Reset
+10.3.1.  Detecting a Stateless Reset
 
    An endpoint detects a potential stateless reset using the trailing 16
    bytes of the UDP datagram.  An endpoint remembers all Stateless Reset
@@ -4052,6 +3969,14 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    successfully processed.  However, the comparison MUST be performed
    when the first packet in an incoming datagram either cannot be
    associated with a connection, or cannot be decrypted.
+
+
+
+
+Iyengar & Thomson        Expires 17 January 2021               [Page 71]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
 
    An endpoint MUST NOT check for any Stateless Reset Tokens associated
    with connection IDs it has not used or for connection IDs that have
@@ -4074,23 +3999,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    Stateless Reset Token, the endpoint MUST enter the draining period
    and not send any further packets on this connection.
 
-
-
-
-
-
-
-
-
-
-
-
-Iyengar & Thomson        Expires 17 January 2021               [Page 73]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
-
-10.4.2.  Calculating a Stateless Reset Token
+10.3.2.  Calculating a Stateless Reset Token
 
    The stateless reset token MUST be difficult to guess.  In order to
    create a Stateless Reset Token, an endpoint could randomly generate
@@ -4117,6 +4026,14 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    This design relies on the peer always sending a connection ID in its
    packets so that the endpoint can use the connection ID from a packet
    to reset the connection.  An endpoint that uses this design MUST
+
+
+
+Iyengar & Thomson        Expires 17 January 2021               [Page 72]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
+
    either use the same connection ID length for all connections or
    encode the length of the connection ID such that it can be recovered
    without state.  In addition, it cannot provide a zero-length
@@ -4138,18 +4055,10 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    against all previous values, but a duplicate value MAY be treated as
    a connection error of type PROTOCOL_VIOLATION.
 
-
-
-
-Iyengar & Thomson        Expires 17 January 2021               [Page 74]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
-
    Note that Stateless Reset packets do not have any cryptographic
    protection.
 
-10.4.3.  Looping
+10.3.3.  Looping
 
    The design of a Stateless Reset is such that without knowing the
    stateless reset token it is indistinguishable from a valid packet.
@@ -4173,9 +4082,88 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    packet could reveal to an observer that it is a Stateless Reset,
    depending upon the length of the peer's connection IDs.  Conversely,
    refusing to send a Stateless Reset in response to a small packet
+
+
+
+Iyengar & Thomson        Expires 17 January 2021               [Page 73]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
+
    might result in Stateless Reset not being useful in detecting cases
    of broken connections where only very small packets are sent; such
    failures might only be detected by other means, such as timers.
+
+10.4.  Closing and Draining Connection States
+
+   The closing and draining connection states exist to ensure that
+   connections close cleanly and that delayed or reordered packets are
+   properly discarded.  These states SHOULD persist for at least three
+   times the current Probe Timeout (PTO) interval as defined in
+   [QUIC-RECOVERY].
+
+   An endpoint enters a closing period after initiating an immediate
+   close; Section 10.2.  While closing, an endpoint MUST NOT send
+   packets unless they contain a CONNECTION_CLOSE frame; see
+   Section 10.2 for details.  An endpoint retains only enough
+   information to generate a packet containing a CONNECTION_CLOSE frame
+   and to identify packets as belonging to the connection.  The
+   endpoint's selected connection ID and the QUIC version are sufficient
+   information to identify packets for a closing connection; an endpoint
+   can discard all other connection state.  An endpoint MAY retain
+   packet protection keys for incoming packets to allow it to read and
+   process a CONNECTION_CLOSE frame.
+
+   The draining state is entered once an endpoint receives a signal that
+   its peer is closing or draining.  While otherwise identical to the
+   closing state, an endpoint in the draining state MUST NOT send any
+   packets.  Retaining packet protection keys is unnecessary once a
+   connection is in the draining state.
+
+   An endpoint MAY transition from the closing period to the draining
+   period if it receives a CONNECTION_CLOSE frame or stateless reset,
+   both of which indicate that the peer is also closing or draining.
+   The draining period SHOULD end when the closing period would have
+   ended.  In other words, the endpoint can use the same end time, but
+   cease retransmission of the closing packet.
+
+   Disposing of connection state prior to the end of the closing or
+   draining period could cause delayed or reordered packets to generate
+   an unnecessary stateless reset.  Endpoints that have some alternative
+   means to ensure that late-arriving packets on the connection do not
+   induce a response, such as those that are able to close the UDP
+   socket, MAY use an abbreviated draining period which can allow for
+   faster resource recovery.  Servers that retain an open socket for
+   accepting new connections SHOULD NOT exit the closing or draining
+   period early.
+
+
+
+
+
+Iyengar & Thomson        Expires 17 January 2021               [Page 74]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
+
+   Once the closing or draining period has ended, an endpoint SHOULD
+   discard all connection state.  This results in new packets on the
+   connection being handled generically.  For instance, an endpoint MAY
+   send a stateless reset in response to any further incoming packets.
+
+   The draining and closing periods do not apply when a stateless reset
+   (Section 10.3) is sent.
+
+   An endpoint is not expected to handle key updates when it is closing
+   or draining.  A key update might prevent the endpoint from moving
+   from the closing state to draining, but it otherwise has no impact.
+
+   While in the closing period, an endpoint could receive packets from a
+   new source address, indicating a connection migration; Section 9.  An
+   endpoint in the closing state MUST strictly limit the number of
+   packets it sends to this new address until the address is validated;
+   see Section 8.2.  A server in the closing state MAY instead choose to
+   discard packets received from a new source address.
 
 11.  Error Handling
 
@@ -4194,6 +4182,18 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    as PROTOCOL_VIOLATION or INTERNAL_ERROR) can always be used in place
    of specific error codes.
 
+   A stateless reset (Section 10.3) is not suitable for any error that
+   can be signaled with a CONNECTION_CLOSE or RESET_STREAM frame.  A
+   stateless reset MUST NOT be used by an endpoint that has the state
+   necessary to send a frame on the connection.
+
+
+
+
+
+
+
+
 
 
 
@@ -4201,11 +4201,6 @@ Iyengar & Thomson        Expires 17 January 2021               [Page 75]
 
 Internet-Draft           QUIC Transport Protocol               July 2020
 
-
-   A stateless reset (Section 10.4) is not suitable for any error that
-   can be signaled with a CONNECTION_CLOSE or RESET_STREAM frame.  A
-   stateless reset MUST NOT be used by an endpoint that has the state
-   necessary to send a frame on the connection.
 
 11.1.  Connection Errors
 
@@ -4233,7 +4228,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    CONNECTION_CLOSE frame risks a peer missing the first such packet.
    The only mechanism available to an endpoint that continues to receive
    data for a terminated connection is to use the stateless reset
-   process (Section 10.4).
+   process (Section 10.3).
 
 11.2.  Stream Errors
 
@@ -4250,6 +4245,11 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    The semantics of the application error code carried in RESET_STREAM
    are defined by the application protocol.  Only the application
    protocol is able to cause a stream to be terminated.  A local
+   instance of the application protocol uses a direct API call and a
+   remote instance uses the STOP_SENDING frame, which triggers an
+   automatic RESET_STREAM.
+
+
 
 
 
@@ -4257,10 +4257,6 @@ Iyengar & Thomson        Expires 17 January 2021               [Page 76]
 
 Internet-Draft           QUIC Transport Protocol               July 2020
 
-
-   instance of the application protocol uses a direct API call and a
-   remote instance uses the STOP_SENDING frame, which triggers an
-   automatic RESET_STREAM.
 
    Application protocols SHOULD define rules for handling streams that
    are prematurely cancelled by either endpoint.
@@ -4305,6 +4301,10 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    keys are expected to have confidentiality and data origin
    authentication; the cryptographic handshake ensures that only the
    communicating endpoints receive the corresponding keys.
+
+
+
+
 
 
 
@@ -4434,7 +4434,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    number space in one connection.  If the packet number for sending
    reaches 2^62 - 1, the sender MUST close the connection without
    sending a CONNECTION_CLOSE frame or any further packets; an endpoint
-   MAY send a Stateless Reset (Section 10.4) in response to further
+   MAY send a Stateless Reset (Section 10.3) in response to further
    packets that it receives.
 
    A receiver MUST discard a newly unprotected packet unless it is
@@ -5353,7 +5353,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    datagram with a payload that is less than the smallest allowed
    maximum packet size of 1200 bytes.  A server MAY also immediately
    close the connection by sending a CONNECTION_CLOSE frame with an
-   error code of PROTOCOL_VIOLATION; see Section 10.3.1.
+   error code of PROTOCOL_VIOLATION; see Section 10.2.1.
 
    The server MUST also limit the number of bytes it sends before
    validating the address of the client; see Section 8.
@@ -6538,12 +6538,12 @@ Internet-Draft           QUIC Transport Protocol               July 2020
       sent by a server.
 
    max_idle_timeout (0x01):  The max idle timeout is a value in
-      milliseconds that is encoded as an integer; see (Section 10.2).
+      milliseconds that is encoded as an integer; see (Section 10.1).
       Idle timeout is disabled when both endpoints omit this transport
       parameter or specify a value of 0.
 
    stateless_reset_token (0x02):  A stateless reset token is used in
-      verifying a stateless reset; see Section 10.4.  This parameter is
+      verifying a stateless reset; see Section 10.3.  This parameter is
       a sequence of 16 bytes.  This transport parameter MUST NOT be sent
       by a client, but MAY be sent by a server.  A server that does not
 
@@ -6555,7 +6555,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
 
 
       send this transport parameter cannot use stateless reset
-      (Section 10.4) for the connection ID negotiated during the
+      (Section 10.3) for the connection ID negotiated during the
       handshake.
 
    max_udp_payload_size (0x03):  The maximum UDP payload size parameter
@@ -6805,7 +6805,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
 
    The PING frame can be used to keep a connection alive when an
    application or application protocol wishes to prevent the connection
-   from timing out; see Section 10.2.2.
+   from timing out; see Section 10.1.2.
 
 19.3.  ACK Frames
 
@@ -7552,7 +7552,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
 
    Stateless Reset Token:  A 128-bit value that will be used for a
       stateless reset when the associated connection ID is used; see
-      Section 10.4.
+      Section 10.3.
 
 
 
@@ -7937,7 +7937,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    Once a connection is established QUIC endpoints might accept some
    unauthenticated ICMP packets (see Section 14.2.1), but the use of
    these packets is extremely limited.  The only other type of packet
-   that an endpoint might accept is a stateless reset (Section 10.4)
+   that an endpoint might accept is a stateless reset (Section 10.3)
    which relies on the token being kept secret until it is used.
 
    During the creation of a connection, QUIC only provides protection
@@ -8017,7 +8017,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    network supports.  An endpoint MAY skip packet numbers when sending
    packets to detect this behavior.  An endpoint can then immediately
    close the connection with a connection error of type
-   PROTOCOL_VIOLATION; see Section 10.3.
+   PROTOCOL_VIOLATION; see Section 10.2.
 
 21.4.  Slowloris Attacks
 
@@ -8155,7 +8155,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    key, for example by changing an IP address or port, then an attacker
    can cause the server to send a stateless reset.  To defend against
    this style of denial of service, endpoints that share a static key
-   for stateless reset (see Section 10.4.2) MUST be arranged so that
+   for stateless reset (see Section 10.3.2) MUST be arranged so that
    packets with a given connection ID always arrive at an instance that
    has connection state, unless that connection is no longer active.
 
