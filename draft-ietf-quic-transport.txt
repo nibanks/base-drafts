@@ -2170,7 +2170,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    1-RTT[0]: STREAM[0, "..."], ACK[0] ->
 
                                              Handshake[1]: ACK[0]
-                            <- 1-RTT[1]: STREAM[3, "..."], ACK[0]
+            <- 1-RTT[1]: HANDSHAKE_DONE, STREAM[3, "..."], ACK[0]
 
                      Figure 4: Example 1-RTT Handshake
 
@@ -2200,7 +2200,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    1-RTT[1]: STREAM[0, "..."] ACK[0] ->
 
                                              Handshake[1]: ACK[0]
-                            <- 1-RTT[1]: STREAM[3, "..."], ACK[1]
+            <- 1-RTT[1]: HANDSHAKE_DONE, STREAM[3, "..."], ACK[1]
 
                      Figure 5: Example 0-RTT Handshake
 
