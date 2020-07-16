@@ -4,8 +4,8 @@
 
 QUIC                                                          M. Thomson
 Internet-Draft                                                   Mozilla
-Intended status: Standards Track                             8 July 2020
-Expires: 9 January 2021
+Intended status: Standards Track                            16 July 2020
+Expires: 17 January 2021
 
 
                  Version-Independent Properties of QUIC
@@ -43,7 +43,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 January 2021.
+   This Internet-Draft will expire on 17 January 2021.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Thomson                  Expires 9 January 2021                 [Page 1]
+Thomson                  Expires 17 January 2021                [Page 1]
 
 Internet-Draft               QUIC Invariants                   July 2020
 
@@ -99,20 +99,29 @@ Table of Contents
    stable as new versions are developed and deployed.  All of these
    invariants are IP-version-independent.
 
-   The primary goal of this document is to ensure that it is possible to
-   deploy new versions of QUIC.  By documenting the properties that
-   can't change, this document aims to preserve the ability to change
-   any other aspect of the protocol.  Thus, unless specifically
-   described in this document, any aspect of the protocol can change
-   between different versions.
 
 
 
 
-Thomson                  Expires 9 January 2021                 [Page 2]
+
+
+
+
+
+
+Thomson                  Expires 17 January 2021                [Page 2]
 
 Internet-Draft               QUIC Invariants                   July 2020
 
+
+   The primary goal of this document is to ensure that it is possible to
+   deploy new versions of QUIC.  By documenting the properties that
+   can't change, this document aims to preserve the ability for QUIC
+   endpoints to negotiate changes to any other aspect of the protocol.
+   As a consequence, this also guarantees a minimal amount of
+   information that is made available to entities other than endpoints.
+   Unless specifically prohibited in this document, any aspect of the
+   protocol can change between different versions.
 
    Appendix A is a non-exhaustive list of some incorrect assumptions
    that might be made based on knowledge of QUIC version 1; these do not
@@ -152,6 +161,15 @@ Internet-Draft               QUIC Invariants                   July 2020
    x (A):  Indicates that x is A bits long
 
    x (A..B):  Indicates that x can be any length from A to B; A can be
+
+
+
+
+Thomson                  Expires 17 January 2021                [Page 3]
+
+Internet-Draft               QUIC Invariants                   July 2020
+
+
       omitted to indicate a minimum of zero bits and B can be omitted to
       indicate no set upper limit; values in this format always end on
       an octet boundary
@@ -160,15 +178,6 @@ Internet-Draft               QUIC Invariants                   July 2020
 
    x (E) ...:  Indicates that x is repeated zero or more times (and that
       each instance is length E)
-
-
-
-
-
-Thomson                  Expires 9 January 2021                 [Page 3]
-
-Internet-Draft               QUIC Invariants                   July 2020
-
 
    This document uses network byte order (that is, big endian) values.
    Fields are placed starting from the high-order bits of each byte.
@@ -212,16 +221,7 @@ Internet-Draft               QUIC Invariants                   July 2020
 
 
 
-
-
-
-
-
-
-
-
-
-Thomson                  Expires 9 January 2021                 [Page 4]
+Thomson                  Expires 17 January 2021                [Page 4]
 
 Internet-Draft               QUIC Invariants                   July 2020
 
@@ -277,7 +277,7 @@ Internet-Draft               QUIC Invariants                   July 2020
 
 
 
-Thomson                  Expires 9 January 2021                 [Page 5]
+Thomson                  Expires 17 January 2021                [Page 5]
 
 Internet-Draft               QUIC Invariants                   July 2020
 
@@ -333,7 +333,7 @@ Internet-Draft               QUIC Invariants                   July 2020
 
 
 
-Thomson                  Expires 9 January 2021                 [Page 6]
+Thomson                  Expires 17 January 2021                [Page 6]
 
 Internet-Draft               QUIC Invariants                   July 2020
 
@@ -356,16 +356,22 @@ Internet-Draft               QUIC Invariants                   July 2020
 
                     Figure 4: Version Negotiation Packet
 
-   The Version Negotiation packet contains a list of Supported Version
-   fields, each identifying a version that the endpoint sending the
-   packet supports.  The Supported Version fields follow the Version
-   field.  A Version Negotiation packet contains no other fields.  An
-   endpoint MUST ignore a packet that contains no Supported Version
-   fields, or a truncated Supported Version.
+   Only the most significant bit of the first byte of a Version
+   Negotiation packet has any defined value.  The remaining 7 bits,
+   labeled Unused, can be set to any value when sending and MUST be
+   ignored on receipt.
+
+   After the Source Connection ID field, the Version Negotiation packet
+   contains a list of Supported Version fields, each identifying a
+   version that the endpoint sending the packet supports.  A Version
+   Negotiation packet contains no other fields.  An endpoint MUST ignore
+   a packet that contains no Supported Version fields, or a truncated
+   Supported Version.
 
    Version Negotiation packets do not use integrity or confidentiality
-   protection.  Specific QUIC versions define mechanisms to authenticate
-   the packet as part of the connection establishment process.
+   protection.  Specific QUIC versions might include protocol elements
+   that allow endpoints to detect modification or corruption in the set
+   of supported versions.
 
    An endpoint MUST include the value from the Source Connection ID
    field of the packet it receives in the Destination Connection ID
@@ -381,18 +387,16 @@ Internet-Draft               QUIC Invariants                   July 2020
    conditions under which an endpoint changes QUIC version will depend
    on the version of QUIC that it chooses.
 
-   See [QUIC-TRANSPORT] for a more thorough description of how an
-   endpoint that supports QUIC version 1 generates and consumes a
-   Version Negotiation packet.
 
 
-
-
-
-Thomson                  Expires 9 January 2021                 [Page 7]
+Thomson                  Expires 17 January 2021                [Page 7]
 
 Internet-Draft               QUIC Invariants                   July 2020
 
+
+   See [QUIC-TRANSPORT] for a more thorough description of how an
+   endpoint that supports QUIC version 1 generates and consumes a
+   Version Negotiation packet.
 
 7.  Security and Privacy Considerations
 
@@ -412,8 +416,9 @@ Internet-Draft               QUIC Invariants                   July 2020
 
    The Version Negotiation packet described in this document is not
    integrity-protected; it only has modest protection against insertion
-   by off-path attackers.  QUIC versions MUST define a mechanism that
-   authenticates the values it contains.
+   by off-path attackers.  An endpoint MUST authenticate the contents of
+   a Version Negotiation packet if it attempts a different QUIC version
+   as a result.
 
 8.  IANA Considerations
 
@@ -434,23 +439,26 @@ Internet-Draft               QUIC Invariants                   July 2020
 
 9.2.  Informative References
 
+
+
+
+
+
+
+Thomson                  Expires 17 January 2021                [Page 8]
+
+Internet-Draft               QUIC Invariants                   July 2020
+
+
    [QUIC-TLS] Thomson, M., Ed. and S. Turner, Ed., "Using Transport
               Layer Security (TLS) to Secure QUIC", Work in Progress,
-              Internet-Draft, draft-ietf-quic-tls-latest, 8 July 2020,
+              Internet-Draft, draft-ietf-quic-tls-latest, 16 July 2020,
               <https://tools.ietf.org/html/draft-ietf-quic-tls-latest>.
 
    [QUIC-TRANSPORT]
               Iyengar, J., Ed. and M. Thomson, Ed., "QUIC: A UDP-Based
               Multiplexed and Secure Transport", Work in Progress,
-
-
-
-Thomson                  Expires 9 January 2021                 [Page 8]
-
-Internet-Draft               QUIC Invariants                   July 2020
-
-
-              Internet-Draft, draft-ietf-quic-transport-latest, 8 July
+              Internet-Draft, draft-ietf-quic-transport-latest, 16 July
               2020, <https://tools.ietf.org/html/draft-ietf-quic-
               transport-latest>.
 
@@ -489,6 +497,15 @@ Appendix A.  Incorrect Assumptions
    *  QUIC uses an AEAD (AEAD_AES_128_GCM [RFC5116]) to protect the
       packets it exchanges during connection establishment
 
+
+
+
+
+Thomson                  Expires 17 January 2021                [Page 9]
+
+Internet-Draft               QUIC Invariants                   July 2020
+
+
    *  QUIC packet numbers are encrypted and appear as the first
       encrypted bytes
 
@@ -498,13 +515,6 @@ Appendix A.  Incorrect Assumptions
       client
 
    *  QUIC stipulates that a client speaks first
-
-
-
-Thomson                  Expires 9 January 2021                 [Page 9]
-
-Internet-Draft               QUIC Invariants                   July 2020
-
 
    *  QUIC packets always have the second bit of the first byte (0x40)
       set
@@ -547,14 +557,4 @@ Author's Address
 
 
 
-
-
-
-
-
-
-
-
-
-
-Thomson                  Expires 9 January 2021                [Page 10]
+Thomson                  Expires 17 January 2021               [Page 10]
