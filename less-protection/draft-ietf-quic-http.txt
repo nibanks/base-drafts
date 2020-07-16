@@ -4,8 +4,8 @@
 
 QUIC                                                      M. Bishop, Ed.
 Internet-Draft                                                    Akamai
-Intended status: Standards Track                            14 July 2020
-Expires: 15 January 2021
+Intended status: Standards Track                            16 July 2020
+Expires: 17 January 2021
 
 
              Hypertext Transfer Protocol Version 3 (HTTP/3)
@@ -46,14 +46,14 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 January 2021.
+   This Internet-Draft will expire on 17 January 2021.
 
 
 
 
 
 
-Bishop                   Expires 15 January 2021                [Page 1]
+Bishop                   Expires 17 January 2021                [Page 1]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Bishop                   Expires 15 January 2021                [Page 2]
+Bishop                   Expires 17 January 2021                [Page 2]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -165,7 +165,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021                [Page 3]
+Bishop                   Expires 17 January 2021                [Page 3]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -221,7 +221,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021                [Page 4]
+Bishop                   Expires 17 January 2021                [Page 4]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -277,7 +277,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021                [Page 5]
+Bishop                   Expires 17 January 2021                [Page 5]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -333,7 +333,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021                [Page 6]
+Bishop                   Expires 17 January 2021                [Page 6]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -389,7 +389,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021                [Page 7]
+Bishop                   Expires 17 January 2021                [Page 7]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -445,7 +445,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021                [Page 8]
+Bishop                   Expires 17 January 2021                [Page 8]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -501,7 +501,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021                [Page 9]
+Bishop                   Expires 17 January 2021                [Page 9]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -557,7 +557,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 10]
+Bishop                   Expires 17 January 2021               [Page 10]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -613,7 +613,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 11]
+Bishop                   Expires 17 January 2021               [Page 11]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -669,7 +669,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 12]
+Bishop                   Expires 17 January 2021               [Page 12]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -725,7 +725,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 13]
+Bishop                   Expires 17 January 2021               [Page 13]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -781,7 +781,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 14]
+Bishop                   Expires 17 January 2021               [Page 14]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -837,7 +837,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 15]
+Bishop                   Expires 17 January 2021               [Page 15]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -893,7 +893,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 16]
+Bishop                   Expires 17 January 2021               [Page 16]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -949,7 +949,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 17]
+Bishop                   Expires 17 January 2021               [Page 17]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -1005,7 +1005,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 18]
+Bishop                   Expires 17 January 2021               [Page 18]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -1061,7 +1061,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 19]
+Bishop                   Expires 17 January 2021               [Page 19]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -1117,7 +1117,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 20]
+Bishop                   Expires 17 January 2021               [Page 20]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -1173,7 +1173,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 21]
+Bishop                   Expires 17 January 2021               [Page 21]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -1229,7 +1229,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 22]
+Bishop                   Expires 17 January 2021               [Page 22]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -1271,7 +1271,8 @@ Internet-Draft                   HTTP/3                        July 2020
       requests with a Stream ID greater than or equal to the identifier
       received in a GOAWAY frame, those requests will not be processed.
       Clients can safely retry unprocessed requests on a different
-      connection.
+      connection.  A client that is unable to retry requests loses all
+      requests that are in flight when the server closes the connection.
 
       Requests on Stream IDs less than the Stream ID in a GOAWAY frame
       from the server might have been processed; their status cannot be
@@ -1284,8 +1285,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-
-Bishop                   Expires 15 January 2021               [Page 23]
+Bishop                   Expires 17 January 2021               [Page 23]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -1302,14 +1302,12 @@ Internet-Draft                   HTTP/3                        July 2020
    server started to process that POST request if the server does not
    send a GOAWAY frame to indicate what streams it might have acted on.
 
-   A client that is unable to retry requests loses all requests that are
-   in flight when the server closes the connection.  An endpoint MAY
-   send multiple GOAWAY frames indicating different identifiers, but the
-   identifier in each frame MUST NOT be greater than the identifier in
-   any previous frame, since clients might already have retried
-   unprocessed requests on another connection.  Receiving a GOAWAY
-   containing a larger identifier than previously received MUST be
-   treated as a connection error of type H3_ID_ERROR.
+   An endpoint MAY send multiple GOAWAY frames indicating different
+   identifiers, but the identifier in each frame MUST NOT be greater
+   than the identifier in any previous frame, since clients might
+   already have retried unprocessed requests on another connection.
+   Receiving a GOAWAY containing a larger identifier than previously
+   received MUST be treated as a connection error of type H3_ID_ERROR.
 
    An endpoint that is attempting to gracefully shut down a connection
    can send a GOAWAY frame with a value set to the maximum possible
@@ -1327,30 +1325,26 @@ Internet-Draft                   HTTP/3                        July 2020
    see Section 7.2.7.  A smaller value indicates the client will reject
    pushes with Push IDs greater than or equal to this value.  Like the
    server, the client MAY send subsequent GOAWAY frames so long as the
-   specified Push ID is strictly smaller than all previously sent
-   values.
+   specified Push ID is no greater than any previously sent value.
 
    Even when a GOAWAY indicates that a given request or push will not be
    processed or accepted upon receipt, the underlying transport
    resources still exist.  The endpoint that initiated these requests
    can cancel them to clean up transport state.
 
-
-
-
-
-
-
-Bishop                   Expires 15 January 2021               [Page 24]
-
-Internet-Draft                   HTTP/3                        July 2020
-
-
    Once all accepted requests and pushes have been processed, the
    endpoint can permit the connection to become idle, or MAY initiate an
    immediate closure of the connection.  An endpoint that completes a
    graceful shutdown SHOULD use the H3_NO_ERROR code when closing the
    connection.
+
+
+
+
+Bishop                   Expires 17 January 2021               [Page 24]
+
+Internet-Draft                   HTTP/3                        July 2020
+
 
    If a client has consumed all available bidirectional stream IDs with
    requests, the server need not send a GOAWAY frame, since the client
@@ -1392,20 +1386,21 @@ Internet-Draft                   HTTP/3                        July 2020
    Although QUIC permits out-of-order delivery within a stream, HTTP/3
    does not make use of this feature.
 
-
-
-
-
-
-Bishop                   Expires 15 January 2021               [Page 25]
-
-Internet-Draft                   HTTP/3                        July 2020
-
-
    QUIC streams can be either unidirectional, carrying data only from
    initiator to receiver, or bidirectional.  Streams can be initiated by
    either the client or the server.  For more detail on QUIC streams,
    see Section 2 of [QUIC-TRANSPORT].
+
+
+
+
+
+
+
+Bishop                   Expires 17 January 2021               [Page 25]
+
+Internet-Draft                   HTTP/3                        July 2020
+
 
    When HTTP fields and data are sent over QUIC, the QUIC layer handles
    most of the stream management.  HTTP does not need to do any separate
@@ -1450,19 +1445,19 @@ Internet-Draft                   HTTP/3                        July 2020
    types.  Other stream types can be defined by extensions to HTTP/3;
    see Section 9 for more details.
 
-
-
-
-Bishop                   Expires 15 January 2021               [Page 26]
-
-Internet-Draft                   HTTP/3                        July 2020
-
-
    The performance of HTTP/3 connections in the early phase of their
    lifetime is sensitive to the creation and exchange of data on
    unidirectional streams.  Endpoints that excessively restrict the
    number of streams or the flow control window of these streams will
    increase the chance that the remote peer reaches the limit early and
+
+
+
+Bishop                   Expires 17 January 2021               [Page 26]
+
+Internet-Draft                   HTTP/3                        July 2020
+
+
    becomes blocked.  In particular, implementations should consider that
    remote peers may wish to exercise reserved stream behavior
    (Section 6.2.3) with some of the unidirectional streams they are
@@ -1504,16 +1499,6 @@ Internet-Draft                   HTTP/3                        July 2020
    A control stream is indicated by a stream type of 0x00.  Data on this
    stream consists of HTTP/3 frames, as defined in Section 7.2.
 
-
-
-
-
-
-Bishop                   Expires 15 January 2021               [Page 27]
-
-Internet-Draft                   HTTP/3                        July 2020
-
-
    Each side MUST initiate a single control stream at the beginning of
    the connection and send its SETTINGS frame as the first frame on this
    stream.  If the first frame of the control stream is any other frame
@@ -1521,6 +1506,14 @@ Internet-Draft                   HTTP/3                        July 2020
    H3_MISSING_SETTINGS.  Only one control stream per peer is permitted;
    receipt of a second stream which claims to be a control stream MUST
    be treated as a connection error of type H3_STREAM_CREATION_ERROR.
+
+
+
+Bishop                   Expires 17 January 2021               [Page 27]
+
+Internet-Draft                   HTTP/3                        July 2020
+
+
    The sender MUST NOT close the control stream, and the receiver MUST
    NOT request that the sender close the control stream.  If either
    control stream is closed at any point, this MUST be treated as a
@@ -1565,7 +1558,14 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 28]
+
+
+
+
+
+
+
+Bishop                   Expires 17 January 2021               [Page 28]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -1621,7 +1621,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 29]
+Bishop                   Expires 17 January 2021               [Page 29]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -1677,7 +1677,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 30]
+Bishop                   Expires 17 January 2021               [Page 30]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -1733,7 +1733,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 31]
+Bishop                   Expires 17 January 2021               [Page 31]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -1789,7 +1789,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 32]
+Bishop                   Expires 17 January 2021               [Page 32]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -1845,7 +1845,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 33]
+Bishop                   Expires 17 January 2021               [Page 33]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -1901,7 +1901,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 34]
+Bishop                   Expires 17 January 2021               [Page 34]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -1957,7 +1957,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 35]
+Bishop                   Expires 17 January 2021               [Page 35]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -2013,7 +2013,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 36]
+Bishop                   Expires 17 January 2021               [Page 36]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -2069,7 +2069,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 37]
+Bishop                   Expires 17 January 2021               [Page 37]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -2125,7 +2125,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 38]
+Bishop                   Expires 17 January 2021               [Page 38]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -2181,7 +2181,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 39]
+Bishop                   Expires 17 January 2021               [Page 39]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -2237,7 +2237,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 40]
+Bishop                   Expires 17 January 2021               [Page 40]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -2293,7 +2293,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 41]
+Bishop                   Expires 17 January 2021               [Page 41]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -2349,7 +2349,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 42]
+Bishop                   Expires 17 January 2021               [Page 42]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -2405,7 +2405,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 43]
+Bishop                   Expires 17 January 2021               [Page 43]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -2452,7 +2452,7 @@ Internet-Draft                   HTTP/3                        July 2020
    field section, some endpoints could be forced to commit a large
    amount of available memory for header fields.
 
-   An endpoint can use the SETTINGS_MAX_HEADER_LIST_SIZE
+   An endpoint can use the SETTINGS_MAX_FIELD_SECTION_SIZE
    (Section 7.2.4.1) setting to advise peers of limits that might apply
    on the size of field sections.  This setting is only advisory, so
    endpoints MAY choose to send field sections that exceed this limit
@@ -2461,7 +2461,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 44]
+Bishop                   Expires 17 January 2021               [Page 44]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -2517,7 +2517,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 45]
+Bishop                   Expires 17 January 2021               [Page 45]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -2573,7 +2573,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 46]
+Bishop                   Expires 17 January 2021               [Page 46]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -2629,7 +2629,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 47]
+Bishop                   Expires 17 January 2021               [Page 47]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -2685,7 +2685,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 48]
+Bishop                   Expires 17 January 2021               [Page 48]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -2741,7 +2741,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 49]
+Bishop                   Expires 17 January 2021               [Page 49]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -2797,7 +2797,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 50]
+Bishop                   Expires 17 January 2021               [Page 50]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -2853,7 +2853,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 51]
+Bishop                   Expires 17 January 2021               [Page 51]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -2909,7 +2909,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 52]
+Bishop                   Expires 17 January 2021               [Page 52]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -2965,7 +2965,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 53]
+Bishop                   Expires 17 January 2021               [Page 53]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -2982,14 +2982,14 @@ Internet-Draft                   HTTP/3                        July 2020
 
    [QPACK]    Krasic, C., Bishop, M., and A. Frindell, Ed., "QPACK:
               Header Compression for HTTP over QUIC", Work in Progress,
-              Internet-Draft, draft-ietf-quic-qpack-latest, 14 July
+              Internet-Draft, draft-ietf-quic-qpack-latest, 16 July
               2020, <https://tools.ietf.org/html/draft-ietf-quic-qpack-
               latest>.
 
    [QUIC-TRANSPORT]
               Iyengar, J., Ed. and M. Thomson, Ed., "QUIC: A UDP-Based
               Multiplexed and Secure Transport", Work in Progress,
-              Internet-Draft, draft-ietf-quic-transport-latest, 14 July
+              Internet-Draft, draft-ietf-quic-transport-latest, 16 July
               2020, <https://tools.ietf.org/html/draft-ietf-quic-
               transport-latest>.
 
@@ -3021,7 +3021,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 54]
+Bishop                   Expires 17 January 2021               [Page 54]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -3077,7 +3077,7 @@ Internet-Draft                   HTTP/3                        July 2020
 
 
 
-Bishop                   Expires 15 January 2021               [Page 55]
+Bishop                   Expires 17 January 2021               [Page 55]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -3133,7 +3133,7 @@ A.1.  Streams
 
 
 
-Bishop                   Expires 15 January 2021               [Page 56]
+Bishop                   Expires 17 January 2021               [Page 56]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -3189,7 +3189,7 @@ A.2.1.  Prioritization Differences
 
 
 
-Bishop                   Expires 15 January 2021               [Page 57]
+Bishop                   Expires 17 January 2021               [Page 57]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -3245,7 +3245,7 @@ A.2.4.  Mapping Between HTTP/2 and HTTP/3 Frame Types
 
 
 
-Bishop                   Expires 15 January 2021               [Page 58]
+Bishop                   Expires 17 January 2021               [Page 58]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -3301,7 +3301,7 @@ A.3.  HTTP/2 SETTINGS Parameters
 
 
 
-Bishop                   Expires 15 January 2021               [Page 59]
+Bishop                   Expires 17 January 2021               [Page 59]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -3323,7 +3323,8 @@ Internet-Draft                   HTTP/3                        July 2020
    SETTINGS_MAX_FRAME_SIZE:  This setting has no equivalent in HTTP/3.
       Specifying it in the SETTINGS frame is an error.
 
-   SETTINGS_MAX_FIELD_SECTION_SIZE:  See Section 7.2.4.1.
+   SETTINGS_MAX_HEADER_LIST_SIZE:  This setting identifier has been
+      renamed SETTINGS_MAX_FIELD_SECTION_SIZE.  See Section 7.2.4.1.
 
    In HTTP/3, setting values are variable-length integers (6, 14, 30, or
    62 bits long) rather than fixed-length 32-bit fields as in HTTP/2.
@@ -3356,8 +3357,7 @@ A.4.  HTTP/2 Error Codes
 
 
 
-
-Bishop                   Expires 15 January 2021               [Page 60]
+Bishop                   Expires 17 January 2021               [Page 60]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -3413,7 +3413,7 @@ A.4.1.  Mapping Between HTTP/2 and HTTP/3 Errors
 
 
 
-Bishop                   Expires 15 January 2021               [Page 61]
+Bishop                   Expires 17 January 2021               [Page 61]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -3469,7 +3469,7 @@ B.2.  Since draft-ietf-quic-http-27
 
 
 
-Bishop                   Expires 15 January 2021               [Page 62]
+Bishop                   Expires 17 January 2021               [Page 62]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -3525,7 +3525,7 @@ B.7.  Since draft-ietf-quic-http-22
 
 
 
-Bishop                   Expires 15 January 2021               [Page 63]
+Bishop                   Expires 17 January 2021               [Page 63]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -3581,7 +3581,7 @@ B.9.  Since draft-ietf-quic-http-20
 
 
 
-Bishop                   Expires 15 January 2021               [Page 64]
+Bishop                   Expires 17 January 2021               [Page 64]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -3637,7 +3637,7 @@ B.11.  Since draft-ietf-quic-http-18
 
 
 
-Bishop                   Expires 15 January 2021               [Page 65]
+Bishop                   Expires 17 January 2021               [Page 65]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -3693,7 +3693,7 @@ B.15.  Since draft-ietf-quic-http-14
 
 
 
-Bishop                   Expires 15 January 2021               [Page 66]
+Bishop                   Expires 17 January 2021               [Page 66]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -3749,7 +3749,7 @@ B.19.  Since draft-ietf-quic-http-10
 
 
 
-Bishop                   Expires 15 January 2021               [Page 67]
+Bishop                   Expires 17 January 2021               [Page 67]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -3805,7 +3805,7 @@ B.25.  Since draft-ietf-quic-http-04
 
 
 
-Bishop                   Expires 15 January 2021               [Page 68]
+Bishop                   Expires 17 January 2021               [Page 68]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -3861,7 +3861,7 @@ B.29.  Since draft-ietf-quic-http-00
 
 
 
-Bishop                   Expires 15 January 2021               [Page 69]
+Bishop                   Expires 17 January 2021               [Page 69]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -3917,7 +3917,7 @@ Acknowledgements
 
 
 
-Bishop                   Expires 15 January 2021               [Page 70]
+Bishop                   Expires 17 January 2021               [Page 70]
 
 Internet-Draft                   HTTP/3                        July 2020
 
@@ -3973,4 +3973,4 @@ Author's Address
 
 
 
-Bishop                   Expires 15 January 2021               [Page 71]
+Bishop                   Expires 17 January 2021               [Page 71]
