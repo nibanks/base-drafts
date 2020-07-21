@@ -1185,9 +1185,7 @@ Internet-Draft             QUIC Loss Detection                 July 2020
    equal to: (1 * kPersistentCongestionThreshold) = 3.  Because the
    threshold was reached and because none of the packets between the
    oldest and the newest packets are acknowledged, the network is
-   considered to have experienced persistent congestion.  Note that this
-   example shows the occurrence of PTOs, but that is not required for
-   persistent congestion to be established.
+   considered to have experienced persistent congestion.
 
    When persistent congestion is established, the sender's congestion
    window MUST be reduced to the minimum congestion window
@@ -1226,6 +1224,8 @@ Internet-Draft             QUIC Loss Detection                 July 2020
 
    Or, expressed as an inter-packet interval:
 
+   interval = smoothed_rtt * packet_size / congestion_window / N
+
 
 
 
@@ -1233,8 +1233,6 @@ Iyengar & Swett          Expires 22 January 2021               [Page 22]
 
 Internet-Draft             QUIC Loss Detection                 July 2020
 
-
-   interval = smoothed_rtt * packet_size / congestion_window / N
 
    Using a value for "N" that is small, but at least 1 (for example,
    1.25) ensures that variations in round-trip time don't result in
@@ -1282,6 +1280,8 @@ Internet-Draft             QUIC Loss Detection                 July 2020
    path attackers can spoof or alter these signals.  An attacker can
    cause endpoints to reduce their sending rate by dropping packets, or
    alter send rate by changing ECN codepoints.
+
+
 
 
 
