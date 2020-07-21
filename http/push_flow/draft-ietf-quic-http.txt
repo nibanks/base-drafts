@@ -1095,23 +1095,23 @@ Internet-Draft                   HTTP/3                        July 2020
    a potential latency gain.  HTTP/3 server push is similar to what is
    described in HTTP/2 [HTTP2], but uses different mechanisms.
 
-   Each server push is identified by a unique Push ID.  Server push is
-   only enabled on a connection when a client sends a MAX_PUSH_ID frame;
-   see Section 7.2.7.  A server cannot use server push until it receives
-   a MAX_PUSH_ID frame.  A client sends additional MAX_PUSH_ID frames to
-   control the number of pushes that a server can promise.  A server
-   SHOULD use Push IDs sequentially, starting at 0.  A client MUST treat
-   receipt of a push stream with a Push ID that is greater than the
-   maximum Push ID as a connection error of type H3_ID_ERROR.
+   Each server push is identified by a unique Push ID, which is used to
+   refer to the push in various contexts throughout the lifetime of the
+   connection.
 
-   The Push ID is used in one or more PUSH_PROMISE frames
-   (Section 7.2.5) that carry the header section of the request message.
-   These frames are sent on the request stream which generated the push.
-   This allows the server push to be associated with a client request.
-   When the same Push ID is promised on multiple request streams, the
-   decompressed request field sections MUST contain the same fields in
-   the same order, and both the name and the value in each field MUST be
-   exact matches.
+   The Push ID space begins at zero, and ends at a maximum value set by
+   the MAX_PUSH_ID frame; see Section 7.2.7.  Server push is only
+   enabled on a connection when a client sends a MAX_PUSH_ID frame.  A
+   client sends additional MAX_PUSH_ID frames to control the number of
+   pushes that a server can promise.  A server SHOULD use Push IDs
+   sequentially.  A client MUST treat receipt of a push stream with a
+   Push ID that is greater than the maximum Push ID as a connection
+   error of type H3_ID_ERROR.
+
+
+
+
+
 
 
 
@@ -1121,6 +1121,15 @@ Bishop                   Expires 22 January 2021               [Page 20]
 
 Internet-Draft                   HTTP/3                        July 2020
 
+
+   The Push ID is used in one or more PUSH_PROMISE frames
+   (Section 7.2.5) that carry the header section of the request message.
+   These frames are sent on the request stream which generated the push.
+   This allows the server push to be associated with a client request.
+   When the same Push ID is promised on multiple request streams, the
+   decompressed request field sections MUST contain the same fields in
+   the same order, and both the name and the value in each field MUST be
+   exact matches.
 
    The Push ID is then included with the push stream which ultimately
    fulfills those promises; see Section 6.2.2.  The push stream
@@ -1157,15 +1166,6 @@ Internet-Draft                   HTTP/3                        July 2020
    associations do not affect the operation of the protocol, but MAY be
    considered by user agents when deciding how to use pushed resources.
 
-   Ordering of a PUSH_PROMISE in relation to certain parts of the
-   response is important.  The server SHOULD send PUSH_PROMISE frames
-   prior to sending HEADERS or DATA frames that reference the promised
-   responses.  This reduces the chance that a client requests a resource
-   that will be pushed by the server.
-
-
-
-
 
 
 
@@ -1177,6 +1177,12 @@ Bishop                   Expires 22 January 2021               [Page 21]
 
 Internet-Draft                   HTTP/3                        July 2020
 
+
+   Ordering of a PUSH_PROMISE in relation to certain parts of the
+   response is important.  The server SHOULD send PUSH_PROMISE frames
+   prior to sending HEADERS or DATA frames that reference the promised
+   responses.  This reduces the chance that a client requests a resource
+   that will be pushed by the server.
 
    Due to reordering, push stream data can arrive before the
    corresponding PUSH_PROMISE frame.  When a client receives a new push
@@ -1218,12 +1224,6 @@ Internet-Draft                   HTTP/3                        July 2020
    for new requests if the existing connection has been idle for longer
    than the server's advertised idle timeout, and SHOULD do so if
    approaching the idle timeout.
-
-
-
-
-
-
 
 
 
