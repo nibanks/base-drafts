@@ -1693,7 +1693,6 @@ Internet-Draft             QUIC Loss Detection                 July 2020
      if (newly_acked_packets.largest().packet_number ==
              ack.largest_acked &&
          IncludesAckEliciting(newly_acked_packets)):
-       has_prior_rtt_sample
        latest_rtt =
          now - sent_packets[pn_space][ack.largest_acked].time_sent
        ack_delay = 0
@@ -1730,6 +1729,7 @@ Internet-Draft             QUIC Loss Detection                 July 2020
      ack_delay = min(ack_delay, max_ack_delay)
      // Adjust for ack delay if plausible.
      adjusted_rtt = latest_rtt
+     if (latest_rtt > min_rtt + ack_delay):
 
 
 
@@ -1738,7 +1738,6 @@ Iyengar & Swett          Expires 22 January 2021               [Page 31]
 Internet-Draft             QUIC Loss Detection                 July 2020
 
 
-     if (latest_rtt > min_rtt + ack_delay):
        adjusted_rtt = latest_rtt - ack_delay
 
      rttvar = 3/4 * rttvar + 1/4 * abs(smoothed_rtt - adjusted_rtt)
@@ -1786,6 +1785,7 @@ A.8.  Setting the Loss Detection Timer
          // Skip ApplicationData until handshake complete.
          if (handshake is not complete):
            return pto_timeout, pto_space
+         // Include max_ack_delay and backoff for ApplicationData.
 
 
 
@@ -1794,7 +1794,6 @@ Iyengar & Swett          Expires 22 January 2021               [Page 32]
 Internet-Draft             QUIC Loss Detection                 July 2020
 
 
-         // Include max_ack_delay and backoff for ApplicationData.
          duration += max_ack_delay * (2 ^ pto_count)
 
        t = time_of_last_ack_eliciting_packet[space] + duration
@@ -1842,6 +1841,7 @@ A.9.  On Timeout
    When the loss detection timer expires, the timer's mode determines
    the action to be performed.
 
+   Pseudocode for OnLossDetectionTimeout follows:
 
 
 
@@ -1849,8 +1849,6 @@ Iyengar & Swett          Expires 22 January 2021               [Page 33]
 
 Internet-Draft             QUIC Loss Detection                 July 2020
 
-
-   Pseudocode for OnLossDetectionTimeout follows:
 
    OnLossDetectionTimeout():
      earliest_loss_time, pn_space = GetLossTimeAndSpace()
@@ -1888,6 +1886,8 @@ A.10.  Detecting Lost Packets
    a list of packets newly detected as lost.
 
    Pseudocode for DetectAndRemoveLostPackets follows:
+
+
 
 
 
