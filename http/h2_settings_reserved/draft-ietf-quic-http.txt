@@ -3310,23 +3310,23 @@ Internet-Draft                   HTTP/3                        July 2020
 
    SETTINGS_ENABLE_PUSH:  This is removed in favor of the MAX_PUSH_ID
       which provides a more granular control over server push.
-      Specifying a setting with the value 0x2 (corresponding to
+      Specifying a setting with the identifier 0x2 (corresponding to
       SETTINGS_ENABLE_PUSH) in the HTTP/3 SETTINGS frame is an error.
 
    SETTINGS_MAX_CONCURRENT_STREAMS:  QUIC controls the largest open
       Stream ID as part of its flow control logic.  Specifying a setting
-      with the value 0x3 (corresponding to
+      with the identifier 0x3 (corresponding to
       SETTINGS_MAX_CONCURRENT_STREAMS) in the HTTP/3 SETTINGS frame is
       an error.
 
    SETTINGS_INITIAL_WINDOW_SIZE:  QUIC requires both stream and
       connection flow control window sizes to be specified in the
-      initial transport handshake.  Specifying a setting with the value
-      0x4 (corresponding to SETTINGS_INITIAL_WINDOW_SIZE) in the HTTP/3
-      SETTINGS frame is an error.
+      initial transport handshake.  Specifying a setting with the
+      identifier 0x4 (corresponding to SETTINGS_INITIAL_WINDOW_SIZE) in
+      the HTTP/3 SETTINGS frame is an error.
 
    SETTINGS_MAX_FRAME_SIZE:  This setting has no equivalent in HTTP/3.
-      Specifying a setting with the value 0x5 (corresponding to
+      Specifying a setting with the identifier 0x5 (corresponding to
       SETTINGS_MAX_FRAME_SIZE) in the HTTP/3 SETTINGS frame is an error.
 
    SETTINGS_MAX_HEADER_LIST_SIZE:  This setting identifier has been
