@@ -2420,7 +2420,7 @@ Internet-Draft          Using TLS to Secure QUIC               July 2020
 
    An attacker could guess values for packet numbers or Key Phase and
    have an endpoint confirm guesses through timing side channels.
-   Similarly, guesses for the packet number length can be trialed and
+   Similarly, guesses for the packet number length can be tried and
    exposed.  If the recipient of a packet discards packets with
    duplicate packet numbers without attempting to remove packet
    protection they could reveal through timing side-channels that the
