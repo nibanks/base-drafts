@@ -1522,8 +1522,8 @@ at different times.<a href="#section-2.2-6" class="pilcrow">¶</a></p>
         <h3 id="name-draft-version-identificatio">
 <a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-draft-version-identificatio" class="section-name selfRef">Draft Version Identification</a>
         </h3>
-<ul class="ulEmpty normal">
-<li class="ulEmpty normal" id="section-3.1-1.1">
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-3.1-1.1">
             <strong>RFC Editor's Note:</strong>  Please remove this section prior to publication of a
 final version of this document.<a href="#section-3.1-1.1" class="pilcrow">¶</a>
 </li>
@@ -4289,30 +4289,31 @@ are retained in HTTP/3 have the same value as in HTTP/2.<a href="#section-a.3-2"
           <dd id="section-a.3-4.4">
   This is removed in favor of the MAX_PUSH_ID which provides a more granular
 control over server push.  Specifying a setting with the identifier 0x2
-(corresponding to SETTINGS_ENABLE_PUSH) in the HTTP/3 SETTINGS frame is an
-error.<a href="#section-a.3-4.4" class="pilcrow">¶</a>
+(corresponding to the SETTINGS_ENABLE_PUSH parameter) in the HTTP/3 SETTINGS
+frame is an error.<a href="#section-a.3-4.4" class="pilcrow">¶</a>
 </dd>
           <dd class="break"></dd>
 <dt id="section-a.3-4.5">SETTINGS_MAX_CONCURRENT_STREAMS:</dt>
           <dd id="section-a.3-4.6">
   QUIC controls the largest open Stream ID as part of its flow control logic.
-Specifying a setting with the identifier 0x3 (corresponding to
-SETTINGS_MAX_CONCURRENT_STREAMS) in the HTTP/3 SETTINGS frame is an error.<a href="#section-a.3-4.6" class="pilcrow">¶</a>
+Specifying a setting with the identifier 0x3 (corresponding to the
+SETTINGS_MAX_CONCURRENT_STREAMS parameter) in the HTTP/3 SETTINGS frame is an
+error.<a href="#section-a.3-4.6" class="pilcrow">¶</a>
 </dd>
           <dd class="break"></dd>
 <dt id="section-a.3-4.7">SETTINGS_INITIAL_WINDOW_SIZE:</dt>
           <dd id="section-a.3-4.8">
   QUIC requires both stream and connection flow control window sizes to be
 specified in the initial transport handshake.  Specifying a setting with the
-identifier 0x4 (corresponding to SETTINGS_INITIAL_WINDOW_SIZE) in the HTTP/3
-SETTINGS frame is an error.<a href="#section-a.3-4.8" class="pilcrow">¶</a>
+identifier 0x4 (corresponding to the SETTINGS_INITIAL_WINDOW_SIZE parameter)
+in the HTTP/3 SETTINGS frame is an error.<a href="#section-a.3-4.8" class="pilcrow">¶</a>
 </dd>
           <dd class="break"></dd>
 <dt id="section-a.3-4.9">SETTINGS_MAX_FRAME_SIZE:</dt>
           <dd id="section-a.3-4.10">
   This setting has no equivalent in HTTP/3.  Specifying a setting with the
-identifier 0x5 (corresponding to SETTINGS_MAX_FRAME_SIZE) in the HTTP/3
-SETTINGS frame is an error.<a href="#section-a.3-4.10" class="pilcrow">¶</a>
+identifier 0x5 (corresponding to the SETTINGS_MAX_FRAME_SIZE parameter) in the
+HTTP/3 SETTINGS frame is an error.<a href="#section-a.3-4.10" class="pilcrow">¶</a>
 </dd>
           <dd class="break"></dd>
 <dt id="section-a.3-4.11">SETTINGS_MAX_HEADER_LIST_SIZE:</dt>
@@ -4465,8 +4466,8 @@ what might be a temporary or intermittent error.<a href="#section-a.4.1-4" class
       <h2 id="name-change-log">
 <a href="#section-appendix.b" class="section-number selfRef">Appendix B. </a><a href="#name-change-log" class="section-name selfRef">Change Log</a>
       </h2>
-<ul class="ulEmpty normal">
-<li class="ulEmpty normal" id="section-appendix.b-1.1">
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-appendix.b-1.1">
           <strong>RFC Editor's Note:</strong>  Please remove this section prior to publication of a
 final version of this document.<a href="#section-appendix.b-1.1" class="pilcrow">¶</a>
 </li>
