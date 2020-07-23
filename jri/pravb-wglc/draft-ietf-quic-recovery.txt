@@ -1309,9 +1309,9 @@ Internet-Draft             QUIC Loss Detection                 July 2020
    Packets that carry only ACK frames can be heuristically identified by
    observing packet size.  Acknowledgement patterns may expose
    information about link characteristics or application behavior.  To
-   reduce leaked information, endpoints can use PADDING frames, at a
-   potential cost to performance, or bundle acknowledgments with other
-   frames.
+   reduce leaked information, endpoints can bundle acknowledgments with
+   other frames, or they can use PADDING frames at a potential cost to
+   performance.
 
 8.3.  Misreporting ECN Markings
 
