@@ -645,7 +645,7 @@ Internet-Draft                   HTTP/3                        July 2020
        Section 7.2.2),
 
    2.  optionally, the payload body, if present, sent as a series of
-       DATA frames (see Section 7.2.1),
+       DATA frames (see Section 7.2.1), and
 
    3.  optionally, the trailer field section, if present, sent as a
        single HEADERS frame.
@@ -3264,7 +3264,7 @@ Internet-Draft                   HTTP/3                        July 2020
       stream; instead the push stream references the PUSH_PROMISE frame
       using a Push ID.  See Section 7.2.5.
 
-   PING (0x6):  PING frames do not exist in HTTP/3, since QUIC provides
+   PING (0x6):  PING frames do not exist in HTTP/3, as QUIC provides
       equivalent functionality.
 
    GOAWAY (0x7):  GOAWAY does not contain an error code.  In the client
