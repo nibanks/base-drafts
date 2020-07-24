@@ -5171,7 +5171,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    data than one found in an older packet.
 
    A sender SHOULD avoid retransmitting information from packets once
-   they are acknowledged, including from packets that are acknowledged
+   they are acknowledged.  This includes packets that are acknowledged
    after being declared lost.  Doing so requires senders to retain
    information about packets after they are declared lost.  A sender can
    discard this information after a period of time elapses, such as
