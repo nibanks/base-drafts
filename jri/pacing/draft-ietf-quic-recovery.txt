@@ -1197,13 +1197,13 @@ Internet-Draft             QUIC Loss Detection                 July 2020
 7.9.  Pacing
 
    A sender SHOULD pace sending of all in-flight packets based on input
-   from the congestion controller.  Sending multiple packets into the
-   network without any delay between them creates a packet burst that
-   might cause short-term congestion and losses.
+   from the congestion controller.
 
-   A sender SHOULD either use pacing or another method to limit such
-   bursts to the initial congestion window; see Section 7.2.  A sender
-   with prior knowledge that the network path to the receiver has deep
+   Sending multiple packets into the network without any delay between
+   them creates a packet burst that might cause short-term congestion
+   and losses.  A sender SHOULD either use pacing or limit such bursts
+   to the initial congestion window; see Section 7.2.  A sender with
+   prior knowledge that the network path to the receiver has deep
    buffers might allow larger bursts.
 
    An implementation should take care to architect its congestion
