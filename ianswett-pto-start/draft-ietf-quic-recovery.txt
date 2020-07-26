@@ -732,7 +732,11 @@ Internet-Draft             QUIC Loss Detection                 July 2020
 
    ensures the PTO is always set based on the latest RTT information and
    for the last sent ack-eliciting packet in the correct packet number
-   space.
+   space.  A client could have received and acknowledged a Handshake
+   packet, causing it to discard state for the Initial packet number
+   space, but not sent any ack-eliciting Handshake packets.  In this
+   case, there are no ack-eliciting packets, so the PTO is set from the
+   current time.
 
    When ack-eliciting packets in multiple packet number spaces are in
    flight, the timer MUST be set for the packet number space with the
@@ -772,10 +776,6 @@ Internet-Draft             QUIC Loss Detection                 July 2020
    loss detection timer is set.  The time threshold loss detection timer
    is expected to both expire earlier than the PTO and be less likely to
    spuriously retransmit data.
-
-
-
-
 
 
 
@@ -828,10 +828,10 @@ Internet-Draft             QUIC Loss Detection                 July 2020
    to the client, it MUST send a Handshake packet, and otherwise it MUST
    send an Initial packet in a UDP datagram of at least 1200 bytes.
 
-   A client could have received and acknowledged a Handshake packet,
-   causing it to discard state for the Initial packet number space, but
-   not sent any ack-eliciting Handshake packets.  In this case, the PTO
-   is set from the current time.
+
+
+
+
 
 
 
