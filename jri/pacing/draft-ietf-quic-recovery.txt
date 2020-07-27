@@ -1203,8 +1203,8 @@ Internet-Draft             QUIC Loss Detection                 July 2020
    them creates a packet burst that might cause short-term congestion
    and losses.  Senders MUST either use pacing or limit such bursts.
    Senders SHOULD limit bursts to the initial congestion window; see
-   Section 7.2.  A sender with prior knowledge that the network path to
-   the receiver has deep buffers might allow larger bursts.
+   Section 7.2.  A sender with knowledge that the network path to the
+   receiver has deep buffers might allow larger bursts.
 
    An implementation should take care to architect its congestion
    controller to work well with a pacer.  For instance, a pacer might
