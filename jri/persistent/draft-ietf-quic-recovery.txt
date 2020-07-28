@@ -1181,8 +1181,8 @@ Internet-Draft             QUIC Loss Detection                 July 2020
    *  there are at least two ack-eliciting packets that are declared
       lost;
 
-   *  the duration between the send times of these two packets exceeds
-      the persistent congestion duration (Section 7.8.1); and
+   *  the duration between the send times of these packets exceeds the
+      persistent congestion duration (Section 7.8.1); and
 
    *  all packets sent between those times are declared lost.
 
@@ -1198,7 +1198,7 @@ Internet-Draft             QUIC Loss Detection                 July 2020
    (kMinimumWindow).  This response of collapsing the congestion window
    on persistent congestion is functionally similar to a sender's
    response on a Retransmission Timeout (RTO) in TCP ([RFC5681]) after
-   Tail Loss Probes (TLP; see [RACK]).
+   Tail Loss Probes ([RACK]).
 
 7.8.3.  Example
 
