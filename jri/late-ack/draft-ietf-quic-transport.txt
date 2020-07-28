@@ -5172,11 +5172,13 @@ Internet-Draft           QUIC Transport Protocol               July 2020
 
    A sender SHOULD avoid retransmitting information from packets once
    they are acknowledged.  This includes packets that are acknowledged
-   after being declared lost.  Doing so requires senders to retain
-   information about packets after they are declared lost.  A sender can
-   discard this information after a period of time elapses, such as a
-   PTO (Section 6.2 of [QUIC-RECOVERY]), or on other events, such as
-   reaching a memory limit.
+   after being declared lost, which can happen in the presence of
+   network reordering.  Doing so requires senders to retain information
+   about packets after they are declared lost.  A sender can discard
+   this information after a period of time elapses that adequately
+   allows for reordering, such as a PTO (Section 6.2 of
+   [QUIC-RECOVERY]), or on other events, such as reaching a memory
+   limit.
 
    Upon detecting losses, a sender MUST take appropriate congestion
    control action.  The details of loss detection and congestion control
@@ -5197,8 +5199,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    get dropped or ECN markings are rewritten on the path.  An endpoint
    validates the use of ECN on the path, both during connection
    establishment and when migrating to a new path (Section 9).
-
-
 
 
 
