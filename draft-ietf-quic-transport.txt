@@ -152,15 +152,15 @@ Internet-Draft           QUIC Transport Protocol               July 2020
        10.1.1.  Liveness Testing . . . . . . . . . . . . . . . . . .  66
        10.1.2.  Deferring Idle Timeout . . . . . . . . . . . . . . .  67
      10.2.  Immediate Close  . . . . . . . . . . . . . . . . . . . .  67
-       10.2.1.  Immediate Close During the Handshake . . . . . . . .  68
+       10.2.1.  Immediate Close During the Handshake . . . . . . . .  69
      10.3.  Stateless Reset  . . . . . . . . . . . . . . . . . . . .  70
-       10.3.1.  Detecting a Stateless Reset  . . . . . . . . . . . .  72
-       10.3.2.  Calculating a Stateless Reset Token  . . . . . . . .  73
-       10.3.3.  Looping  . . . . . . . . . . . . . . . . . . . . . .  74
+       10.3.1.  Detecting a Stateless Reset  . . . . . . . . . . . .  73
+       10.3.2.  Calculating a Stateless Reset Token  . . . . . . . .  74
+       10.3.3.  Looping  . . . . . . . . . . . . . . . . . . . . . .  75
      10.4.  Closing and Draining Connection States . . . . . . . . .  75
-   11. Error Handling  . . . . . . . . . . . . . . . . . . . . . . .  76
+   11. Error Handling  . . . . . . . . . . . . . . . . . . . . . . .  77
      11.1.  Connection Errors  . . . . . . . . . . . . . . . . . . .  77
-     11.2.  Stream Errors  . . . . . . . . . . . . . . . . . . . . .  77
+     11.2.  Stream Errors  . . . . . . . . . . . . . . . . . . . . .  78
    12. Packets and Frames  . . . . . . . . . . . . . . . . . . . . .  78
 
 
@@ -170,10 +170,10 @@ Iyengar & Thomson        Expires 30 January 2021                [Page 3]
 Internet-Draft           QUIC Transport Protocol               July 2020
 
 
-     12.1.  Protected Packets  . . . . . . . . . . . . . . . . . . .  78
+     12.1.  Protected Packets  . . . . . . . . . . . . . . . . . . .  79
      12.2.  Coalescing Packets . . . . . . . . . . . . . . . . . . .  79
      12.3.  Packet Numbers . . . . . . . . . . . . . . . . . . . . .  80
-     12.4.  Frames and Frame Types . . . . . . . . . . . . . . . . .  81
+     12.4.  Frames and Frame Types . . . . . . . . . . . . . . . . .  82
    13. Packetization and Reliability . . . . . . . . . . . . . . . .  85
      13.1.  Packet Processing  . . . . . . . . . . . . . . . . . . .  85
      13.2.  Generating Acknowledgements  . . . . . . . . . . . . . .  86
@@ -3754,9 +3754,10 @@ Iyengar & Thomson        Expires 30 January 2021               [Page 67]
 Internet-Draft           QUIC Transport Protocol               July 2020
 
 
-   unwitting amplification attack, such endpoints MUST reduce the
-   frequency with which it sends packets containing a CONNECTION_CLOSE
-   frame.  To minimize the state that an endpoint maintains for a
+   unwitting amplification attack, such endpoints MUST limit the
+   cumulative size of packets containing a CONNECTION_CLOSE frame to 3
+   times the cumulative size of the packets that cause those packets to
+   be sent.  To minimize the state that an endpoint maintains for a
    closing connection, endpoints MAY send the exact same packet.
 
    Note:  Allowing retransmission of a closing packet is an exception to
@@ -3790,6 +3791,25 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    the connection, a CONNECTION_CLOSE frame with an appropriate error
    code will be used to signal closure.
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Iyengar & Thomson        Expires 30 January 2021               [Page 68]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
+
 10.2.1.  Immediate Close During the Handshake
 
    When sending CONNECTION_CLOSE, the goal is to ensure that the peer
@@ -3802,13 +3822,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    protection keys are not available to the peer, so another
    CONNECTION_CLOSE frame MAY be sent in a packet that uses a lower
    packet protection level.  More specifically:
-
-
-
-Iyengar & Thomson        Expires 30 January 2021               [Page 68]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
 
    *  A client will always know whether the server has Handshake keys
       (see Section 17.2.2.1), but it is possible that a server does not
@@ -3845,6 +3858,14 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    Handshake packets.  Such an immediate close might expose legitimate
    connections to a denial of service.  QUIC does not include defensive
    measures for on-path attacks during the handshake; see Section 21.1.
+
+
+
+Iyengar & Thomson        Expires 30 January 2021               [Page 69]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
+
    However, at the cost of reducing feedback about errors for legitimate
    peers, some forms of denial of service can be made more difficult for
    an attacker if endpoints discard illegal packets rather than
@@ -3857,14 +3878,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    state.  An endpoint that has no state for the connection does not
    enter a closing or draining period on sending a CONNECTION_CLOSE
    frame.
-
-
-
-
-Iyengar & Thomson        Expires 30 January 2021               [Page 69]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
 
 10.3.  Stateless Reset
 
@@ -3901,6 +3914,14 @@ Internet-Draft           QUIC Transport Protocol               July 2020
 
                      Figure 10: Stateless Reset Packet
 
+
+
+
+Iyengar & Thomson        Expires 30 January 2021               [Page 70]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
+
    This design ensures that a stateless reset packet is - to the extent
    possible - indistinguishable from a regular packet with a short
    header.
@@ -3910,17 +3931,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    and an arbitrary number of bytes following it are set to values that
    SHOULD be indistinguishable from random.  The last 16 bytes of the
    datagram contain a Stateless Reset Token.
-
-
-
-
-
-
-
-Iyengar & Thomson        Expires 30 January 2021               [Page 70]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
 
    To entities other than its intended recipient, a stateless reset will
    appear to be a packet with a short header.  For the stateless reset
@@ -3958,6 +3968,16 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    in a valid stateless reset token as a stateless reset, as other QUIC
    versions might allow the use of a long header.
 
+
+
+
+
+
+Iyengar & Thomson        Expires 30 January 2021               [Page 71]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
+
    An endpoint MAY send a stateless reset in response to a packet with a
    long header.  Sending a stateless reset is not effective prior to the
    stateless reset token being available to a peer.  In this QUIC
@@ -3970,14 +3990,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    An endpoint cannot determine the Source Connection ID from a packet
    with a short header, therefore it cannot set the Destination
    Connection ID in the stateless reset packet.  The Destination
-
-
-
-Iyengar & Thomson        Expires 30 January 2021               [Page 71]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
-
    Connection ID will therefore differ from the value used in previous
    packets.  A random Destination Connection ID makes the connection ID
    appear to be the result of moving to a new connection ID that was
@@ -4007,6 +4019,21 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    aware of this and either reuse this design, or use a portion of the
    packet other than the last 16 bytes for carrying data.
 
+
+
+
+
+
+
+
+
+
+
+Iyengar & Thomson        Expires 30 January 2021               [Page 72]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
+
 10.3.1.  Detecting a Stateless Reset
 
    An endpoint detects a potential stateless reset using the trailing 16
@@ -4025,14 +4052,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    successfully processed.  However, the comparison MUST be performed
    when the first packet in an incoming datagram either cannot be
    associated with a connection, or cannot be decrypted.
-
-
-
-
-Iyengar & Thomson        Expires 30 January 2021               [Page 72]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
 
    An endpoint MUST NOT check for any Stateless Reset Tokens associated
    with connection IDs it has not used or for connection IDs that have
@@ -4054,6 +4073,22 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    If the last 16 bytes of the datagram are identical in value to a
    Stateless Reset Token, the endpoint MUST enter the draining period
    and not send any further packets on this connection.
+
+
+
+
+
+
+
+
+
+
+
+
+Iyengar & Thomson        Expires 30 January 2021               [Page 73]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
 
 10.3.2.  Calculating a Stateless Reset Token
 
@@ -4082,14 +4117,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    This design relies on the peer always sending a connection ID in its
    packets so that the endpoint can use the connection ID from a packet
    to reset the connection.  An endpoint that uses this design MUST
-
-
-
-Iyengar & Thomson        Expires 30 January 2021               [Page 73]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
-
    either use the same connection ID length for all connections or
    encode the length of the connection ID such that it can be recovered
    without state.  In addition, it cannot provide a zero-length
@@ -4110,6 +4137,14 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    connection IDs.  Endpoints are not required to compare new values
    against all previous values, but a duplicate value MAY be treated as
    a connection error of type PROTOCOL_VIOLATION.
+
+
+
+
+Iyengar & Thomson        Expires 30 January 2021               [Page 74]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
 
    Note that Stateless Reset packets do not have any cryptographic
    protection.
@@ -4138,14 +4173,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    packet could reveal to an observer that it is a Stateless Reset,
    depending upon the length of the peer's connection IDs.  Conversely,
    refusing to send a Stateless Reset in response to a small packet
-
-
-
-Iyengar & Thomson        Expires 30 January 2021               [Page 74]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
-
    might result in Stateless Reset not being useful in detecting cases
    of broken connections where only very small packets are sent; such
    failures might only be detected by other means, such as timers.
@@ -4157,6 +4184,23 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    properly discarded.  These states SHOULD persist for at least three
    times the current Probe Timeout (PTO) interval as defined in
    [QUIC-RECOVERY].
+
+
+
+
+
+
+
+
+
+
+
+
+
+Iyengar & Thomson        Expires 30 January 2021               [Page 75]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
 
    An endpoint enters a closing period after initiating an immediate
    close; Section 10.2.  While closing, an endpoint MUST NOT send
@@ -4193,15 +4237,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    accepting new connections SHOULD NOT exit the closing or draining
    period early.
 
-
-
-
-
-Iyengar & Thomson        Expires 30 January 2021               [Page 75]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
-
    Once the closing or draining period has ended, an endpoint SHOULD
    discard all connection state.  This results in new packets on the
    connection being handled generically.  For instance, an endpoint MAY
@@ -4213,6 +4248,15 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    An endpoint is not expected to handle key updates when it is closing
    or draining.  A key update might prevent the endpoint from moving
    from the closing state to draining, but it otherwise has no impact.
+
+
+
+
+
+Iyengar & Thomson        Expires 30 January 2021               [Page 76]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
 
    While in the closing period, an endpoint could receive packets from a
    new source address, indicating a connection migration; Section 9.  An
@@ -4243,21 +4287,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    stateless reset MUST NOT be used by an endpoint that has the state
    necessary to send a frame on the connection.
 
-
-
-
-
-
-
-
-
-
-
-Iyengar & Thomson        Expires 30 January 2021               [Page 76]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
-
 11.1.  Connection Errors
 
    Errors that result in the connection being unusable, such as an
@@ -4272,6 +4301,18 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    specific to the transport, including all those described in this
    document, are carried in the CONNECTION_CLOSE frame with a frame type
    of 0x1c.
+
+
+
+
+
+
+
+
+Iyengar & Thomson        Expires 30 January 2021               [Page 77]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
 
    A CONNECTION_CLOSE frame could be sent in a packet that is lost.  An
    endpoint SHOULD be prepared to retransmit a packet containing a
@@ -4305,15 +4346,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    remote instance uses the STOP_SENDING frame, which triggers an
    automatic RESET_STREAM.
 
-
-
-
-
-Iyengar & Thomson        Expires 30 January 2021               [Page 77]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
-
    Application protocols SHOULD define rules for handling streams that
    are prematurely cancelled by either endpoint.
 
@@ -4329,6 +4361,14 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    (Section 17.2.4), and Retry (Section 17.2.5).  Version negotiation
    uses a version-independent packet with a long header; see
    Section 17.2.1.
+
+
+
+
+Iyengar & Thomson        Expires 30 January 2021               [Page 78]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
 
    Packets with the short header are designed for minimal overhead and
    are used after a connection is established and 1-RTT keys are
@@ -4358,18 +4398,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    authentication; the cryptographic handshake ensures that only the
    communicating endpoints receive the corresponding keys.
 
-
-
-
-
-
-
-
-Iyengar & Thomson        Expires 30 January 2021               [Page 78]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
-
    The packet number field contains a packet number, which has
    additional confidentiality protection that is applied after packet
    protection is applied; see [QUIC-TLS] for details.  The underlying
@@ -4390,6 +4418,13 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    needed to complete the cryptographic handshake and start sending
    data.  This can also be used to construct PMTU probes; see
    Section 14.4.1.  Receivers MUST be able to process coalesced packets.
+
+
+
+Iyengar & Thomson        Expires 30 January 2021               [Page 79]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
 
    Coalescing packets in order of increasing encryption levels (Initial,
    0-RTT, Handshake, 1-RTT; see Section 4.1.4 of [QUIC-TLS]) makes it
@@ -4418,14 +4453,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    Retry packets (Section 17.2.5), Version Negotiation packets
    (Section 17.2.1), and packets with a short header (Section 17.3) do
    not contain a Length field and so cannot be followed by other packets
-
-
-
-Iyengar & Thomson        Expires 30 January 2021               [Page 79]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
-
    in the same UDP datagram.  Note also that there is no situation where
    a Retry or Version Negotiation packet is coalesced with another
    packet.
@@ -4447,6 +4474,13 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    packets do not include a packet number.
 
    Packet numbers are divided into 3 spaces in QUIC:
+
+
+
+Iyengar & Thomson        Expires 30 January 2021               [Page 80]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
 
    *  Initial space: All Initial packets (Section 17.2.2) are in this
       space.
@@ -4472,16 +4506,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    at packet number 0.  Subsequent packets sent in the same packet
    number space MUST increase the packet number by at least one.
 
-
-
-
-
-
-Iyengar & Thomson        Expires 30 January 2021               [Page 80]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
-
    0-RTT and 1-RTT data exist in the same packet number space to make
    loss recovery algorithms easier to implement between the two packet
    types.
@@ -4498,6 +4522,21 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    number from the same packet number space.  Duplicate suppression MUST
    happen after removing packet protection for the reasons described in
    Section 9.3 of [QUIC-TLS].
+
+
+
+
+
+
+
+
+
+
+
+Iyengar & Thomson        Expires 30 January 2021               [Page 81]
+
+Internet-Draft           QUIC Transport Protocol               July 2020
+
 
    Endpoints that track all individual packets for the purposes of
    detecting duplicates are at risk of accumulating excessive state.
@@ -4529,15 +4568,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    Frames always fit within a single QUIC packet and cannot span
    multiple packets.
 
-
-
-
-
-Iyengar & Thomson        Expires 30 January 2021               [Page 81]
-
-Internet-Draft           QUIC Transport Protocol               July 2020
-
-
    Each frame begins with a Frame Type, indicating its type, followed by
    additional type-dependent fields:
 
@@ -4553,36 +4583,6 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    CONNECTION_CLOSE frames is used to carry other frame-specific flags.
    For all other frames, the Frame Type field simply identifies the
    frame.  These frames are explained in more detail in Section 19.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -7698,7 +7698,7 @@ Internet-Draft           QUIC Transport Protocol               July 2020
    The sequence number specified in a RETIRE_CONNECTION_ID frame MUST
    NOT refer to the Destination Connection ID field of the packet in
    which the frame is contained.  The peer MAY treat this as a
-   connection error of type FRAME_ENCODING_ERROR.
+   connection error of type PROTOCOL_VIOLATION.
 
    An endpoint cannot send this frame if it was provided with a zero-
    length connection ID by its peer.  An endpoint that provides a zero-
