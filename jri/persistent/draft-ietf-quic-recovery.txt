@@ -114,7 +114,7 @@ Iyengar & Swett          Expires 30 January 2021                [Page 2]
 Internet-Draft             QUIC Loss Detection                 July 2020
 
 
-       7.8.2.  Declaring Persistent Congestion . . . . . . . . . . .  21
+       7.8.2.  Declaring Persistent Congestion . . . . . . . . . . .  22
        7.8.3.  Example . . . . . . . . . . . . . . . . . . . . . . .  22
      7.9.  Pacing  . . . . . . . . . . . . . . . . . . . . . . . . .  24
      7.10. Under-utilizing the Congestion Window . . . . . . . . . .  25
@@ -1157,18 +1157,18 @@ Internet-Draft             QUIC Loss Detection                 July 2020
    The RECOMMENDED value for kPersistentCongestionThreshold is 3, which
    is approximately equivalent to two TLPs before an RTO in TCP.
 
-   This design uses an explicit duration instead of consecutive PTO
-   events since the PTO timer is restarted every time an ack-eliciting
-   packet is sent.  An application that sends data with silence periods
-   can restart the PTO timer every time it sends, potentially preventing
-   the PTO timer from expiring for a long period of time.  A consequence
-   of this design is that persistent congestion can be established
-   without the occurrence of any PTOs.
+   This design does not use consecutive PTO events to establish
+   persistent congestion, since a PTO expiration is controlled by
+   application patterns in addition to network activity.  For example, a
+   sender that sends small amounts of data with silence periods between
+   them restarts the PTO timer every time it sends, potentially
+   preventing the PTO timer from expiring for a long period of time,
+   even when no acknowledgments are being received.  The use of a
+   duration enables a sender to establish persistent congestion without
+   depending on the occurrence of PTOs.
 
-7.8.2.  Declaring Persistent Congestion
 
-   A sender declares persistent congestion on receiving an
-   acknowledgement, if the following conditions are true:
+
 
 
 
@@ -1177,6 +1177,11 @@ Iyengar & Swett          Expires 30 January 2021               [Page 21]
 
 Internet-Draft             QUIC Loss Detection                 July 2020
 
+
+7.8.2.  Declaring Persistent Congestion
+
+   A sender declares persistent congestion on receiving an
+   acknowledgement, if the following conditions are true:
 
    *  there are at least two ack-eliciting packets that are declared
       lost;
@@ -1209,11 +1214,6 @@ Internet-Draft             QUIC Loss Detection                 July 2020
    kPersistentCongestionThreshold = 3
 
    Consider the following sequence of events:
-
-
-
-
-
 
 
 
